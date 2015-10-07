@@ -5,11 +5,21 @@
  */
 package edu.eci.cosw.logica;
 
+import edu.eci.cosw.persistencia.Calificacion;
+import edu.eci.cosw.persistencia.Cliente;
+import edu.eci.cosw.persistencia.DetalleInstrumento;
+import edu.eci.cosw.persistencia.Ensayo;
 import edu.eci.cosw.persistencia.Establecimiento;
+import edu.eci.cosw.persistencia.Instrumento;
 import edu.eci.cosw.persistencia.Reservacion;
 import edu.eci.cosw.persistencia.Sala;
+import edu.eci.cosw.persistencia.componentes.RepositorioCalificacion;
+import edu.eci.cosw.persistencia.componentes.RepositorioCliente;
+import edu.eci.cosw.persistencia.componentes.RepositorioDetalleInstrumento;
+import edu.eci.cosw.persistencia.componentes.RepositorioEnsayo;
 import org.springframework.stereotype.Service;
 import edu.eci.cosw.persistencia.componentes.RepositorioEstablecimiento;
+import edu.eci.cosw.persistencia.componentes.RepositorioInstrumento;
 import edu.eci.cosw.persistencia.componentes.RepositorioSala;
 import edu.eci.cosw.persistencia.componentes.RepositorioReservacion;
 import java.util.ArrayList;
@@ -31,6 +41,16 @@ public class Logica {
     private RepositorioSala rs;
     @Autowired
     private RepositorioReservacion rr;  
+    @Autowired
+    private RepositorioEnsayo es;
+    @Autowired
+    private RepositorioCliente cl;
+    @Autowired
+    private RepositorioDetalleInstrumento di;
+    @Autowired
+    private RepositorioInstrumento ri;
+    @Autowired
+    private RepositorioCalificacion ca;
     
     /**
      * 
@@ -83,12 +103,52 @@ public class Logica {
         return rs.findOne(idSala);
     }
     
+    public Ensayo consultarEnsayo(int idEnsayo){
+        return es.findOne(idEnsayo);
+    }
+    
     /**
      * 
      * @param e 
      */
     public void registrarEstablecimiento(Establecimiento e) {
         re.save(e);
+    }
+    
+    /**
+     * 
+     * @param c
+     */
+    public void registrarCliente(Cliente c){
+        cl.save(c);
+    }
+    /**
+     * 
+     * @param e 
+     */
+    public void registrarEnsayo(Ensayo e){
+        es.save(e);
+    }
+    /**
+     * 
+    * @param d
+     */
+    public void registrarDetalleInstrumento(DetalleInstrumento d){
+        di.save(d);
+    }
+    /**
+     * 
+     * @param i
+     */
+    public void registrarInstrumento(Instrumento i){
+        ri.save(i);
+    }
+    /**
+     * 
+     * @param cal
+     */
+     public void registrarCalificacion(Calificacion cal){
+        ca.save(cal);
     }
     
     /**
@@ -158,5 +218,33 @@ public class Logica {
         Reservacion re = new Reservacion(salas.length,s,fecha,duracion);
         rr.save(re);
     }  
+
+    /**
+     * 
+     * @param idCliente identificacion del cliente, en este caso el musico
+     * @param idEnsayo identificacion del ensayo asociado al cliente
+     * @param calificacion calificacion a registrar por parte del cliente
+     * @param descripcion decripcion por parte del cliente asociada al ensayo
+     */
+    public void calificarEstablecimiento(int idCliente,int idEnsayo, int calificacion, String descripcion){
+        Ensayo encal= es.ConsultarEnsayosDeCliente(idCliente, idEnsayo);
+        int i=encal.getCalificacions().size();
+        if(i==1){
+            List<Calificacion> ti = new ArrayList<>(encal.getCalificacions());
+            for(Calificacion r:ti){
+                if(r.getCalificacionEstablecimiento()==0){
+                    r.setCalificacionEstablecimiento(calificacion);
+                    r.setDescripcion(r.getDescripcion()+"\n\n"+descripcion);
+                }
+            }
+        }else if(i==0){
+            Calificacion calificaE= new Calificacion(1, encal, 0, calificacion, descripcion);
+            registrarCalificacion(calificaE);
+            encal.getCalificacions().add(calificaE);
+            registrarEnsayo(encal);                
+        }
+        System.out.println("\n\n\n\n\n"+encal.getCalificacions()+"\n\n\n\n\n\n\n\n\n\n");
+    }
+    
     
 }
