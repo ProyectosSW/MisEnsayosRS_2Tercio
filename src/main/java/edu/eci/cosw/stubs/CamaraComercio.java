@@ -16,5 +16,5 @@ public interface CamaraComercio {
      * @param nit número de identificación tributaria de la empresa
      * @return true si la empresa esta resgistrada, false si no
      */
-    public boolean verificarEmpresa(int nit);
+    public boolean verificarEmpresa(String nit);
 }

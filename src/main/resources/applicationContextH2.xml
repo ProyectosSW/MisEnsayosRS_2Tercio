@@ -27,7 +27,7 @@
         <property name="dataSource" ref="dataSource"/>
         <property name="jpaVendorAdapter" ref="jpaVendorAdapter"/>
         <!-- spring based scanning for entity classes-->
-        <property name="packagesToScan" value="edu.eci.cosw.logica"/>
+        <property name="packagesToScan" value="edu.eci.cosw.persistencia"/>
         <!-- Set JPA properties -->
         <property name="jpaProperties">
           <props>
@@ -44,7 +44,7 @@
     <context:component-scan base-package="edu.eci.cosw.logica"/>    
     <context:component-scan base-package="edu.eci.cosw.stubs"/>
     
-    <jpa:repositories base-package="edu.eci.cosw.persistencia"/>
+    <jpa:repositories base-package="edu.eci.cosw.persistencia.componentes"/>
     
 </beans>
 

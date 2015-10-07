@@ -12,8 +12,8 @@ package edu.eci.cosw.stubs;
 public class CamaraComercioStub implements CamaraComercio{
 
     @Override
-    public boolean verificarEmpresa(int nit) {
-        return (nit%2==0 && nit>0 && ((nit+"").length()==9 || (nit+"").length()==10));
+    public boolean verificarEmpresa(String nit) {
+        return (nit.length()==13 && Integer.parseInt(nit.substring(0, 3))%2==0);
     }
 
 }
