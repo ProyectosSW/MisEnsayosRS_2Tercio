@@ -99,7 +99,7 @@ public class Sala  implements java.io.Serializable {
         this.nombre = nombre;
     }
 
-@OneToMany(fetch=FetchType.LAZY, mappedBy="sala")
+@OneToMany(fetch=FetchType.EAGER, mappedBy="sala")
     public Set<Reservacion> getReservacions() {
         return this.reservacions;
     }
