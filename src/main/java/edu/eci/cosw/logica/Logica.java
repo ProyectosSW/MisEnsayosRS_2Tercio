@@ -5,6 +5,7 @@
  */
 package edu.eci.cosw.logica;
 
+import edu.eci.cosw.persistencia.Alquiler;
 import edu.eci.cosw.persistencia.Calificacion;
 import edu.eci.cosw.persistencia.Cliente;
 import edu.eci.cosw.persistencia.DetalleInstrumento;
@@ -13,6 +14,7 @@ import edu.eci.cosw.persistencia.Establecimiento;
 import edu.eci.cosw.persistencia.Instrumento;
 import edu.eci.cosw.persistencia.Reservacion;
 import edu.eci.cosw.persistencia.Sala;
+import edu.eci.cosw.persistencia.componentes.RepositorioAlquiler;
 import edu.eci.cosw.persistencia.componentes.RepositorioCalificacion;
 import edu.eci.cosw.persistencia.componentes.RepositorioCliente;
 import edu.eci.cosw.persistencia.componentes.RepositorioDetalleInstrumento;
@@ -22,6 +24,7 @@ import edu.eci.cosw.persistencia.componentes.RepositorioEstablecimiento;
 import edu.eci.cosw.persistencia.componentes.RepositorioInstrumento;
 import edu.eci.cosw.persistencia.componentes.RepositorioSala;
 import edu.eci.cosw.persistencia.componentes.RepositorioReservacion;
+import edu.eci.cosw.stubs.PagosStub;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -51,6 +54,8 @@ public class Logica {
     private RepositorioInstrumento ri;
     @Autowired
     private RepositorioCalificacion ca;
+    @Autowired
+    private RepositorioAlquiler ra;
     
     /**
      * 
@@ -246,5 +251,40 @@ public class Logica {
         System.out.println("\n\n\n\n\n"+encal.getCalificacions()+"\n\n\n\n\n\n\n\n\n\n");
     }
     
+    /**
+     * @obj crea el ensayo asociado a un cliente especifico, posteriormente crea el alquiler
+     * @param idCliente identificador del cliente al que se asocia el ensayo
+     * @param idReserva identificador de la reserva a la que se asocia el ensayo
+     * @param descripcion descripcion del ensayo
+     */
+    public void crearEnsayoAlquiler(int idCliente, int idReserva, String descripcion){
+       Cliente c = cl.findOne(idCliente);
+       Ensayo e = new Ensayo((int)es.count(),c,descripcion);
+       es.save(e);
+       Reservacion r = rr.findOne(idReserva);
+       Alquiler a = new Alquiler((int)ra.count(), e, r, "no pagado", 0, "5%");
+       ra.save(a);
+    }
     
+    /**
+     * @obj realizar el pago de un alquiler especificado
+     * @param idAlquiler identificador del alquiler al que se hace el pago
+     * @param monto dinero que se pagara del alquiler
+     * @param numTarjeta numero de la tarjeta
+     * @param tipoP tipo de pago, "credito" o "debito"
+     * @return true si se realiza el pago de forma exitosa, false de lo contrario.
+     */
+    public boolean realizarPago(int idAlquiler, int monto, String numTarjeta, String tipoP){
+        boolean b=true;
+        PagosStub ps = new PagosStub();
+        Alquiler a = ra.findOne(idAlquiler);
+        int deuda = Integer.parseInt(a.getReservacion().getSala().getPrecio());
+        if(deuda>monto){
+            b=false;
+        }else if(ps.realizarPago(numTarjeta)){
+            a.setTipoDePago(tipoP);
+            ra.save(a);
+        }
+        return b;
+    }
 }
