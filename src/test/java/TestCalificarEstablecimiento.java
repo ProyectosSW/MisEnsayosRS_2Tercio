@@ -6,6 +6,7 @@ import edu.eci.cosw.persistencia.DetalleInstrumento;
 import edu.eci.cosw.persistencia.Ensayo;
 import edu.eci.cosw.persistencia.Establecimiento;
 import edu.eci.cosw.persistencia.Instrumento;
+import edu.eci.cosw.restcontrollers.OperationFailedException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -33,7 +34,7 @@ public class TestCalificarEstablecimiento {
     @Autowired
     private Logica logica;
     @Test
-    public void testCalificarEstablecimientoPorMusico(){
+    public void testCalificarEstablecimientoPorMusico() throws OperationFailedException{
         
         Cliente c1= new Cliente(123, "Zlatan Ibrahimovic");
         logica.registrarCliente(c1);

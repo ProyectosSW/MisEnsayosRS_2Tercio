@@ -24,6 +24,8 @@ import edu.eci.cosw.persistencia.componentes.RepositorioEstablecimiento;
 import edu.eci.cosw.persistencia.componentes.RepositorioInstrumento;
 import edu.eci.cosw.persistencia.componentes.RepositorioSala;
 import edu.eci.cosw.persistencia.componentes.RepositorioReservacion;
+import edu.eci.cosw.restcontrollers.OperationFailedException;
+import edu.eci.cosw.stubs.CamaraComercioStub;
 import edu.eci.cosw.stubs.PagosStub;
 import java.util.ArrayList;
 import java.util.Date;
@@ -68,12 +70,30 @@ public class Logica {
     
     /**
      * 
+     * @param id del establecimiento seleccionado
+     * @return el establecimiento seleccionado
+     */
+    public Establecimiento consultarEstablecimientoHabilitado(int id){
+        return re.findId(id, CamaraComercioStub.size);
+    }
+    
+    /**
+     * 
+     * @param name nombre del establecimiento seleccionado
+     * @return el establecimiento seleccionado
+     */
+    public Establecimiento consultarEstablecimientoHabilitado(String name){
+        return re.findByName(name, CamaraComercioStub.size);
+    }
+    
+    /**
+     * 
      * @param nombre del instrumento que debe tener el instrumento  
      * @param localidad en la que se debe encontrar los establecimientos 
      * @return el establecimiento que posee determinado instrumento y esta ubicado en determinada localidad ordenados por precio
      */
     public List<Establecimiento> consultarEstablecimientoPrecio(String nombre, String localidad){
-        return re.establecimientoporprecio(nombre, localidad);
+        return re.establecimientoporprecio(nombre, localidad, CamaraComercioStub.size);
     }    
     
     /**
@@ -83,7 +103,7 @@ public class Logica {
      * @return el establecimiento que posee determinado instrumento y esta ubicado en determinada localidad ordenados por las calificaciones de los mismos
      */
     public List<Establecimiento> consultarEstablecimientoCalificacion(String nombre, String localidad){
-        List<Object[]> establecimientosCalificaciones = re.establecimientoporcalificacion(nombre, localidad);
+        List<Object[]> establecimientosCalificaciones = re.establecimientoporcalificacion(nombre, localidad, CamaraComercioStub.size);
         List<Establecimiento> establecimientos = new ArrayList<>();
         for(Object[] establecimiento: establecimientosCalificaciones){
             establecimientos.add((Establecimiento)establecimiento[0]);
@@ -95,8 +115,9 @@ public class Logica {
      * 
      * @param s sala a registrar
      */
-    public void registrarSala(Sala s) {
-        rs.save(s);
+    public void registrarSala(Sala s) throws OperationFailedException {
+        if(re.findByNameX(s.getEstablecimiento().getNombre())!=null) rs.save(s);
+        else throw new OperationFailedException("no existe el establecimiento");
     }
     
     /**
@@ -105,7 +126,7 @@ public class Logica {
      * @return la sala seleccionada segun su identificacion
      */
     public Sala consultarSala(int idSala){
-        return rs.findOne(idSala);
+       return rs.findOne(idSala);
     }
     
     public Ensayo consultarEnsayo(int idEnsayo){
@@ -114,10 +135,22 @@ public class Logica {
     
     /**
      * 
-     * @param e 
+     * @param id del establecimiento seleccionado
      */
-    public void registrarEstablecimiento(Establecimiento e) {
+    public void habilitarEstablecimientoId(int id){
+        Establecimiento e = re.findOne(id);
+        e.setNit(e.getNit().substring(0, 13));
         re.save(e);
+    }    
+    
+    /**
+     * 
+     * @param e establecimiento a registrar
+     */
+    public void registrarEstablecimiento(Establecimiento e) throws OperationFailedException {
+        if(re.findByNameX(e.getNombre())==null) re.save(e);
+        else throw new OperationFailedException("ya existe un establecimiento con el mismo nombre");
+
     }
     
     /**

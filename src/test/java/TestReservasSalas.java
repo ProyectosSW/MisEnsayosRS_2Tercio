@@ -8,6 +8,7 @@ import edu.eci.cosw.logica.Logica;
 import edu.eci.cosw.persistencia.Establecimiento;
 import edu.eci.cosw.persistencia.Reservacion;
 import edu.eci.cosw.persistencia.Sala;
+import edu.eci.cosw.restcontrollers.OperationFailedException;
 import java.util.Date;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -43,7 +44,7 @@ public class TestReservasSalas {
     }
     
     @Test
-    public void testDisponibilidadSala(){
+    public void testDisponibilidadSala() throws OperationFailedException{
         Establecimiento e = new Establecimiento(1,"El toque", "123456789", "calle falsa 123",700,1900,0,"Usaquen", "1234567");
         logica.registrarEstablecimiento(e);
         Sala s = new Sala(1,logica.consultarEstablecimiento(1),"1000","Sala de Orcas");

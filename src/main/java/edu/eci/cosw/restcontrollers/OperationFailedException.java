@@ -15,4 +15,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 public class OperationFailedException extends Exception{
     
+    public OperationFailedException(String message) {
+        super(message);
+    }    
+    
 }

@@ -7,9 +7,11 @@
 import edu.eci.cosw.logica.Logica;
 import edu.eci.cosw.persistencia.Establecimiento;
 import edu.eci.cosw.persistencia.Sala;
+import edu.eci.cosw.restcontrollers.OperationFailedException;
 import edu.eci.cosw.stubs.CamaraComercioStub;
 import java.util.ArrayList;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,30 +30,60 @@ public class TestPublicarEstablecimiento {
     private Logica logica;
     
     @Test
-    public void testRegistrarEstablecimiento(){
-        int limite=50;
+    public void testRegistrarEstablecimiento() throws OperationFailedException{
+        int limite=500;
         ArrayList<Establecimiento> listaEsta = new ArrayList<>();
-        for(int i=0; i<limite; i++){
+        for(int i=400; i<limite; i++){
             Establecimiento a = new Establecimiento(i, "nombre"+i, "123.123.123-1", "Autonorte"+i, 700, 1800, 2.0,"Puente Aranda", "1234567890");
             listaEsta.add(a);
             logica.registrarEstablecimiento(a);
         }
+        
         Establecimiento fd;
-        for(int i=0; i<limite; i++){
+        for(int i=400; i<limite; i++){
              fd= logica.consultarEstablecimiento(i);
-             assertEquals(listaEsta.get(i).getIdEstablecimiento(), fd.getIdEstablecimiento());
-             assertEquals(listaEsta.get(i).getNombre(), fd.getNombre());
-             assertEquals(listaEsta.get(i).getNit(), fd.getNit());
-             assertEquals(listaEsta.get(i).getDireccion(), fd.getDireccion());
-             assertEquals(listaEsta.get(i).getHoraInicio(), fd.getHoraInicio());
-             assertEquals(listaEsta.get(i).getHoraCierre(), fd.getHoraCierre());
-             assertEquals(listaEsta.get(i).getLocalidad(), fd.getLocalidad());
-             assertEquals(listaEsta.get(i).getTelefono(), fd.getTelefono());
+             assertEquals(listaEsta.get(i-400).getIdEstablecimiento(), fd.getIdEstablecimiento());
+             assertEquals(listaEsta.get(i-400).getNombre(), fd.getNombre());
+             assertEquals(listaEsta.get(i-400).getNit(), fd.getNit());
+             assertEquals(listaEsta.get(i-400).getDireccion(), fd.getDireccion());
+             assertEquals(listaEsta.get(i-400).getHoraInicio(), fd.getHoraInicio());
+             assertEquals(listaEsta.get(i-400).getHoraCierre(), fd.getHoraCierre());
+             assertEquals(listaEsta.get(i-400).getLocalidad(), fd.getLocalidad());
+             assertEquals(listaEsta.get(i-400).getTelefono(), fd.getTelefono());
+        }
+    }
+
+    @Test
+    public void testRegistrarHabilitacionEstablecimiento() throws OperationFailedException{
+        int limite=100;
+        ArrayList<Establecimiento> listaEsta = new ArrayList<>();
+        for(int i=50; i<limite; i++){
+            Establecimiento a = new Establecimiento(i, "nombre"+i, "123.123.123-1 sin revisar", "Autonorte"+i, 700, 1800, 2.0,"Puente Aranda", "1234567890");
+            listaEsta.add(a);
+            logica.registrarEstablecimiento(a);
+        }
+        
+        Establecimiento fd;
+        for(int i=50; i<limite; i++){
+             fd= logica.consultarEstablecimientoHabilitado(i);
+             assertEquals(null, fd);
+        }
+        for(int i=50; i<limite; i++){
+             logica.habilitarEstablecimientoId(i);
+             fd= logica.consultarEstablecimientoHabilitado(i);
+             assertEquals(listaEsta.get(i-50).getIdEstablecimiento(), fd.getIdEstablecimiento());
+             assertEquals(listaEsta.get(i-50).getNombre(), fd.getNombre());
+             assertTrue(listaEsta.get(i-50).getNit()!=fd.getNit());
+             assertEquals(listaEsta.get(i-50).getDireccion(), fd.getDireccion());
+             assertEquals(listaEsta.get(i-50).getHoraInicio(), fd.getHoraInicio());
+             assertEquals(listaEsta.get(i-50).getHoraCierre(), fd.getHoraCierre());
+             assertEquals(listaEsta.get(i-50).getLocalidad(), fd.getLocalidad());
+             assertEquals(listaEsta.get(i-50).getTelefono(), fd.getTelefono());
         }
     }
     
     @Test
-    public void testRegistrarSala(){
+    public void testRegistrarSala() throws OperationFailedException {
         int limite=5;
         
         Establecimiento a = new Establecimiento(1, "nombre"+1, "123.123.123-1", "Autonorte"+1, 700, 1800, 2.0,"Puente Aranda", "1234567890");
