@@ -32,17 +32,17 @@ public class RestControladorPublicarEstablecimiento {
 
     @RequestMapping(value="/{id}",method = RequestMethod.GET)        
     public ResponseEntity<?> consultaEstablecimientoId(@PathVariable int id) {  
-        return new ResponseEntity<>("REST API working. Echo:"+id+"\n\n"+logica.consultarEstablecimiento(id),HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(logica.consultarEstablecimiento(id),HttpStatus.ACCEPTED);
     }    
     
     @RequestMapping(value="/precio/{localidad}/{nombre}",method = RequestMethod.GET)        
     public ResponseEntity<?> consultaEstablecimientoPrecio(@PathVariable String nombre, @PathVariable String localidad) {  
-        return new ResponseEntity<>("REST API working. Echo:"+nombre+" : "+localidad+"\n\n"+logica.consultarEstablecimientoPrecio(nombre, localidad),HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(logica.consultarEstablecimientoPrecio(nombre, localidad),HttpStatus.ACCEPTED);
     }
 
     @RequestMapping(value="/calificacion/{localidad}/{nombre}",method = RequestMethod.GET)        
     public ResponseEntity<?> consultaEstablecimientoCalficacion(@PathVariable String nombre, @PathVariable String localidad) {  
-        return new ResponseEntity<>("REST API working. Echo:"+nombre+" : "+localidad+"\n\n"+logica.consultarEstablecimientoCalificacion(nombre, localidad),HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(logica.consultarEstablecimientoCalificacion(nombre, localidad),HttpStatus.ACCEPTED);
     }
     
     @RequestMapping(value="/",method = RequestMethod.GET)        
