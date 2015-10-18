@@ -218,7 +218,7 @@ public class Logica {
             for(int i=0;i<r.length && n;i++){
                 if(((Reservacion)r[i]).getFecha().after(fecha) && fecha.getHours()-((Reservacion)r[i]).getTiempo()>0){
                     n=true;
-                }else if(((Reservacion)r[i]).getFecha().before(fecha) && ((Reservacion)r[i]).getTiempo()-fecha.getHours()>0){
+                }else if((fecha.before(((Reservacion)r[i]).getFecha())) && ((Reservacion)r[i]).getTiempo()-fecha.getHours()>0){
                     n=true;
                 }else{
                     n=false;
@@ -231,7 +231,7 @@ public class Logica {
         }catch(NullPointerException npe){
             res=true;
         }
-        
+        //(Reservacion)r[i]).getFecha().before(fecha)
              
                
         return res;
@@ -241,20 +241,21 @@ public class Logica {
      * 
      * @param idEstablecimiento identificacion del establecimiento al que pertenece la sala donde se hara la reserva
      * @param idSala identificacion de la sala en la que se hara la reserva
-     * @param idMusico identificacion del musico que quiere reservar una sala
      * @param fecha fecha, con hora incluida, de la reserva
      * @param duracion duracion, en numero de horas, de la reserva, y, por consiguiente, del ensayo
      */
-    public void registrarReserva(int idEstablecimiento, int idSala, int idMusico, Date fecha, int duracion){
+    public void registrarReserva(int idEstablecimiento, int idSala, Date fecha, int duracion){
         Object[] salas = re.findOne(idEstablecimiento).getSalas().toArray();
         Sala s=null;
         for(int i=0;i<salas.length;i++){
             if(((Sala)salas[i]).getIdSala()==idSala){
-                s=(Sala)salas[i];
+                s=(Sala)salas[i];                
             }            
-        }        
-        Reservacion re = new Reservacion(salas.length,s,fecha,duracion);
+        }       
+        
+        Reservacion re = new Reservacion(s.getReservacions().size(),s,fecha,duracion);
         rr.save(re);
+        
     }  
 
     /**
@@ -319,5 +320,14 @@ public class Logica {
             ra.save(a);
         }
         return b;
+    }
+    
+    /**
+     * @param idCliente identificador del cliente
+     * @return regresa una lista con las reservaciones de un cliente especifico
+     */
+    public List<Reservacion> consultarReservasPorCliente(int idCliente){
+        List l = cl.reservasDeCliente(idCliente);        
+        return l;
     }
 }

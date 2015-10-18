@@ -57,11 +57,11 @@ public class TestReservasSalas {
         
         Reservacion r= new Reservacion(1,s, d, 1);
         s.getReservacions().add(r);
-        logica.registrarReserva(e.getIdEstablecimiento(), s.getIdSala(), 1, d, 2);
+        logica.registrarReserva(e.getIdEstablecimiento(), s.getIdSala(), d, 2);
         
         assertFalse(logica.verificarDisponibilidadSala(d, s.getIdSala(), 1));
     }
-    
+       
     @Before
     public void setUp() {
     }
