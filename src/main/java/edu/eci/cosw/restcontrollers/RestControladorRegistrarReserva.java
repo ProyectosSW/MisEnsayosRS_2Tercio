@@ -43,25 +43,25 @@ public class RestControladorRegistrarReserva {
         return new ResponseEntity<>(mens,hs);
     }*/
     
-    @RequestMapping(value="/",method = RequestMethod.POST)
-    public ResponseEntity<?> registrarCalificacionEstablecimiento(@RequestBody int idEstablecimiento , @RequestBody int idSala, @RequestBody Date fecha, @RequestBody int duracion){
+    @RequestMapping(value="/registroReserv",method = RequestMethod.POST)
+    public ResponseEntity<?> registrarReserva(@RequestBody int idEstablecimiento , @RequestBody int idSala, @RequestBody Date fecha, @RequestBody int duracion){
         logica.registrarReserva(idEstablecimiento,idSala,fecha,duracion);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
     
-    @RequestMapping(value="/",method = RequestMethod.POST)        
+    @RequestMapping(value="/alquilerCliente",method = RequestMethod.POST)        
     public ResponseEntity<?> registrarAlquilerCliente(@PathVariable int idCliente,@PathVariable int idReserva,@PathVariable String descripcion) {  
         logica.crearEnsayoAlquiler(idCliente, idReserva, descripcion);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
     
-    @RequestMapping(value="/cliente",method = RequestMethod.GET)
+    @RequestMapping(value="/clienteReserva/{cli}",method = RequestMethod.GET)
     public ResponseEntity<?> consultarReservasCliente(@PathVariable int idCliente) { 
         List l=logica.consultarReservasPorCliente(idCliente);
         return new ResponseEntity<>(l,HttpStatus.ACCEPTED);
     }
     
-    @RequestMapping(value="/",method = RequestMethod.POST)        
+    @RequestMapping(value="/pagar",method = RequestMethod.POST)        
     public ResponseEntity<?> realizarPago(@PathVariable int idAlquiler,@PathVariable int monto,@PathVariable String numtarjeta, @PathVariable String tipoP) {  
         HttpStatus status;
         String message;
@@ -74,5 +74,6 @@ public class RestControladorRegistrarReserva {
         }        
         return new ResponseEntity<>(message,status);
     }
+    
     
 }
