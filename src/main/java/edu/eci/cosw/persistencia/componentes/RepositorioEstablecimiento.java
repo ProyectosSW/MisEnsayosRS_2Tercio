@@ -27,12 +27,21 @@ public interface RepositorioEstablecimiento extends CrudRepository<Establecimien
     public List<Object[]> establecimientoporcalificacion(@Param("nombrex") String nombre, @Param("localidadx") String localidad, @Param("longitudx") int longitud);    
 
     @Query("select e from Establecimiento e where e.nombre=:nombrex and LENGTH(e.nit)=:longitudx")
-    public Establecimiento findByName(@Param("nombrex") String name, @Param("longitudx") int longitud);
+    public Establecimiento findByName(@Param("nombrex") String name, @Param("longitudx") int longitud);    
     
     @Query("select e from Establecimiento e where e.nombre=:nombrex")
     public Establecimiento findByNameX(@Param("nombrex") String name);
     
     @Query("select e from Establecimiento e where e.idEstablecimiento=:idx and LENGTH(e.nit)=:longitudx")
     public Establecimiento findId(@Param("idx") int id, @Param("longitudx") int longitud);    
+    
+    @Query("select e from Establecimiento e where LENGTH(e.nit)=:longitudx")
+    public List<Establecimiento> consultarTodosEstablecimientoshabilitados(@Param("longitudx") int longitud);        
+    
+    @Query("select e from Establecimiento e")
+    public List<Establecimiento> consultarTodos();            
+    
+    @Query("select e from Establecimiento e where e.idEstablecimiento=:idx and LENGTH(e.nit)>:longitudx")
+    public List<Establecimiento> conultarEstablecimientosSinHabilitar(@Param("longitudx") int longitud);
     
 }

@@ -69,7 +69,7 @@ public class TestPublicarEstablecimiento {
              assertEquals(null, fd);
         }
         for(int i=50; i<limite; i++){
-             logica.habilitarEstablecimientoId(i);
+             logica.habilitarEstablecimiento("nombre"+i);
              fd= logica.consultarEstablecimientoHabilitado(i);
              assertEquals(listaEsta.get(i-50).getIdEstablecimiento(), fd.getIdEstablecimiento());
              assertEquals(listaEsta.get(i-50).getNombre(), fd.getNombre());

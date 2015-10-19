@@ -46,9 +46,33 @@ public class RestControladorPublicarEstablecimiento {
     }
     
     @RequestMapping(value="/",method = RequestMethod.GET)        
-    public ResponseEntity<?> consultaPrueba() {  
-        return new ResponseEntity<>("REST API working. Echo:",HttpStatus.ACCEPTED);
+    public ResponseEntity<?> consultarTodosEstablecimientos() {  
+        return new ResponseEntity<>(logica.consultarEstablecimientos(),HttpStatus.ACCEPTED);
     }
+    
+    @RequestMapping(value="/habilitados",method = RequestMethod.GET)        
+    public ResponseEntity<?> consultarTodosEstablecimientosHabilitados() {  
+        return new ResponseEntity<>(logica.consultarEstablecimientosHabilitados(),HttpStatus.ACCEPTED);
+    }    
+    
+    @RequestMapping(value="/habilitar/{nombre}",method = RequestMethod.GET)        
+    public ResponseEntity<?> consultarTodosEstablecimientosHabilitados(@PathVariable String nombre) {  
+        HttpStatus hs;
+        String mens = "";
+        try {
+            logica.habilitarEstablecimiento(nombre);
+            hs=HttpStatus.CREATED;
+        } catch (Exception ex) {
+            mens=ex.getMessage();
+            hs=HttpStatus.CONFLICT;
+        }
+        return new ResponseEntity<>(mens,hs);
+    }
+    
+    @RequestMapping(value="/sinhabilitar",method = RequestMethod.GET)        
+    public ResponseEntity<?> consultarTodosEstablecimientosSinHabilitar() {  
+        return new ResponseEntity<>(logica.consultarEstablecimientosSinHabilitar(),HttpStatus.ACCEPTED);
+    }        
     
     @RequestMapping(value="/",method = RequestMethod.POST)
     public ResponseEntity<?> registrarEstablecimiento(@RequestBody Establecimiento e){
@@ -61,7 +85,6 @@ public class RestControladorPublicarEstablecimiento {
             mens=ex.getMessage();
             hs=HttpStatus.ALREADY_REPORTED;
         }
-        //retorna el estado 201 en caso de que la operación haya sido exitosa
         return new ResponseEntity<>(mens,hs);
     }    
 
@@ -79,5 +102,21 @@ public class RestControladorPublicarEstablecimiento {
         //retorna el estado 201 en caso de que la operación haya sido exitosa
         return new ResponseEntity<>(mens,hs);
     }        
+
+    @RequestMapping(value="/sala/",method = RequestMethod.GET)
+    public ResponseEntity<?> consultarSalaEstablecimiento(@RequestBody Sala s){
+        HttpStatus hs;
+        String mens = "";
+        try {
+            logica.registrarSala(s);
+            hs=HttpStatus.CREATED;
+        } catch (OperationFailedException ex) {
+            mens=ex.getMessage();
+            hs=HttpStatus.ALREADY_REPORTED;
+        }
+        //retorna el estado 201 en caso de que la operación haya sido exitosa
+        return new ResponseEntity<>(mens,hs);
+    }        
+    
     
 }

@@ -70,6 +70,30 @@ public class Logica {
     
     /**
      * 
+     * @return lista de todos los establecimientos registrados
+     */
+    public List<Establecimiento> consultarEstablecimientos(){
+        return re.consultarTodos();
+    }
+    
+    /**
+     * 
+     * @return lista de establecimientos registrados y habilitados
+     */
+    public List<Establecimiento> consultarEstablecimientosHabilitados(){
+        return re.consultarTodosEstablecimientoshabilitados(CamaraComercioStub.size);
+    }
+    
+    /**
+     * 
+     * @return lista de establecimientos registrados y sin habilitar
+     */
+    public List<Establecimiento> consultarEstablecimientosSinHabilitar(){
+        return re.conultarEstablecimientosSinHabilitar(CamaraComercioStub.size);
+    }
+    
+    /**
+     * 
      * @param id del establecimiento seleccionado
      * @return el establecimiento seleccionado
      */
@@ -129,23 +153,50 @@ public class Logica {
        return rs.findOne(idSala);
     }
     
+    /**
+     * 
+     * @param nombre
+     * @return lista de las salas pertenecientes a determinado establecimiento
+     */
+    public List<Sala> consultarSalaPorEstablecimiento(String nombre){
+        return rs.salaPorEstablecimiento(nombre);
+    }
+    
+    /**
+     * 
+     * @param nombre
+     * @return 
+     */
+    public List<Sala> consultarSalaPorEstablecimientoHabilitado(String nombre){
+        return rs.salaPorEstablecimiento(nombre);
+    }
+    
+    /**
+     * 
+     * @param idEnsayo
+     * @return 
+     */
     public Ensayo consultarEnsayo(int idEnsayo){
         return es.findOne(idEnsayo);
     }
     
     /**
      * 
-     * @param id del establecimiento seleccionado
+     * @param nombre del establecimiento a 
+     * @throws OperationFailedException encaso de que el NIT no seha valido para habilitar el establecimiento seleccionado 
      */
-    public void habilitarEstablecimientoId(int id){
-        Establecimiento e = re.findOne(id);
-        e.setNit(e.getNit().substring(0, 13));
-        re.save(e);
+    public void habilitarEstablecimiento(String nombre) throws OperationFailedException{
+        Establecimiento e = re.findByNameX(nombre);
+        if(e.getNit().length()>=13){
+            e.setNit(e.getNit().substring(0, 13));
+            re.save(e);
+        }else throw new OperationFailedException("NIT invalido para habilitar establecimiento");
     }    
     
     /**
      * 
      * @param e establecimiento a registrar
+     * @throws OperationFailedException en caso de que el nombre del establecimiento a registrar ya exista en la base de datos
      */
     public void registrarEstablecimiento(Establecimiento e) throws OperationFailedException {
         if(re.findByNameX(e.getNombre())==null) re.save(e);
