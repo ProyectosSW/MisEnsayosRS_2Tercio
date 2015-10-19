@@ -84,27 +84,69 @@
             return $http({
                 method: 'POST',
                 url: 'rest/establecimientos/',
-                data:{"idEstablecimiento":idEstablecimiento,"nombre":nombre, "nit":nit, "descripcion":descripcion, "direccion":direccion, "horaInicio":horaInicio, "horaCierre":horaCierre, "multa":multa, "localidad":localidad, "telefono":telefono, "instrumentos":new Set([]), "salas":new Set([])}
+                data:   {
+                            "idEstablecimiento": idEstablecimiento,
+                            "nombre": nombre,
+                            "nit": nit,
+                            "descripcion": descripcion,
+                            "direccion": direccion,
+                            "horaInicio": horaInicio,
+                            "horaCierre": horaCierre,
+                            "multa": multa,
+                            "localidad": localidad,
+                            "telefono": telefono,
+                            "instrumentos": [],
+                            "salas": []
+                        }
             });            
         };
         
         /**
          * 
          * @param {Integer} idSala identificacion de la sala a registrar
-         * @param {Establecimieto} establecimiento que contiene la sala
+         * @param {type} idEstablecimiento
+         * @param {Integer} idEstablecimiento identificacion del establecimiento a registrar
+         * @param {String} nombreEstablecimiento
+         * @param {String} nit
+         * @param {String} descripcionEstablecimiento
+         * @param {String} direccion
+         * @param {Integer} horaInicio
+         * @param {Integer} horaCierre
+         * @param {Double} multa
+         * @param {String} localidad
+         * @param {String} telefono
          * @param {String} precio de la sala
          * @param {String} descripcion de la sala
          * @param {String} nombre de la sala
-         * @returns {HttpStatus} respuesta a la operacion realizada de registro de sala
+         * @returns {Http}
          */
-        this.registrarSala = function (idSala, establecimiento, precio, descripcion, nombre) {            
+        this.registrarSala = function (idSala, idEstablecimiento, nombreEstablecimiento, nit, descripcionEstablecimiento, direccion, horaInicio, horaCierre, multa, localidad, telefono, precio, descripcion, nombre) {            
             return $http({
                 method: 'POST',
                 url: 'rest/establecimientos/',
-                data:{"idSala":idSala,"establecimiento":establecimiento, "precio":precio, "descripcion":descripcion, "nombre":nombre, "reservacions":new Set([])}
+                data:   {
+                            "idSala": idSala,
+                            "establecimiento": {
+                                "idEstablecimiento": idEstablecimiento,
+                                "nombre": nombreEstablecimiento,
+                                "nit": nit,
+                                "descripcion": descripcionEstablecimiento,
+                                "direccion": direccion,
+                                "horaInicio": horaInicio,
+                                "horaCierre": horaCierre,
+                                "multa": multa,
+                                "localidad": localidad,
+                                "telefono": telefono,
+                                "instrumentos": [],
+                                "salas": []
+                            },
+                            "precio": precio,
+                            "descripcion": descripcion,
+                            "nombre": nombre,
+                            "reservacions": []
+                        }
             });            
         };        
-        
     }
     );
 

@@ -8,6 +8,7 @@ package edu.eci.cosw.restcontrollers;
 import edu.eci.cosw.persistencia.Establecimiento;
 import edu.eci.cosw.logica.Logica;
 import edu.eci.cosw.persistencia.Sala;
+import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,8 +35,8 @@ public class RestControladorPublicarEstablecimiento {
      * @return establecimiento solicitado
      */
     @RequestMapping(value="/{id}",method = RequestMethod.GET)        
-    public ResponseEntity<?> consultaEstablecimientoId(@PathVariable int id) {  
-        return new ResponseEntity<>(logica.consultarEstablecimiento(id),HttpStatus.ACCEPTED);
+    public Establecimiento consultaEstablecimientoId(@PathVariable int id) {  
+        return logica.consultarEstablecimiento(id);
     }    
     
     /**
@@ -43,8 +44,8 @@ public class RestControladorPublicarEstablecimiento {
      * @return lista con todos los establecimientos registrados
      */
     @RequestMapping(value="/todos",method = RequestMethod.GET)        
-    public ResponseEntity<?> consultarTodosEstablecimientos() {  
-        return new ResponseEntity<>(logica.consultarEstablecimientos(),HttpStatus.ACCEPTED);
+    public List<Establecimiento> consultarTodosEstablecimientos() {  
+        return logica.consultarEstablecimientos();
     }
     
     /**
@@ -52,8 +53,8 @@ public class RestControladorPublicarEstablecimiento {
      * @return lista con todos los establecimientos registrados y habilitados
      */
     @RequestMapping(value="/habilitados",method = RequestMethod.GET)        
-    public ResponseEntity<?> consultarTodosEstablecimientosHabilitados() {  
-        return new ResponseEntity<>(logica.consultarEstablecimientosHabilitados(),HttpStatus.ACCEPTED);
+    public List<Establecimiento> consultarTodosEstablecimientosHabilitados() {  
+        return logica.consultarEstablecimientosHabilitados();
     }    
     
     /**
@@ -80,8 +81,8 @@ public class RestControladorPublicarEstablecimiento {
      * @return lista de todos los establecimientos registrados y sin habilitar
      */
     @RequestMapping(value="/sinhabilitar",method = RequestMethod.GET)        
-    public ResponseEntity<?> consultarTodosEstablecimientosSinHabilitar() {  
-        return new ResponseEntity<>(logica.consultarEstablecimientosSinHabilitar(),HttpStatus.ACCEPTED);
+    public List<Establecimiento> consultarTodosEstablecimientosSinHabilitar() {  
+        return logica.consultarEstablecimientosSinHabilitar();
     }        
     
     /**
@@ -120,6 +121,11 @@ public class RestControladorPublicarEstablecimiento {
             hs=HttpStatus.ALREADY_REPORTED;
         }
         return new ResponseEntity<>(mens,hs);
-    }        
+    }
+    
+    @RequestMapping(value="/sala/{idsala}",method = RequestMethod.GET)
+    public Sala registrarSala(@RequestBody int idsala){
+        return logica.consultarSala(idsala);
+    }
     
 }
