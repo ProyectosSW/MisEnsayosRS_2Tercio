@@ -112,31 +112,6 @@ public class Logica {
     
     /**
      * 
-     * @param nombre del instrumento que debe tener el instrumento  
-     * @param localidad en la que se debe encontrar los establecimientos 
-     * @return el establecimiento que posee determinado instrumento y esta ubicado en determinada localidad ordenados por precio
-     */
-    public List<Establecimiento> consultarEstablecimientoPrecio(String nombre, String localidad){
-        return re.establecimientoporprecio(nombre, localidad, CamaraComercioStub.size);
-    }    
-    
-    /**
-     * 
-     * @param nombre del instrumento que debe tener el instrumento  
-     * @param localidad en la que se debe encontrar los establecimientos 
-     * @return el establecimiento que posee determinado instrumento y esta ubicado en determinada localidad ordenados por las calificaciones de los mismos
-     */
-    public List<Establecimiento> consultarEstablecimientoCalificacion(String nombre, String localidad){
-        List<Object[]> establecimientosCalificaciones = re.establecimientoporcalificacion(nombre, localidad, CamaraComercioStub.size);
-        List<Establecimiento> establecimientos = new ArrayList<>();
-        for(Object[] establecimiento: establecimientosCalificaciones){
-            establecimientos.add((Establecimiento)establecimiento[0]);
-        }
-        return establecimientos;
-    }
-    
-    /**
-     * 
      * @param s sala a registrar
      */
     public void registrarSala(Sala s) throws OperationFailedException {

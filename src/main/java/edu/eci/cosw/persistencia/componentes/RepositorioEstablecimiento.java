@@ -17,15 +17,6 @@ import org.springframework.data.repository.CrudRepository;
  */
 public interface RepositorioEstablecimiento extends CrudRepository<Establecimiento, Integer> {
     
-    @Query("select i.establecimiento from Instrumento i join i.detalleInstrumento di where di.nombre in :nombrex and i.establecimiento.idEstablecimiento in "
-                        +"("+"select e.idEstablecimiento from Establecimiento e join e.salas s where e.localidad=:localidadx and LENGTH(e.nit)=:longitudx order by s.precio DESC"+")")
-    public List<Establecimiento> establecimientoporprecio(@Param("nombrex") String nombre, @Param("localidadx") String localidad, @Param("longitudx") int longitud);    
-
-    @Query("select i.establecimiento, avg(c.calificacionEstablecimiento) as p from Instrumento i join i.ensayo e join e.calificacions c where i.establecimiento.idEstablecimiento in"
-                        +"("+"select i.establecimiento.idEstablecimiento from Instrumento i join i.detalleInstrumento di where di.nombre in :nombrex and i.establecimiento.idEstablecimiento in "
-                        +"("+"select e.idEstablecimiento from Establecimiento e where e.localidad = :localidadx and LENGTH(e.nit)=:longitudx"+")"+")"+"order by p DESC")
-    public List<Object[]> establecimientoporcalificacion(@Param("nombrex") String nombre, @Param("localidadx") String localidad, @Param("longitudx") int longitud);    
-
     @Query("select e from Establecimiento e where e.nombre=:nombrex and LENGTH(e.nit)=:longitudx")
     public Establecimiento findByName(@Param("nombrex") String name, @Param("longitudx") int longitud);    
     

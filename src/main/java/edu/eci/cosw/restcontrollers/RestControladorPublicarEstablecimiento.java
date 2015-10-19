@@ -8,8 +8,6 @@ package edu.eci.cosw.restcontrollers;
 import edu.eci.cosw.persistencia.Establecimiento;
 import edu.eci.cosw.logica.Logica;
 import edu.eci.cosw.persistencia.Sala;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- *
+ * 
  * @author usuario
  */
 @RestController
@@ -29,34 +27,42 @@ public class RestControladorPublicarEstablecimiento {
 
     @Autowired
     Logica logica;     
-
+    
+    /**
+     * 
+     * @param id identificacion del establecimiento solicitado
+     * @return establecimiento solicitado
+     */
     @RequestMapping(value="/{id}",method = RequestMethod.GET)        
     public ResponseEntity<?> consultaEstablecimientoId(@PathVariable int id) {  
         return new ResponseEntity<>(logica.consultarEstablecimiento(id),HttpStatus.ACCEPTED);
     }    
     
-    @RequestMapping(value="/precio/{localidad}/{nombre}",method = RequestMethod.GET)        
-    public ResponseEntity<?> consultaEstablecimientoPrecio(@PathVariable String nombre, @PathVariable String localidad) {  
-        return new ResponseEntity<>(logica.consultarEstablecimientoPrecio(nombre, localidad),HttpStatus.ACCEPTED);
-    }
-
-    @RequestMapping(value="/calificacion/{localidad}/{nombre}",method = RequestMethod.GET)        
-    public ResponseEntity<?> consultaEstablecimientoCalficacion(@PathVariable String nombre, @PathVariable String localidad) {  
-        return new ResponseEntity<>(logica.consultarEstablecimientoCalificacion(nombre, localidad),HttpStatus.ACCEPTED);
-    }
-    
-    @RequestMapping(value="/",method = RequestMethod.GET)        
+    /**
+     * 
+     * @return lista con todos los establecimientos registrados
+     */
+    @RequestMapping(value="/todos",method = RequestMethod.GET)        
     public ResponseEntity<?> consultarTodosEstablecimientos() {  
         return new ResponseEntity<>(logica.consultarEstablecimientos(),HttpStatus.ACCEPTED);
     }
     
+    /**
+     * 
+     * @return lista con todos los establecimientos registrados y habilitados
+     */
     @RequestMapping(value="/habilitados",method = RequestMethod.GET)        
     public ResponseEntity<?> consultarTodosEstablecimientosHabilitados() {  
         return new ResponseEntity<>(logica.consultarEstablecimientosHabilitados(),HttpStatus.ACCEPTED);
     }    
     
+    /**
+     * 
+     * @param nombre del establecimiento a habilitar
+     * @return respuesta a la operacion realizada de habilitacion de establecimiento
+     */
     @RequestMapping(value="/habilitar/{nombre}",method = RequestMethod.GET)        
-    public ResponseEntity<?> consultarTodosEstablecimientosHabilitados(@PathVariable String nombre) {  
+    public ResponseEntity<?> habilitarEstablecimiento(@PathVariable String nombre) {  
         HttpStatus hs;
         String mens = "";
         try {
@@ -69,11 +75,20 @@ public class RestControladorPublicarEstablecimiento {
         return new ResponseEntity<>(mens,hs);
     }
     
+    /**
+     * 
+     * @return lista de todos los establecimientos registrados y sin habilitar
+     */
     @RequestMapping(value="/sinhabilitar",method = RequestMethod.GET)        
     public ResponseEntity<?> consultarTodosEstablecimientosSinHabilitar() {  
         return new ResponseEntity<>(logica.consultarEstablecimientosSinHabilitar(),HttpStatus.ACCEPTED);
     }        
     
+    /**
+     * 
+     * @param e establecimiento a registrar
+     * @return respuesta a la operacion realizada de registro de establecimiento
+     */
     @RequestMapping(value="/",method = RequestMethod.POST)
     public ResponseEntity<?> registrarEstablecimiento(@RequestBody Establecimiento e){
         HttpStatus hs;
@@ -87,7 +102,12 @@ public class RestControladorPublicarEstablecimiento {
         }
         return new ResponseEntity<>(mens,hs);
     }    
-
+    
+    /**
+     * 
+     * @param s sala a registrar
+     * @return respuesta a la operacion realizada de registro de sala
+     */
     @RequestMapping(value="/sala/",method = RequestMethod.POST)
     public ResponseEntity<?> registrarSala(@RequestBody Sala s){
         HttpStatus hs;
@@ -99,24 +119,7 @@ public class RestControladorPublicarEstablecimiento {
             mens=ex.getMessage();
             hs=HttpStatus.ALREADY_REPORTED;
         }
-        //retorna el estado 201 en caso de que la operación haya sido exitosa
         return new ResponseEntity<>(mens,hs);
     }        
-
-    @RequestMapping(value="/sala/",method = RequestMethod.GET)
-    public ResponseEntity<?> consultarSalaEstablecimiento(@RequestBody Sala s){
-        HttpStatus hs;
-        String mens = "";
-        try {
-            logica.registrarSala(s);
-            hs=HttpStatus.CREATED;
-        } catch (OperationFailedException ex) {
-            mens=ex.getMessage();
-            hs=HttpStatus.ALREADY_REPORTED;
-        }
-        //retorna el estado 201 en caso de que la operación haya sido exitosa
-        return new ResponseEntity<>(mens,hs);
-    }        
-    
     
 }
