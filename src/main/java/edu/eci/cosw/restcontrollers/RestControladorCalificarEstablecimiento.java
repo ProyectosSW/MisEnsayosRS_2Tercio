@@ -6,7 +6,15 @@
 package edu.eci.cosw.restcontrollers;
 
 import edu.eci.cosw.logica.Logica;
+import edu.eci.cosw.persistencia.Alquiler;
+import edu.eci.cosw.persistencia.Calificacion;
+import edu.eci.cosw.persistencia.Cliente;
+import edu.eci.cosw.persistencia.Ensayo;
 import edu.eci.cosw.persistencia.Establecimiento;
+import edu.eci.cosw.persistencia.Instrumento;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,8 +36,22 @@ public class RestControladorCalificarEstablecimiento {
     Logica logica;
 
     @RequestMapping(value="/",method = RequestMethod.POST)
-    public ResponseEntity<?> registrarCalificacionEstablecimiento(@RequestBody int idCliente , @RequestBody int idEnsayo, @RequestBody int calificacion, @RequestBody String descripcion){
-        logica.calificarEstablecimiento(idCliente, idEnsayo, calificacion, descripcion);
+    public ResponseEntity<?> registrarCalificacionEstablecimiento(@RequestBody Calificacion calificacion ){
+        logica.calificarEstablecimiento(calificacion.getEnsayo().getCliente().getIdCliente(),calificacion.getEnsayo().getIdEnsayo(), calificacion.getCalificacionEstablecimiento(), calificacion.getDescripcion());
         return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+    
+    @RequestMapping(value="/ensayo/{idEnsayo}",method = RequestMethod.GET)        
+    public Ensayo consultarTodosEstablecimientos(@PathVariable int idEnsayo) {  
+        return logica.consultarEnsayo(idEnsayo);
+    }
+    
+    
+    @RequestMapping(value="/prueba/ensayo",method = RequestMethod.GET)        
+    public Calificacion prueba() {  
+        Cliente c1=new Cliente(123, "pepe", "hola soy prueba", new HashSet<Ensayo>());
+        Ensayo ensay=new Ensayo(1, c1,"prueba1", new Date(5), new HashSet<Calificacion>(), new HashSet<Instrumento>(), new HashSet<Alquiler>());
+        Calificacion cali= new Calificacion(1, ensay, 2, 5, "Suenan mal y cagan el establecimiento");
+        return cali;
     }
 }
