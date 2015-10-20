@@ -214,7 +214,7 @@ public class Logica {
      public void registrarCalificacion(Calificacion cal){
         ca.save(cal);
     }
-    
+     
     /**
      * @obj verificar si una sala esta disponible e la fecha, con hora, especificada
      * @param fecha la fecha a revisar si hay disponibilidad
@@ -355,5 +355,23 @@ public class Logica {
     public List<Reservacion> consultarReservasPorCliente(int idCliente){
         List l = cl.reservasDeCliente(idCliente);        
         return l;
+    }
+    
+    /**
+     * 
+     * @param idCliente identificador del cliente a retornar
+     * @return un cliente
+     */
+    public Cliente consultarCliente(int idCliente){
+        return cl.findOne(idCliente);
+    }
+    
+    /**
+     * 
+     * @param idReserva identificador de la reservacion a retornar
+     * @return una reservacion
+     */
+    public Reservacion consultarReservacion(int idReserva){
+        return rr.findOne(idReserva);
     }
 }
