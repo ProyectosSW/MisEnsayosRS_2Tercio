@@ -7,7 +7,10 @@ package edu.eci.cosw.restcontrollers;
 
 import edu.eci.cosw.persistencia.Establecimiento;
 import edu.eci.cosw.logica.Logica;
+import edu.eci.cosw.persistencia.Instrumento;
+import edu.eci.cosw.persistencia.Reservacion;
 import edu.eci.cosw.persistencia.Sala;
+import java.util.HashSet;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -95,7 +98,9 @@ public class RestControladorPublicarEstablecimiento {
         HttpStatus hs;
         String mens = "";
         try {
+            e.setNit(e.getNit()+"Sin revisar");
             logica.registrarEstablecimiento(e);
+            
             hs=HttpStatus.CREATED;
         } catch (Exception ex) {
             mens=ex.getMessage();
@@ -123,9 +128,25 @@ public class RestControladorPublicarEstablecimiento {
         return new ResponseEntity<>(mens,hs);
     }
     
+    /**
+     * 
+     * @param idsala
+     * @return 
+     */
     @RequestMapping(value="/sala/{idsala}",method = RequestMethod.GET)
-    public Sala registrarSala(@RequestBody int idsala){
+    public Sala consultarSala(@RequestBody int idsala){
         return logica.consultarSala(idsala);
+    }
+    
+    /**
+     * 
+     * @return 
+     */
+    @RequestMapping(value="/prueba",method = RequestMethod.GET)
+    public Sala consultaPrueba(){
+        Establecimiento e = new Establecimiento(1, "Establecimiento 1", "101.101.101-1", "Fundado en el año 2000","Calle 100 # 19-102", 700, 1900, 2.4, "Usaquen", "1010101",new HashSet<Instrumento>(), new HashSet<Sala>());
+        Sala a = new Sala(10, e, "30000", "Sala VIP", "Sala 10", new HashSet<Reservacion>());
+        return a;
     }
     
 }
