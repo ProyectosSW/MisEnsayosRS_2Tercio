@@ -147,6 +147,18 @@
                         }
             });            
         };        
+        
+        /**
+         * 
+         * @param {type} idsala
+         * @returns {unresolved}
+         */
+        this.consultarSala = function (idsala) {            
+            return $http({
+                method: 'GET',
+                url: 'rest/establecimientos/sala/'+idsala
+            });            
+        };        
     }
     );
 
