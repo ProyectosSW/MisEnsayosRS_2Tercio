@@ -10,6 +10,7 @@ import edu.eci.cosw.persistencia.Reservacion;
 import edu.eci.cosw.persistencia.Sala;
 import edu.eci.cosw.restcontrollers.OperationFailedException;
 import java.util.Date;
+import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -49,7 +50,6 @@ public class TestReservasSalas {
         logica.registrarEstablecimiento(e);
         Sala s = new Sala(1,logica.consultarEstablecimiento(1),"1000","Sala de Orcas");
         logica.registrarSala(s);
-        logica.consultarEstablecimiento(1).getSalas().add(s);
         Date d=new Date();
         //JOptionPane.showMessageDialog(null, logica.consultarEstablecimiento(1).getIdEstablecimiento());
         //JOptionPane.showMessageDialog(null, s);

@@ -225,26 +225,26 @@ public class Logica {
     public boolean verificarDisponibilidadSala(Date fecha, int idSala, int idEstablecimiento){
         boolean res=true;
         Establecimiento e = re.findOne(idEstablecimiento);
-        
+        List <Sala> salas=consultarSalaPorEstablecimiento(e.getNombre());
         Sala s=null;
-        Object[] obs=e.getSalas().toArray();
         
-        for(int i=0;i<obs.length;i++){
-            if(((Sala)obs[i]).getIdSala()==idSala){
-                s=(Sala) obs[i];
+        for(int i=0;i<salas.size();i++){
+            if((salas.get(i)).getIdSala()==idSala){
+                s=salas.get(i);
             }
         }
         
         try{
-            Set<Reservacion>rs=s.getReservacions();
+            List<Reservacion>reservas=consultarReservacionesPorSala(s.getIdSala());
         
-        if(s.getReservacions()!=null){
-            Object[] r= s.getReservacions().toArray();
+        if(reservas!=null){
+            
             boolean n=true;
-            for(int i=0;i<r.length && n;i++){
-                if(((Reservacion)r[i]).getFecha().after(fecha) && fecha.getHours()-((Reservacion)r[i]).getTiempo()>0){
+            for(int i=0;i<reservas.size() && n;i++){
+                if((reservas.get(i).getFecha().after(fecha) && fecha.getHours()-reservas.get(i).getTiempo()>0)){
                     n=true;
-                }else if((fecha.before(((Reservacion)r[i]).getFecha())) && ((Reservacion)r[i]).getTiempo()-fecha.getHours()>0){
+                }else if(reservas.get(i).getFecha().before(fecha) && reservas.get(i).getTiempo()-fecha.getHours()>0){
+                //else if((fecha.before(((Reservacion)r[i]).getFecha())) && ((Reservacion)r[i]).getTiempo()-fecha.getHours()>0){
                     n=true;
                 }else{
                     n=false;
@@ -271,15 +271,17 @@ public class Logica {
      * @param duracion duracion, en numero de horas, de la reserva, y, por consiguiente, del ensayo
      */
     public void registrarReserva(int idEstablecimiento, int idSala, Date fecha, int duracion){
-        Object[] salas = re.findOne(idEstablecimiento).getSalas().toArray();
+        //Object[] salas = re.findOne(idEstablecimiento).getSalas().toArray();
+        Establecimiento e = consultarEstablecimiento(idEstablecimiento);
+        List <Sala> salas=consultarSalaPorEstablecimiento(e.getNombre());
         Sala s=null;
-        for(int i=0;i<salas.length;i++){
-            if(((Sala)salas[i]).getIdSala()==idSala){
-                s=(Sala)salas[i];                
+        for(int i=0;i<salas.size();i++){
+            if((salas.get(i)).getIdSala()==idSala){
+                s=salas.get(i);                
             }            
         }       
         
-        Reservacion re = new Reservacion(s.getReservacions().size(),s,fecha,duracion);
+        Reservacion re = new Reservacion(consultarReservacionesPorSala(s.getIdSala()).size(),s,fecha,duracion);
         rr.save(re);
         
     }  
@@ -374,5 +376,9 @@ public class Logica {
     
     public Calificacion consultarCalificacionDeEnsayo(int reserva){
         return ca.consultarCalificacionDeEnsayo(reserva);
+    }
+    
+    public List<Reservacion> consultarReservacionesPorSala(int idSala){
+        return rr.reservacionesPorSala(idSala);        
     }
 }
