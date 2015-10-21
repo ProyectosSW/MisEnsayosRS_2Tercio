@@ -166,7 +166,7 @@ public class Establecimiento  implements java.io.Serializable {
         this.telefono = telefono;
     }
 
-@OneToMany(fetch=FetchType.EAGER, mappedBy="establecimiento")
+@OneToMany(fetch=FetchType.LAZY, mappedBy="establecimiento")
     public Set<Instrumento> getInstrumentos() {
         return this.instrumentos;
     }
@@ -175,7 +175,7 @@ public class Establecimiento  implements java.io.Serializable {
         this.instrumentos = instrumentos;
     }
 
-@OneToMany(fetch=FetchType.EAGER, mappedBy="establecimiento")
+@OneToMany(fetch=FetchType.LAZY, mappedBy="establecimiento")
     public Set<Sala> getSalas() {
         return this.salas;
     }

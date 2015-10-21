@@ -59,7 +59,7 @@ public class Sala  implements java.io.Serializable {
         this.idSala = idSala;
     }
 
-@ManyToOne(fetch=FetchType.EAGER)
+@ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="Establecimiento_idEstablecimiento", nullable=false)
     public Establecimiento getEstablecimiento() {
         return this.establecimiento;
@@ -99,7 +99,7 @@ public class Sala  implements java.io.Serializable {
         this.nombre = nombre;
     }
 
-@OneToMany(fetch=FetchType.EAGER, mappedBy="sala")
+@OneToMany(fetch=FetchType.LAZY, mappedBy="sala")
     public Set<Reservacion> getReservacions() {
         return this.reservacions;
     }

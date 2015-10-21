@@ -60,7 +60,7 @@ public class Reservacion  implements java.io.Serializable {
         this.idReservacion = idReservacion;
     }
 
-@ManyToOne(fetch=FetchType.EAGER)
+@ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="Sala_idSala", nullable=false)
     public Sala getSala() {
         return this.sala;

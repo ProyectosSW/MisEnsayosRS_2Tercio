@@ -63,7 +63,7 @@ public class Ensayo  implements java.io.Serializable {
         this.idEnsayo = idEnsayo;
     }
 
-@ManyToOne(fetch=FetchType.EAGER)
+@ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="Cliente_idCliente", nullable=false)
     public Cliente getCliente() {
         return this.cliente;
@@ -93,7 +93,7 @@ public class Ensayo  implements java.io.Serializable {
         this.fechaCancelacion = fechaCancelacion;
     }
 
-@OneToMany(fetch=FetchType.EAGER, mappedBy="ensayo")
+@OneToMany(fetch=FetchType.LAZY, mappedBy="ensayo")
     public Set<Calificacion> getCalificacions() {
         return this.calificacions;
     }
@@ -111,7 +111,7 @@ public class Ensayo  implements java.io.Serializable {
         this.instrumentos = instrumentos;
     }
 
-@OneToMany(fetch=FetchType.EAGER, mappedBy="ensayo")
+@OneToMany(fetch=FetchType.LAZY, mappedBy="ensayo")
     public Set<Alquiler> getAlquilers() {
         return this.alquilers;
     }

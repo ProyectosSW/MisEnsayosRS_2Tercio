@@ -10,6 +10,7 @@ import edu.eci.cosw.persistencia.Sala;
 import edu.eci.cosw.restcontrollers.OperationFailedException;
 import edu.eci.cosw.stubs.CamaraComercioStub;
 import java.util.ArrayList;
+import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
@@ -104,6 +105,21 @@ public class TestPublicarEstablecimiento {
              assertEquals(listaSala.get(i).getPrecio(), sala.getPrecio());
         }
     }
+    
+    @Test
+    public void testRegistrarSalaVerificacion() throws OperationFailedException {
+        int limite=5;
+        
+        Establecimiento a = new Establecimiento(1, "nombre"+1, "123.123.123-1", "Autonorte"+1, 700, 1800, 2.0,"Puente Aranda", "1234567890");
+        logica.registrarEstablecimiento(a);
+
+        ArrayList<Sala> listaSala = new ArrayList<>();
+        for(int i=0; i<limite; i++){
+            Sala b= new Sala(i, a, ""+(100+(i*i)), "sala"+i);
+            listaSala.add(b);
+            logica.registrarSala(b);
+        }
+    }    
     
     @Test
     public void testStubCamarayComercio1(){
