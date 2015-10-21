@@ -107,21 +107,6 @@ public class TestPublicarEstablecimiento {
     }
     
     @Test
-    public void testRegistrarSalaVerificacion() throws OperationFailedException {
-        int limite=5;
-        
-        Establecimiento a = new Establecimiento(1, "nombre"+1, "123.123.123-1", "Autonorte"+1, 700, 1800, 2.0,"Puente Aranda", "1234567890");
-        logica.registrarEstablecimiento(a);
-
-        ArrayList<Sala> listaSala = new ArrayList<>();
-        for(int i=0; i<limite; i++){
-            Sala b= new Sala(i, a, ""+(100+(i*i)), "sala"+i);
-            listaSala.add(b);
-            logica.registrarSala(b);
-        }
-    }    
-    
-    @Test
     public void testStubCamarayComercio1(){
         int limite = 20;
         ArrayList<String> nits = new ArrayList<String>();
