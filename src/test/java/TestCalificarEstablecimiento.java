@@ -39,7 +39,7 @@ public class TestCalificarEstablecimiento {
         Cliente c1= new Cliente(123, "Zlatan Ibrahimovic");
         logica.registrarCliente(c1);
         Ensayo es1=new Ensayo(555,c1,"Ensayo en la sala VIP");
-        es1.setCalificacions(new HashSet<Calificacion>());
+        //es1.setCalificacions(new HashSet<Calificacion>());
         logica.registrarEnsayo(es1);
         DetalleInstrumento det=new DetalleInstrumento(1, "Guitarra");
         logica.registrarDetalleInstrumento(det);
@@ -51,10 +51,9 @@ public class TestCalificarEstablecimiento {
         
         logica.calificarEstablecimiento(c1.getIdCliente(), es1.getIdEnsayo(), 4, "Fue muy bueno por que regalaron te");
         Ensayo ens = logica.consultarEnsayo(555);
-        Set<Calificacion> cals=ens.getCalificacions();
-        Object[] cali=cals.toArray();
-        System.out.println(cali.length);
-        assertEquals(((Calificacion)cali[0]).getCalificacionEstablecimiento(),4);
+        Calificacion cals=logica.consultarCalificacionDeEnsayo(ens.getIdEnsayo());
+
+        assertEquals(cals.getCalificacionEstablecimiento(),4);
         
     }   
 }

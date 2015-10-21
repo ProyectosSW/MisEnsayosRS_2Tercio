@@ -293,8 +293,8 @@ public class Logica {
      */
     public void calificarEstablecimiento(int idCliente,int idEnsayo, int calificacion, String descripcion){
         Ensayo encal= es.ConsultarEnsayosDeCliente(idCliente, idEnsayo);
-        int i=encal.getCalificacions().size();
-        if(i==1){
+        Calificacion califi=consultarCalificacionDeEnsayo(encal.getIdEnsayo());
+        if(califi!=null){
             List<Calificacion> ti = new ArrayList<>(encal.getCalificacions());
             for(Calificacion r:ti){
                 if(r.getCalificacionEstablecimiento()==0){
@@ -302,13 +302,10 @@ public class Logica {
                     r.setDescripcion(r.getDescripcion()+"\n\n"+descripcion);
                 }
             }
-        }else if(i==0){
+        }else if(califi==null){
             Calificacion calificaE= new Calificacion(1, encal, 0, calificacion, descripcion);
             registrarCalificacion(calificaE);
-            encal.getCalificacions().add(calificaE);
-            registrarEnsayo(encal);                
         }
-        System.out.println("\n\n\n\n\n"+encal.getCalificacions()+"\n\n\n\n\n\n\n\n\n\n");
     }
     
     /**
@@ -373,5 +370,9 @@ public class Logica {
      */
     public Reservacion consultarReservacion(int idReserva){
         return rr.findOne(idReserva);
+    }
+    
+    public Calificacion consultarCalificacionDeEnsayo(int reserva){
+        return ca.consultarCalificacionDeEnsayo(reserva);
     }
 }
