@@ -16,8 +16,10 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -31,6 +33,8 @@ public class TestPublicarEstablecimiento {
     private Logica logica;
     
     @Test
+    @Transactional
+    @Rollback(true)
     public void testRegistrarEstablecimiento() throws OperationFailedException{
         int limite=500;
         ArrayList<Establecimiento> listaEsta = new ArrayList<>();
@@ -55,6 +59,8 @@ public class TestPublicarEstablecimiento {
     }
 
     @Test
+    @Transactional
+    @Rollback(true)
     public void testRegistrarHabilitacionEstablecimiento() throws OperationFailedException{
         int limite=100;
         ArrayList<Establecimiento> listaEsta = new ArrayList<>();
@@ -84,6 +90,8 @@ public class TestPublicarEstablecimiento {
     }
     
     @Test
+    @Transactional
+    @Rollback(true)
     public void testRegistrarSala() throws OperationFailedException {
         int limite=5;
         
@@ -104,9 +112,11 @@ public class TestPublicarEstablecimiento {
              assertEquals(listaSala.get(i).getNombre(), sala.getNombre());
              assertEquals(listaSala.get(i).getPrecio(), sala.getPrecio());
         }
-    }
+    }    
     
     @Test
+    @Transactional
+    @Rollback(true)
     public void testStubCamarayComercio1(){
         int limite = 20;
         ArrayList<String> nits = new ArrayList<String>();

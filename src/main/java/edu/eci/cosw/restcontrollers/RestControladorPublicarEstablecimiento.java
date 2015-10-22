@@ -149,4 +149,13 @@ public class RestControladorPublicarEstablecimiento {
         return a;
     }
     
+    /**
+     * 
+     * @return 
+     */
+    @RequestMapping(value="/cantidad",method = RequestMethod.GET)
+    public int consultarCantidadEstablcimientos(){
+        return logica.consultarCantidadEstablcimientos();
+    }
+    
 }
