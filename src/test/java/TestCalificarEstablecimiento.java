@@ -1,4 +1,3 @@
-
 import edu.eci.cosw.logica.Logica;
 import edu.eci.cosw.persistencia.Calificacion;
 import edu.eci.cosw.persistencia.Cliente;
@@ -14,8 +13,11 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.transaction.TransactionConfiguration;
+import org.springframework.transaction.annotation.Transactional;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -33,8 +35,13 @@ public class TestCalificarEstablecimiento {
     
     @Autowired
     private Logica logica;
+    
+   
     @Test
-    public void testCalificarEstablecimientoPorMusico() throws OperationFailedException{
+    @Transactional
+    @Rollback(true)
+    public void testCalificarEstablecimientoPorMusico() throws OperationFailedException {
+        
         
         Cliente c1= new Cliente(123, "Zlatan Ibrahimovic");
         logica.registrarCliente(c1);
@@ -49,11 +56,44 @@ public class TestCalificarEstablecimiento {
         logica.registrarInstrumento(ins);
         
         
+        
         logica.calificarEstablecimiento(c1.getIdCliente(), es1.getIdEnsayo(), 4, "Fue muy bueno por que regalaron te");
         Ensayo ens = logica.consultarEnsayo(555);
         Calificacion cals=logica.consultarCalificacionDeEnsayo(ens.getIdEnsayo());
 
         assertEquals(cals.getCalificacionEstablecimiento(),4);
+
         
+        
+    }   
+    
+    @Test
+    @Transactional
+    @Rollback(true)
+    public void testCalificarEstablecimientoPrimero() throws OperationFailedException {
+                
+        
+        Cliente c1= new Cliente(456, "Zlatan Ibrahimovic");
+        logica.registrarCliente(c1);
+        Ensayo es1=new Ensayo(666,c1,"Ensayo en la sala studio");
+        //es1.setCalificacions(new HashSet<Calificacion>());
+        logica.registrarEnsayo(es1);
+        DetalleInstrumento det=new DetalleInstrumento(1, "Guitarra");
+        logica.registrarDetalleInstrumento(det);
+        Establecimiento est=new Establecimiento(888,"Abril Records","123.456.333-1","calle falsa bla bla", 800,1800, 5.5,"Suba", "44440000");
+        logica.registrarEstablecimiento(est);
+        Instrumento ins=new Instrumento(111,  det, es1, est, "1000");
+        logica.registrarInstrumento(ins);
+        
+        Calificacion califiN=new Calificacion(es1.getIdEnsayo(), es1, 5, 0, "Ensayaron bien y los equipos no sufrieron daños");
+        logica.registrarCalificacion(califiN);
+        
+        logica.calificarEstablecimiento(c1.getIdCliente(), es1.getIdEnsayo(), 4, "Fue muy bueno por que regalaron te, lo recomiendo");
+        Ensayo ens = logica.consultarEnsayo(666);
+        
+        Calificacion cals=logica.consultarCalificacionDeEnsayo(ens.getIdEnsayo());
+     
+
+        assertEquals(cals.getCalificacionEstablecimiento(),4);       
     }   
 }

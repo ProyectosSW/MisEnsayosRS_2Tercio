@@ -297,13 +297,9 @@ public class Logica {
         Ensayo encal= es.ConsultarEnsayosDeCliente(idCliente, idEnsayo);
         Calificacion califi=consultarCalificacionDeEnsayo(encal.getIdEnsayo());
         if(califi!=null){
-            List<Calificacion> ti = new ArrayList<>(encal.getCalificacions());
-            for(Calificacion r:ti){
-                if(r.getCalificacionEstablecimiento()==0){
-                    r.setCalificacionEstablecimiento(calificacion);
-                    r.setDescripcion(r.getDescripcion()+"\n\n"+descripcion);
-                }
-            }
+                    califi.setCalificacionEstablecimiento(calificacion);
+                    califi.setDescripcion(califi.getDescripcion()+"\n\n"+descripcion);
+                    ca.save(califi);
         }else if(califi==null){
             Calificacion calificaE= new Calificacion(1, encal, 0, calificacion, descripcion);
             registrarCalificacion(calificaE);
