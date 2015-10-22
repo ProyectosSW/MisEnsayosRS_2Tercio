@@ -9,6 +9,7 @@ import edu.eci.cosw.logica.Logica;
 import edu.eci.cosw.persistencia.Alquiler;
 import edu.eci.cosw.persistencia.Cliente;
 import edu.eci.cosw.persistencia.Reservacion;
+import edu.eci.cosw.stubs.Pago;
 import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,10 +65,10 @@ public class RestControladorRegistrarReserva {
     }
     
     @RequestMapping(value="/pagar",method = RequestMethod.POST)        
-    public ResponseEntity<?> realizarPago(@PathVariable int idAlquiler,@PathVariable int monto,@PathVariable String numtarjeta, @PathVariable String tipoP) {  
+    public ResponseEntity<?> realizarPago(@RequestBody Pago p) {  
         HttpStatus status;
         String message;
-        if(logica.realizarPago(idAlquiler, monto, numtarjeta, tipoP)){
+        if(logica.realizarPago(p.getIdAlquiler(), p.getMonto(), p.getNumtarjeta(), p.getTipoP())){
             status=HttpStatus.ACCEPTED;
             message="Solicitud de pago aceptada";
         }else{
