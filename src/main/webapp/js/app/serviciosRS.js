@@ -180,7 +180,7 @@
         this.reservasCliente = function (clienteid) {            
             return $http({
                 method: 'GET',
-                url: 'rest/reservacion/clienteReserva/cliente'+clienteid
+                url: 'rest/reservacion/clienteReserva/cliente/'+clienteid
             });            
         };
         
@@ -193,7 +193,7 @@
          */
         this.registroReserva = function (idSala, fecha, duracion) {            
             var sala = $http.get('rest/establecimientos/sala/'+idSala);
-            var reserv = {'idReserva':0,"sala":sala,'fecha':fecha,'tiempo':duracion};
+            var reserv = {"idReserva":0,"sala":sala,"fecha":fecha,"tiempo":duracion};
             return $http({
                 method: 'POST',
                 url: 'rest/reservacion/registroReserv',
@@ -209,11 +209,11 @@
          */
         this.alquilerCliente = function (idCliente, idReserva, descripcion) {      
             //var cliente = $http.get('/rest/reservacion/cliente/'+idCliente);
-            var reserva = $http.get('/rest/reservacion/'+idCliente);
-            var alq = {'idAlquiler':0,'ensayo':null,'reservacion':reserva,'tipoDePago':null,'valorMulta':0,'captacion':0};
+            var reserva = $http.get('rest/reservacion/'+idCliente);
+            var alq = {"idAlquiler":0,"ensayo":null,"reservacion":reserva,"tipoDePago":null,"valorMulta":0,"captacion":0};
             return $http({
                 method: 'POST',
-                url: 'rest/products/',
+                url: 'rest/reservacion/alquilerCliente',
                 data:alq
             });            
         };
@@ -226,11 +226,20 @@
          * @returns {unresolved}
          */
         this.pagar = function (idAlquiler, monto, numtarjeta, tipoP) {            
-            var pago={'idAlquiler':idAlquiler,'monto':monto,'numtarjeta':numtarjeta, 'tipoP':tipoP};
+            var pago={"idAlquiler":idAlquiler,"monto":monto,"numtarjeta":numtarjeta,"tipoP":tipoP};
             return $http({
                 method: 'POST',
-                url: 'rest/products/',
+                url: 'rest/reservacion/pagar',
                 data:pago
+            });            
+        };
+        
+        this.registrarCliente = function (idCliente, nombre, descripcion) {            
+            var cliente={"idCliente":idCliente,"nombre":nombre,"descripcion":descripcion,"ensayos":[]};
+            return $http({
+                method: 'POST',
+                url: 'rest/reservacion/cliente',
+                data:cliente
             });            
         };
     }
