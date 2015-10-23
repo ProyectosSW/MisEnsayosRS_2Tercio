@@ -1,13 +1,8 @@
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 (function () {
 
-    var app = angular.module('PublicarEstablecimiento', []);
+    var app = angular.module('MisEnsayosRS', []);
 
-    app.service('PublicarEstablecimientoRestAPI', function ($http) {
+    app.service('MisEnsayosRSRestAPI', function ($http) {
         
         /**
          * 
@@ -159,9 +154,91 @@
                 url: 'rest/establecimientos/sala/'+idsala
             });            
         };        
+        
+        /**
+         * 
+         * @param {type} idCliente
+         * @param {type} idEnsayo
+         * @param {type} calificacione
+         * @param {type} descripcions
+         * @returns {unresolved}
+         */
+        this.califiEst = function ( idCliente, idEnsayo, calificacione, descripcions ) {    
+            var ensayo=$http.get('rest/calificacion/ensayo/'+idEnsayo);
+            var calificacion={'idCalificacion':0,'ensayo':ensayo,'calificacionBanda':0,'calificacionEstablecimiento':calificacione, 'descripcion':descripcions};
+             return $http({
+                method: 'POST',
+                url: 'rest/calificacion/',data:calificacion
+            });            
+        };
+        
+        /**
+         * 
+         * @param {type} clienteid
+         * @returns {unresolved}
+         */
+        this.reservasCliente = function (clienteid) {            
+            return $http({
+                method: 'GET',
+                url: 'rest/reservacion/clienteReserva/cliente'+clienteid
+            });            
+        };
+        
+        /**
+         * 
+         * @param {type} idSala
+         * @param {type} fecha
+         * @param {type} duracion
+         * @returns {unresolved}
+         */
+        this.registroReserva = function (idSala, fecha, duracion) {            
+            var sala = $http.get('rest/establecimientos/sala/'+idSala);
+            var reserv = {'idReserva':0,"sala":sala,'fecha':fecha,'tiempo':duracion};
+            return $http({
+                method: 'POST',
+                url: 'rest/reservacion/registroReserv',
+                data:reserv
+            });
+        };
+        /**
+         * 
+         * @param {type} idCliente
+         * @param {type} idReserva
+         * @param {type} descripcion
+         * @returns {unresolved}
+         */
+        this.alquilerCliente = function (idCliente, idReserva, descripcion) {      
+            //var cliente = $http.get('/rest/reservacion/cliente/'+idCliente);
+            var reserva = $http.get('/rest/reservacion/'+idCliente);
+            var alq = {'idAlquiler':0,'ensayo':null,'reservacion':reserva,'tipoDePago':null,'valorMulta':0,'captacion':0};
+            return $http({
+                method: 'POST',
+                url: 'rest/products/',
+                data:alq
+            });            
+        };
+        /**
+         * 
+         * @param {type} idAlquiler
+         * @param {type} monto
+         * @param {type} numtarjeta
+         * @param {type} tipoP
+         * @returns {unresolved}
+         */
+        this.pagar = function (idAlquiler, monto, numtarjeta, tipoP) {            
+            var pago={'idAlquiler':idAlquiler,'monto':monto,'numtarjeta':numtarjeta, 'tipoP':tipoP};
+            return $http({
+                method: 'POST',
+                url: 'rest/products/',
+                data:pago
+            });            
+        };
     }
+            
     );
 
 })();
+
+
 
 
