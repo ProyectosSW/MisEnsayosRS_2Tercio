@@ -46,7 +46,7 @@
         this.habilitarEstablecimiento = function (nombre) {            
             return $http({
                 method: 'GET',
-                url: 'rest/establecimientos/habilitar/'+nombre
+                url: 'rest/establecimientos/inhabilitados/'+nombre
             });            
         };        
         
@@ -57,9 +57,21 @@
         this.consultarTodosEstablecimientosSinHabilitar = function () {            
             return $http({
                 method: 'GET',
-                url: 'rest/establecimientos/sinhabilitar'
+                url: 'rest/establecimientos/inhabilitados'
             });            
         };
+        
+        /**
+         * 
+         * @param {type} nombre
+         * @returns {unresolved}
+         */
+        this.consultarSalaPorEstablecimiento = function (nombre) {            
+            return $http({
+                method: 'GET',
+                url: 'rest/establecimientos/sala/grupo/'+nombre
+            });            
+        };        
         
         /**
          * 

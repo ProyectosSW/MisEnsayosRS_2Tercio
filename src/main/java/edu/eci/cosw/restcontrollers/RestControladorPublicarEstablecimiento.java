@@ -65,7 +65,7 @@ public class RestControladorPublicarEstablecimiento {
      * @param nombre del establecimiento a habilitar
      * @return respuesta a la operacion realizada de habilitacion de establecimiento
      */
-    @RequestMapping(value="/habilitar/{nombre}",method = RequestMethod.GET)        
+    @RequestMapping(value="/inhabilitados/{nombre}",method = RequestMethod.GET)        
     public ResponseEntity<?> habilitarEstablecimiento(@PathVariable String nombre) {  
         HttpStatus hs;
         String mens = "";
@@ -83,10 +83,20 @@ public class RestControladorPublicarEstablecimiento {
      * 
      * @return lista de todos los establecimientos registrados y sin habilitar
      */
-    @RequestMapping(value="/sinhabilitar",method = RequestMethod.GET)        
+    @RequestMapping(value="/inhabilitados",method = RequestMethod.GET)        
     public List<Establecimiento> consultarTodosEstablecimientosSinHabilitar() {  
         return logica.consultarEstablecimientosSinHabilitar();
-    }        
+    }  
+    
+    /**
+     * 
+     * @param nombre
+     * @return 
+     */
+    @RequestMapping(value="/sala/grupo/{nombre}",method = RequestMethod.GET)        
+    public List<Sala> consultarSalaPorEstablecimiento(@PathVariable String nombre) {  
+        return logica.consultarSalaPorEstablecimiento(nombre);
+    }      
     
     /**
      * 

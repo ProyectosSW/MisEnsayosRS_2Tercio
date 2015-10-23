@@ -32,7 +32,7 @@ public interface RepositorioEstablecimiento extends CrudRepository<Establecimien
     @Query("select e from Establecimiento e")
     public List<Establecimiento> consultarTodos();            
     
-    @Query("select e from Establecimiento e where e.idEstablecimiento=:idx and LENGTH(e.nit)>:longitudx")
+    @Query("select e from Establecimiento e where LENGTH(e.nit)>:longitudx")
     public List<Establecimiento> conultarEstablecimientosSinHabilitar(@Param("longitudx") int longitud);
     
     @Query("select count(e) from Establecimiento e")
