@@ -20,7 +20,7 @@
         this.consultarEstablecimientosporNit = function (nit) {            
             return $http({
                 method: 'GET',
-                url: 'rest/establecimientos/nit/'+nit
+                url: 'rest/establecimientos/nit/'+nit+nit
             });            
         };
         
@@ -93,13 +93,13 @@
         
         /**
          * 
-         * @param {type} nombre
+         * @param {type} id
          * @returns {unresolved}
          */
-        this.consultarSalaPorEstablecimiento = function (nombre) {            
+        this.consultarSalaPorEstablecimiento = function (id) {            
             return $http({
                 method: 'GET',
-                url: 'rest/establecimientos/sala/grupo/'+nombre
+                url: 'rest/establecimientos/sala/grupo/'+id
             });            
         };        
         
@@ -160,7 +160,7 @@
         this.registrarSala = function (idSala, idEstablecimiento, nombreEstablecimiento, nit, descripcionEstablecimiento, direccion, horaInicio, horaCierre, multa, localidad, telefono, precio, descripcion, nombre) {            
             return $http({
                 method: 'POST',
-                url: 'rest/establecimientos/',
+                url: 'rest/establecimientos/sala/',
                 data:   {
                             "idSala": idSala,
                             "establecimiento": {

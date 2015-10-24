@@ -80,8 +80,8 @@ public class Logica {
      * @param nit
      * @return 
      */
-    public boolean consultarEstablecimientosporNit(String nit){
-        return (re.consultarEstablecimientosporNit(nit)!=null || re.consultarEstablecimientosporNit(nit+"Sin revisar")!=null);
+    public Establecimiento consultarEstablecimientosporNit(String nit){
+        return re.consultarEstablecimientosporNit(nit);
     }
     
     /**
@@ -131,7 +131,7 @@ public class Logica {
      * @param s sala a registrar
      */
     public void registrarSala(Sala s) throws OperationFailedException {
-        if(re.findByNameX(s.getEstablecimiento().getNombre())!=null) rs.save(s);
+        if (consultarEstablecimientosporNit(s.getEstablecimiento().getNit())!=null) rs.save(s);
         else throw new OperationFailedException("no existe el establecimiento");
     }
     
@@ -146,11 +146,11 @@ public class Logica {
     
     /**
      * 
-     * @param nombre
+     * @param id
      * @return lista de las salas pertenecientes a determinado establecimiento
      */
-    public List<Sala> consultarSalaPorEstablecimiento(String nombre){
-        return rs.salaPorEstablecimiento(nombre);
+    public List<Sala> consultarSalaPorEstablecimiento(int id){
+        return rs.salaPorEstablecimiento(id);
     }
     
     /**
@@ -168,15 +168,6 @@ public class Logica {
     public int consultarCantidadSalas(){
         return rs.consultarCantidadSalas();
     }    
-    
-    /**
-     * 
-     * @param nombre
-     * @return 
-     */
-    public List<Sala> consultarSalaPorEstablecimientoHabilitado(String nombre){
-        return rs.salaPorEstablecimiento(nombre);
-    }
     
     /**
      * 
@@ -206,7 +197,7 @@ public class Logica {
      * @throws edu.eci.cosw.restcontrollers.OperationFailedException
      */
     public void registrarEstablecimiento(Establecimiento e) throws OperationFailedException{
-        if (!consultarEstablecimientosporNit(e.getNit())){
+        if (e.getNit().length()>=13 && consultarEstablecimientosporNit(e.getNit().substring(0, 13))==null && consultarEstablecimientosporNit(e.getNit())==null){
             re.save(e);
         } else throw new OperationFailedException("No se puede registrar el establecimiento dado");
         
@@ -258,7 +249,7 @@ public class Logica {
     public boolean verificarDisponibilidadSala(Date fecha, Time hora, int idSala, int idEstablecimiento){
         boolean res=true;
         Establecimiento e = re.findOne(idEstablecimiento);
-        List <Sala> salas=consultarSalaPorEstablecimiento(e.getNombre());
+        List <Sala> salas=consultarSalaPorEstablecimiento(e.getIdEstablecimiento());
         Sala s=null;
         
         for(int i=0;i<salas.size();i++){
@@ -312,7 +303,7 @@ public class Logica {
         boolean resp = verificarDisponibilidadSala(fecha, hora, idSala, idEstablecimiento);
         //if(resp){
             Establecimiento e = consultarEstablecimiento(idEstablecimiento);
-            List <Sala> salas=consultarSalaPorEstablecimiento(e.getNombre());
+            List <Sala> salas=consultarSalaPorEstablecimiento(e.getIdEstablecimiento());
             Sala s=null;
             for(int i=0;i<salas.size();i++){
                 if((salas.get(i)).getIdSala()==idSala){

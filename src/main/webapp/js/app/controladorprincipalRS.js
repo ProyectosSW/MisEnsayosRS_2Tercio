@@ -42,7 +42,7 @@
         $scope.sala.establecimiento={};
         $scope.establecimiento.idEstablecimiento=0;
         $scope.sala.idSala=0;
-        $scope.nitValidacion="";
+        $scope.sala.nitValidacion="";
         
         $scope.seleccionHoraInicio = function () {
             $scope.seleccionHora=true;
@@ -60,6 +60,20 @@
         
         $scope.alarma = function () {
             alert("alarma");
+        }
+        
+        $scope.consultarEstablecimientosporNit=function (){
+            alert($scope.sala.nitValidacion);
+            MisEnsayosRSRestAPI.consultarEstablecimientosporNit($scope.sala.nitValidacion).then(
+                //promise success
+                function(response){
+                    alert(response.data.nit);
+                },
+                //promise error
+                function(response){
+                    console.log('Unable to get data from REST API:'+response);
+                }
+            );              
         }
                
         $scope.seleccionEstablecimientoASala = function (esta) {
@@ -121,12 +135,14 @@
                     MisEnsayosRSRestAPI.registrarEstablecimiento($scope.establecimiento.idEstablecimiento, $scope.establecimiento.nombre, $scope.establecimiento.nit, $scope.establecimiento.descripcion, $scope.establecimiento.direccion, $scope.establecimiento.horaInicio, $scope.establecimiento.horaCierre, $scope.establecimiento.multa, $scope.establecimiento.localidad, $scope.establecimiento.telefono).then(
                         //promise success
                         function(response){
-                            console.log(response.data);                    
+                            console.log(response.data);
+                            $scope.establecimiento={}
                             cargar ();
                             alert("El registro del establecmiento "+$scope.establecimiento.nombre+" fue exitoso");
                         },
                         //promise error
                         function(response){
+                            $scope.establecimiento={}
                             cargar ();
                             alert("El registro del establecmiento "+$scope.establecimiento.nombre+" no se pudo efectuar debido a errores en los datos enviados");
                             console.log('Unable to get data from REST API:'+response);
@@ -142,11 +158,12 @@
         
         $scope.registrarSala = function () {
             alert("Solicitud de registro de sala");
-            MisEnsayosRSRestAPI.consultarEstablecimientosporNit().then(
+            MisEnsayosRSRestAPI.consultarEstablecimientosporNit($scope.sala.nitValidacion).then(
                 //promise success
                 function(response){
                     console.log(response.data);
-                    if(response.data){
+                    if(response.data!=null){
+                        $scope.sala.establecimiento=response.data;
                         MisEnsayosRSRestAPI.consultarCantidadSalas().then(
                             //promise success
                             function(response){
@@ -156,11 +173,15 @@
                                     //promise success
                                     function(response){
                                         console.log(response.data);                    
+                                        $scope.sala={};
+                                        $scope.sala.establecimiento={};
                                         cargar ();
                                         alert("El registro de la sala "+$scope.sala.nombre+"fue exitoso");
                                     },
                                     //promise error
                                     function(response){
+                                        $scope.sala={};
+                                        $scope.sala.establecimiento={};                                        
                                         cargar ();
                                         alert("El registro de la sala "+$scope.sala.nombre+" no se pudo efectuar debido a errores en los datos enviados");
                                         console.log('Unable to get data from REST API:'+response);
@@ -169,6 +190,7 @@
                             },
                             //promise error
                             function(response){
+                                alert("Catidad  invalida");
                                 console.log('Unable to get data from REST API:'+response);
                             }
                         );        
@@ -176,6 +198,7 @@
                 },
                 //promise error
                 function(response){
+                    alert("NIT invalido");
                     console.log('Unable to get data from REST API:'+response);
                 }
             );              
@@ -217,18 +240,6 @@
                     console.log('Unable to get data from REST API:'+response);
                 }
             );
-
-            MisEnsayosRSRestAPI.consultarSalaPorEstablecimiento().then(
-                //promise success
-                function(response){
-                    console.log(response.data);                    
-                    $scope.salasPorEstablecimiento=response.data;
-                },
-                //promise error
-                function(response){
-                    console.log('Unable to get data from REST API:'+response);
-                }
-            );        
         }        
         
         

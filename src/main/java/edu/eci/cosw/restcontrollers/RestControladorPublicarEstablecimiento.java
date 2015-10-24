@@ -42,9 +42,11 @@ public class RestControladorPublicarEstablecimiento {
         return logica.consultarEstablecimiento(id);
     }    
     
-    @RequestMapping(value="/nit/{nit}",method = RequestMethod.GET)        
-    public boolean consultarEstablecimientosporNit(@PathVariable String nit){
-        return logica.consultarEstablecimientosporNit(nit);
+    @RequestMapping(value="/nit/{nitx}",method = RequestMethod.GET)        
+    public Establecimiento consultarEstablecimientosporNit(@PathVariable String nitx){
+        Establecimiento es=null;
+        if(nitx.length()>13) es=logica.consultarEstablecimientosporNit(nitx.substring(0, 13));
+        return es;
     }
     
     /**
@@ -95,12 +97,12 @@ public class RestControladorPublicarEstablecimiento {
     
     /**
      * 
-     * @param nombre
+     * @param id
      * @return 
      */
     @RequestMapping(value="/sala/grupo/{nombre}",method = RequestMethod.GET)        
-    public List<Sala> consultarSalaPorEstablecimiento(@PathVariable String nombre) {  
-        return logica.consultarSalaPorEstablecimiento(nombre);
+    public List<Sala> consultarSalaPorEstablecimiento(@PathVariable int id) {  
+        return logica.consultarSalaPorEstablecimiento(id);
     }      
     
     /**
@@ -113,7 +115,7 @@ public class RestControladorPublicarEstablecimiento {
         HttpStatus hs;
         String mens = "";
         try {
-            e.setNit(e.getNit()+"Sin revisar");
+            e.setNit(e.getNit()+"revisar");
             logica.registrarEstablecimiento(e);
             hs=HttpStatus.CREATED;
         } catch (Exception ex) {

@@ -170,10 +170,10 @@
                                         </div>
                                         
                                         <div class="form-group">
-                                            <label for="exampleInputName2" >Numero de identificación tributaria NIT </label>
+                                            <label for="exampleInputName2" >Numero de identificación tributaria NIT {{sala.nitValidacion}}</label>
                                             <label for="exampleInputName2" style="color: #31b0d5">Este dato se usa para autenticación. Este campo permite identificar el establecimiento al cual se va a registrar esta sala</label>
                                             <label for="exampleInputName2" style="color: #31b0d5">Ejemplo 000.000.000-1 </label>
-                                            <input type="text" class="form-control" ng-model="nitValidacion" placeholder="Numero de identificación tributaria NIT" required>
+                                            <input type="text" class="form-control" ng-model="sala.nitValidacion" placeholder="Numero de identificación tributaria NIT" required>
                                         </div>
                                         <a href="#about"><button type="submit" class="btn btn-info" ng-click="registrarSala()">Enviar</button></a>
                                     </form>                                    

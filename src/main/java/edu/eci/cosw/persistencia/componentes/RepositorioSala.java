@@ -20,8 +20,8 @@ public interface RepositorioSala  extends CrudRepository<Sala, Integer>{
     @Query("select s from Establecimiento e join e.salas s where e.nombre=:nombrex and LENGTH(e.nit)=:longitudx")
     public List<Sala> salaPorEstablecimientoHabilitado(@Param("nombrex") String nombre, @Param("longitudx") int longitud);    
     
-    @Query("select s from Establecimiento e join e.salas s where e.nombre=:nombrex")
-    public List<Sala> salaPorEstablecimiento(@Param("nombrex") String nombre);    
+    @Query("select s from Establecimiento e join e.salas s where e.idEstablecimiento=:idx")
+    public List<Sala> salaPorEstablecimiento(@Param("idx") int id);    
     
     @Query("select count(s.nombre) from Sala s")
     public int consultarCantidadSalas();
