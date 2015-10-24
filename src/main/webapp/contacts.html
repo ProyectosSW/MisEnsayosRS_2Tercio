@@ -1,52 +1,144 @@
 <section id="content"><div class="ic">More Website Templates @ TemplateMonster.com. November 21, 2011!</div>
         <div class="main">
-                <div class="content-padding-2">
-                        <div class="container_12">
-                                <div class="wrapper">
-                                        <article class="grid_8">
-                                                <div class="padding-grid-1">
-                                                        <h3>Contact <strong>Form</strong></h3>
-                                                        <form id="contact-form" enctype="multipart/form-data" method="post" >
-                                                                <fieldset>
-                                                                        <label>
-                                                                                <span class="name-input">Name:</span>
-                                                                                <input name="name" value="" onBlur="if(this.value=='') this.value=''" onFocus="if(this.value =='' ) this.value=''" />
-                                                                        </label>
-                                                                        <label>
-                                                                                <span class="name-input">Email:</span>	
-                                                                                <input name="name1" value="" onBlur="if(this.value=='') this.value=''" onFocus="if(this.value =='' ) this.value=''" />
-                                                                        </label>
-                                                                        <label>
-                                                                                <span class="name-input">Message:</span>
-                                                                                <textarea onBlur="if(this.value=='') this.value=''" onFocus="if(this.value =='' ) this.value=''"></textarea>
-                                                                        </label>						
-                                                                </fieldset>
-                                                                <div class="link-form">
-                                                                        <a class="link link-margin" href="#" onClick="document.getElementById('contact-form').reset()">Clear</a>
-                                                                        <a class="link" href="#" onClick="document.getElementById('contact-form').submit()">Send</a>
-                                                                </div> 
-                                                                <div class="clear"></div>		
-                                                        </form>	
-                                                </div>
-                                        </article>
-                                        <article class="grid_4 alpha">
-                                                <div class="padding-grid-3">
-                                                        <h3>Contact <strong>Info</strong></h3>
-                                                        <div class="wrapper p2">
-                                                                <figure class="style-img-2 fleft">
-                                                                        <iframe width="252" height="195" src="http://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=en&amp;geocode=&amp;q=Brooklyn,+New+York,+NY,+United+States&amp;aq=0&amp;sll=37.0625,-95.677068&amp;sspn=61.282355,146.513672&amp;ie=UTF8&amp;hq=&amp;hnear=Brooklyn,+Kings,+New+York&amp;ll=40.649974,-73.950005&amp;spn=0.01628,0.025663&amp;z=14&amp;iwloc=A&amp;output=embed"></iframe>
-                                                                </figure>
-                                                        </div>
-                                                        <dl class="list-4">
-                                                                <dt>8901 Marmora Road,<br>Glasgow, D04 89GR.</dt>
-                                                                <dd>Telephone: +1 959 603 6035</dd>
-                                                                <dd>E-mail: <a class="link" href="#">mail@demolink.org</a></dd>
-                                                        </dl>
-                                                </div>
-                                        </article>	
-                                </div>
+            <div class="content-padding-2">
+                <div class="container_12">
+                    <div class="bg-2">
+                        <div class="padding-grid-1">
+                                <h3 class="letter">Registros <strong>Mis Ensayos RS</strong></h3>
                         </div>
+                        <div class="wrapper p3">
+                            <article class="grid_4 alpha">
+                                <div class="padding-grid-2">
+                                    <div class="wrapper">
+                                        <figure class="style-img-2 fleft"><a href="#"><img src="images/page2-img1.jpg"  alt=""></a></figure>
+                                    </div>
+                                </div>
+                            </article>
+                            <article class="grid_8 alpha">
+                                <div class="padding-grid-2">
+                                    <table class="table table-hover" style="cursor: pointer;">
+                                        <thead>
+                                            <tr>
+                                                <th>Opciones de registro</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="esta in opcionesRegistro" ng-click="eleccionRegistro(esta)">
+                                                <td>{{esta}}</td>
+                                            </tr> 
+                                        </tbody>
+                                    </table>                                                                    
+                                </div>
+                            </article>
+                        </div>
+                    </div>                    
+
+                    <div ng-if="opcionEsta">
+                        <div class="padding-grid-1">
+                                <h3 class="letter">Registros <strong>Establecimiento</strong></h3>
+                        </div>
+                        <div class="wrapper p3">
+                            <article class="grid_4 alpha">
+                                <div class="padding-grid-2">
+                                    <div class="wrapper">
+                                        <figure class="style-img-2 fleft"><a href="#"><img src="images/page2-img2.jpg"  alt=""></a></figure>
+                                    </div>
+                                </div>
+                                </br>
+                                </br>
+                                <div class="padding-grid-2">
+                                    <div class="wrapper">
+                                        <figure class="style-img-2 fleft"><a href="#"><img src="images/page2-img2.jpg"  alt=""></a></figure>
+                                    </div>
+                                </div>
+                            </article>                            
+                            <article class="grid_8 alpha">
+                                <div class="padding-grid-2">
+                                    <form>
+                                        <div class="form-group">
+                                            <label for="exampleInputName2">Nombre del establecimiento {{establecimiento.nombre}}</label>
+                                            <input type="text" class="form-control" ng-model="establecimiento.nombre" placeholder="Nombre del establecimiento">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="exampleInputName2">Numero de identificación tributaria NIT {{establecimiento.direccion}}</label>
+                                            <input type="text" class="form-control" ng-model="establecimiento.nit" placeholder="Numero de identificación tributaria NIT">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="exampleInputName2">Dirección {{establecimiento.direccion}}</label>
+                                            <input type="text" class="form-control" ng-model="establecimiento.direccion" placeholder="Dirección">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="exampleInputName2">Localidad {{establecimiento.localidad}}</label>
+                                            <input type="text" class="form-control" ng-model="establecimiento.localidad" placeholder="Localidad">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="exampleInputName2">Hora inicio {{establecimiento.horaInicio}}</label>
+                                            <input type="number" min="700" class="form-control" max="2000" ng-model="establecimiento.horaInicio" step="100">
+                                        </div>                                        
+                                        <div class="form-group">
+                                            <label for="exampleInputName2">Hora cierre {{establecimiento.horaCierre}}</label>
+                                            <input type="number" min="700" class="form-control" max="2000" ng-model="establecimiento.horaCierre" step="100">
+                                        </div>                                        
+                                        <div class="form-group">
+                                            <label for="exampleInputName2">Multa {{establecimiento.multa}}</label>
+                                            <input type="number" min="0" max="100" class="form-control" ng-model="establecimiento.multa" placeholder="Teléfono" step="0.1">
+                                        </div>                                                         
+                                        <div class="form-group">
+                                            <label for="exampleInputName2">Teléfono {{establecimiento.telefono}}</label>
+                                            <input type="number" min="1000000" max="9999999" class="form-control" ng-model="establecimiento.telefono" placeholder="Teléfono">
+                                        </div>                                        
+                                        <div class="form-group">
+                                            <label for="exampleInputName2">Descripción {{establecimiento.descripcion}}</label>
+                                            <input type="text" class="form-control" ng-model="establecimiento.descripcion" placeholder="Descripción">
+                                        </div>
+                                        <button type="submit" class="btn btn-info" ng-click="solicitudRegistro()">Enviar</button>
+                                    </form>                                    
+                                </div>
+                            </article>
+                        </div>
+                    </div>                    
+                    <div ng-if="opcionSala">
+                        <div class="padding-grid-1">
+                                <h3 class="letter">Registros <strong>Sala</strong></h3>
+                        </div>
+                        <div class="wrapper p3">
+                            <article class="grid_4 alpha">
+                                <div class="padding-grid-2">
+                                    <div class="wrapper">
+                                        <figure class="style-img-2 fleft"><a href="#"><img src="images/page2-img2.jpg"  alt=""></a></figure>
+                                    </div>
+                                </div>
+                            </article>                            
+                            <article class="grid_8 alpha">
+                                <div class="padding-grid-2">
+                                    <form>
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Email address</label>
+                                            <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="exampleInputPassword1">Password</label>
+                                            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="exampleInputFile">File input</label>
+                                            <input type="file" id="exampleInputFile">
+                                            <p class="help-block">Example block-level help text here.</p>
+                                        </div>
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox"> Check me out
+                                                </label>
+                                            </div>
+                                        <button type="submit" class="btn btn-default">Submit</button>
+                                    </form>                                    
+                                </div>
+                            </article>
+                        </div>
+                    </div>                                        
+                    
                 </div>
+            </div>
         </div>
         <div class="block"></div>
 </section>

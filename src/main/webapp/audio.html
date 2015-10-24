@@ -4,70 +4,106 @@
             <div class="container_12">
                 <div class="wrapper">
                     <div class="grid_12">
-                        
-                        <div class="padding-grid-1">
-                                <h3 class="letter">Nuestros <strong>Establecimientos</strong></h3>
-                        </div>
-
-                        <div class="wrapper p3">
-                            <article class="grid_4 alpha">
-                                <div class="padding-grid-2">
-                                    <div class="wrapper">
-                                        <figure class="style-img-2 fleft"><a href="#"><img src="images/page2-img1.jpg"  alt=""></a></figure>
-                                    </div>
-                                </div>
-                            </article>
-                            <article class="grid_8 alpha">
-                                <div class="padding-grid-2">
-                                    <table class="table table-hover" style="cursor: pointer;">
-                                        <thead>
-                                            <tr>
-                                                <th>Nombre del establecimiento</th>
-                                                <th>Localidad</th>                            
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr ng-repeat="esta in todosEstablecimientos">
-                                                <td>{{ esta.nombre}}</td>
-                                                <td>{{ esta.localidad}}</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>                                                                    
-                                </div>
-                            </article>
-                        </div>
-
-                        <div class="padding-grid-1">
-                                <h3 class="letter">Salas del Establecimiento <strong>Establecimiento</strong></h3>
-                        </div>                        
-                        
-                        <div class="wrapper p3">
+                        <div class="bg-2">
+                            <div class="padding-grid-1">
+                                    <h3 class="letter">Nuestros <strong>Establecimientos</strong></h3>
+                            </div>
+                            <div class="wrapper p3">
                                 <article class="grid_4 alpha">
-                                        <div class="padding-grid-2">
-                                                <div class="wrapper">
-                                                        <figure class="style-img-2 fleft"><a href="#"><img src="images/page2-img2.jpg"  alt=""></a></figure>
-                                                </div>
+                                    <div class="padding-grid-2">
+                                        <div class="wrapper">
+                                            <figure class="style-img-2 fleft"><a href="#"><img src="images/page2-img1.jpg"  alt=""></a></figure>
                                         </div>
-                                </article>                            <article class="grid_8 alpha">
-                                <div class="padding-grid-2">
-                                    <table class="table table-hover" style="cursor: pointer;">
-                                        <thead>
-                                            <tr>
-                                                <th>Nombre del establecimiento</th>
-                                                <th>Localidad</th>                            
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr ng-repeat="esta in todosEstablecimientos">
-                                                <td>{{ esta.nombre}}</td>
-                                                <td>{{ esta.localidad}}</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>                                                                    
-                                </div>
-                            </article>
-                        </div>                        
-                        
+                                    </div>
+                                </article>
+                                <article class="grid_8 alpha">
+                                    <div class="padding-grid-2">
+                                        <table class="table table-hover" style="cursor: pointer;">
+                                            <thead>
+                                                <tr>
+                                                    <th>Nombre del establecimiento</th>
+                                                    <th>Localidad</th>                            
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="esta in todosEstablecimientos" ng-click="consultarSalaPorEstablecimiento(esta)">
+                                                    <td>{{ esta.nombre}}</td>
+                                                    <td>{{ esta.localidad}}</td>
+                                                </tr> 
+                                            </tbody>
+                                        </table>                                                                    
+                                    </div>
+                                </article>
+                            </div>
+                        </div>    
+                        <div ng-if="seleccion">
+                            <div class="padding-grid-1">
+                                    <h3 class="letter">Establecimiento <strong>{{establecimientoNombre}}</strong></h3>
+                            </div>
+                            <div class="wrapper p3">
+                                <article class="grid_4 alpha">
+                                    <div class="padding-grid-2">
+                                        <div class="wrapper">
+                                            <figure class="style-img-2 fleft"><a href="#"><img src="images/page2-img2.jpg"  alt=""></a></figure>
+                                        </div>
+                                    </div>
+                                </article>                            
+                                <article class="grid_8 alpha">
+                                    <div class="padding-grid-2">
+                                        <table class="table table-hover" style="cursor: pointer;">
+                                            <thead>
+                                                <tr>
+                                                    <th>Establecimiento</th>
+                                                    <th>Infomracion</th>                            
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="esta in establecimientoSeleccionadoLlaves">
+                                                    <td>{{ esta}}</td>
+                                                    <td>{{ establecimientoSeleccionado[esta]}}</td>
+                                                </tr> 
+                                            </tbody>
+                                        </table>     
+                                    </div>
+                                </article>
+                            </div>                        
+
+
+
+                            <div class="padding-grid-1">
+                                    <h3 class="letter">Salas de <strong>{{establecimientoNombre}}</strong></h3>
+                            </div>                                                    
+                            <div class="wrapper p3">
+                                <article class="grid_4 alpha">
+                                    <div class="padding-grid-2">
+                                        <div class="wrapper">
+                                            <figure class="style-img-2 fleft"><a href="#"><img src="images/page2-img2.jpg"  alt=""></a></figure>
+                                        </div>
+                                    </div>
+                                </article>                            
+                                <article class="grid_8 alpha">
+                                    <div class="padding-grid-2">
+                                        <table class="table table-hover" style="cursor: pointer;">
+                                            <thead>
+                                                <tr>
+                                                    <th>Nombre de la sala</th>
+                                                    <th>precio</th>                            
+                                                    <th>descripcion</th>                            
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="esta in salaPorEstablecimiento">
+                                                    <td>{{ esta.nombre}}</td>
+                                                    <td>{{ esta.precio}}</td>
+                                                    <td>{{ esta.descripcion}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>                                                                    
+                                    </div>
+                                </article>
+                            </div>                        
+                        </div>
+
                     </div>
                 </div>
             </div>

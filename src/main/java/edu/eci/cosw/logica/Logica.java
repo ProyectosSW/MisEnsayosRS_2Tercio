@@ -179,12 +179,9 @@ public class Logica {
     /**
      * 
      * @param e establecimiento a registrar
-     * @throws OperationFailedException en caso de que el nombre del establecimiento a registrar ya exista en la base de datos
      */
-    public void registrarEstablecimiento(Establecimiento e) throws OperationFailedException {
-        if(re.findByNameX(e.getNombre())==null) re.save(e);
-        else throw new OperationFailedException("ya existe un establecimiento con el mismo nombre");
-
+    public void registrarEstablecimiento(Establecimiento e){
+        re.save(e);
     }
     
     /**
