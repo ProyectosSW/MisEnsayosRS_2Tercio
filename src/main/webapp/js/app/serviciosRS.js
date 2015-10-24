@@ -63,6 +63,28 @@
         
         /**
          * 
+         * @returns {unresolved}
+         */
+        this.consultarCantidadEstablcimientos = function () {            
+            return $http({
+                method: 'GET',
+                url: 'rest/establecimientos/cantidad'
+            });            
+        };
+        
+        /**
+         * 
+         * @returns {unresolved}
+         */
+        this.consultarCantidadSalas = function () {            
+            return $http({
+                method: 'GET',
+                url: 'rest/establecimientos/sala/cantidad'
+            });            
+        };
+        
+        /**
+         * 
          * @param {type} nombre
          * @returns {unresolved}
          */

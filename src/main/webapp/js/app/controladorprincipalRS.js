@@ -26,6 +26,7 @@
     app.controller('misensayosrscontroller', function ($scope,MisEnsayosRSRestAPI) {
         
         $scope.seleccion=false;
+        $scope.seleccion2=false;
         $scope.opcionEsta=false;
         $scope.opcionSala=false;
         $scope.establecimientoNombre="";
@@ -34,16 +35,22 @@
         $scope.horarios=[700, 800, 900, 1000, 1100, 1200, 1300, 1400, 1500, 1600, 1700, 1800, 1900, 2000];
         //$scope.establecimiento={"idEstablecimiento": 1,"nombre": "nombre","nit": "nit","descripcion": "descripcion","direccion": "direccion","horaInicio": 700,"horaCierre": 2000,"multa": 0.0,"localidad": "localidad","telefono": "telefono"};
         $scope.establecimiento={};
+        $scope.sala={};
+        $scope.sala.establecimiento={};
+        $scope.establecimiento.idEstablecimiento=0;
+        $scope.sala.idSala=0;
         
         $scope.solicitudRegistro = function () {
             alert("$scope.establecimiento"+$scope.establecimiento);
-            for (key in $scope.establecimiento) {
-                alert(""+$scope.establecimiento.key);
-             }
         }
         
         $scope.alarma = function () {
             alert("alarma");
+        }
+               
+        $scope.seleccionEstablecimientoASala = function (esta) {
+            $scope.seleccion2=true;
+            $scope.sala.establecimiento=esta;   
         }
         
         $scope.eleccionRegistro = function (opcion) {
@@ -58,7 +65,7 @@
         
         $scope.consultarSalaPorEstablecimiento=function (esta){
             $scope.seleccion=true;
-            $scope.establecimientoNombre=esta.nombre;
+            $scope.establecimientoNombre=esta;
             MisEnsayosRSRestAPI.consultarSalaPorEstablecimiento(esta.nombre).then(
                 //promise success
                 function(response){
@@ -90,11 +97,24 @@
     
         }
 
-        $scope.registrarEstablecimiento = function (idEstablecimiento, nombre, nit, descripcion, direccion, horaInicio, horaCierre, multa, localidad, telefono){            
-            MisEnsayosRSRestAPI.registrarEstablecimiento(idEstablecimiento, nombre, nit, descripcion, direccion, horaInicio, horaCierre, multa, localidad, telefono).then(
+        $scope.registrarEstablecimiento = function (){            
+            MisEnsayosRSRestAPI.consultarCantidadEstablcimientos().then(
                 //promise success
                 function(response){
                     console.log(response.data);                    
+                    $scope.establecimiento.idEstablecimiento=response.data+1;
+                    alert($scope.establecimiento.idEstablecimiento);
+                    alert($scope.establecimiento.nombre);
+                    MisEnsayosRSRestAPI.registrarEstablecimiento($scope.establecimiento.idEstablecimiento, $scope.establecimiento.nombre, $scope.establecimiento.nit, $scope.establecimiento.descripcion, $scope.establecimiento.direccion, $scope.establecimiento.horaInicio, $scope.establecimiento.horaCierre, $scope.establecimiento.multa, $scope.establecimiento.localidad, $scope.establecimiento.telefono).then(
+                        //promise success
+                        function(response){
+                            console.log(response.data);                    
+                        },
+                        //promise error
+                        function(response){
+                            console.log('Unable to get data from REST API:'+response);
+                        }
+                    );                            
                 },
                 //promise error
                 function(response){
@@ -103,18 +123,28 @@
             );        
         }
         
-        this.registrarSala = function (idSala, idEstablecimiento, nombreEstablecimiento, nit, descripcionEstablecimiento, direccion, horaInicio, horaCierre, multa, localidad, telefono, precio, descripcion, nombre) {
-            MisEnsayosRSRestAPI.registrarEstablecimiento(idSala, idEstablecimiento, nombreEstablecimiento, nit, descripcionEstablecimiento, direccion, horaInicio, horaCierre, multa, localidad, telefono, precio, descripcion, nombre).then(
+        this.registrarSala = function () {
+            MisEnsayosRSRestAPI.consultarCantidadSalas().then(
                 //promise success
                 function(response){
                     console.log(response.data);                    
+                    $scope.sala.idSala=response.data+1;
+                    MisEnsayosRSRestAPI.registrarEstablecimiento($scope.sala.idSala, $scope.sala.establecimiento.idEstablecimiento, $scope.sala.establecimiento.nombreEstablecimiento, $scope.sala.establecimiento.nit, $scope.sala.establecimiento.descripcionEstablecimiento, $scope.sala.establecimiento.direccion, $scope.sala.establecimiento.horaInicio, $scope.sala.establecimiento.horaCierre, $scope.sala.establecimiento.multa, $scope.sala.establecimiento.localidad, $scope.sala.establecimiento.telefono, $scope.sala.precio, $scope.sala.descripcion, $scope.sala.nombre).then(
+                        //promise success
+                        function(response){
+                            console.log(response.data);                    
+                        },
+                        //promise error
+                        function(response){
+                            console.log('Unable to get data from REST API:'+response);
+                        }
+                    );
                 },
                 //promise error
                 function(response){
                     console.log('Unable to get data from REST API:'+response);
                 }
             );        
-            
         }        
         
         MisEnsayosRSRestAPI.consultarTodosEstablecimientos().then(

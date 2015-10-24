@@ -60,7 +60,7 @@
                                             <input type="text" class="form-control" ng-model="establecimiento.nombre" placeholder="Nombre del establecimiento">
                                         </div>
                                         <div class="form-group">
-                                            <label for="exampleInputName2">Numero de identificación tributaria NIT {{establecimiento.direccion}}</label>
+                                            <label for="exampleInputName2">Numero de identificación tributaria NIT {{establecimiento.nit}}</label>
                                             <input type="text" class="form-control" ng-model="establecimiento.nit" placeholder="Numero de identificación tributaria NIT">
                                         </div>
                                         <div class="form-group">
@@ -73,11 +73,11 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="exampleInputName2">Hora inicio {{establecimiento.horaInicio}}</label>
-                                            <input type="number" min="700" class="form-control" max="2000" ng-model="establecimiento.horaInicio" step="100">
+                                            <input type="number" min="700" class="form-control" max="2000" ng-model="establecimiento.horaInicio" step="100" placeholder="Hora inicio">
                                         </div>                                        
                                         <div class="form-group">
                                             <label for="exampleInputName2">Hora cierre {{establecimiento.horaCierre}}</label>
-                                            <input type="number" min="700" class="form-control" max="2000" ng-model="establecimiento.horaCierre" step="100">
+                                            <input type="number" min="700" class="form-control" max="2000" ng-model="establecimiento.horaCierre" step="100" placeholder="Hora cierre">
                                         </div>                                        
                                         <div class="form-group">
                                             <label for="exampleInputName2">Multa {{establecimiento.multa}}</label>
@@ -91,7 +91,7 @@
                                             <label for="exampleInputName2">Descripción {{establecimiento.descripcion}}</label>
                                             <input type="text" class="form-control" ng-model="establecimiento.descripcion" placeholder="Descripción">
                                         </div>
-                                        <button type="submit" class="btn btn-info" ng-click="solicitudRegistro()">Enviar</button>
+                                        <button type="submit" class="btn btn-info" ng-click="registrarEstablecimiento()">Enviar</button>
                                     </form>                                    
                                 </div>
                             </article>
@@ -99,7 +99,7 @@
                     </div>                    
                     <div ng-if="opcionSala">
                         <div class="padding-grid-1">
-                                <h3 class="letter">Registros <strong>Sala</strong></h3>
+                                <h3 class="letter">Registro <strong>Sala</strong></h3>
                         </div>
                         <div class="wrapper p3">
                             <article class="grid_4 alpha">
@@ -113,24 +113,56 @@
                                 <div class="padding-grid-2">
                                     <form>
                                         <div class="form-group">
-                                            <label for="exampleInputEmail1">Email address</label>
-                                            <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
+                                            <label for="exampleInputName2">Nombre de la sala {{sala.nombre}}</label>
+                                            <input type="text" class="form-control" ng-model="sala.nombre" placeholder="Nombre del establecimiento">
                                         </div>
                                         <div class="form-group">
-                                            <label for="exampleInputPassword1">Password</label>
-                                            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-                                        </div>
+                                            <label for="exampleInputName2">Precio {{sala.precio}}</label>
+                                            <input type="number" class="form-control" ng-model="sala.precio" placeholder="Teléfono">
+                                        </div>                                       
                                         <div class="form-group">
-                                            <label for="exampleInputFile">File input</label>
-                                            <input type="file" id="exampleInputFile">
-                                            <p class="help-block">Example block-level help text here.</p>
+                                            <label for="exampleInputName2">Descripción {{sala.descripcion}}</label>
+                                            <input type="text" class="form-control" ng-model="sala.descripcion" placeholder="Descripción">
                                         </div>
-                                            <div class="checkbox">
-                                                <label>
-                                                    <input type="checkbox"> Check me out
-                                                </label>
-                                            </div>
-                                        <button type="submit" class="btn btn-default">Submit</button>
+                                        
+                                        <div class="form-group">
+                                            <label for="exampleInputName2" >Numero de identificación tributaria NIT </label>
+                                            <label for="exampleInputName2" style="color: #31b0d5">Este dato se usa para autenticación </label>
+                                            <input type="text" class="form-control" ng-model="establecimiento.nit" placeholder="Numero de identificación tributaria NIT" ng-focus>
+                                        </div>
+                                        
+                                        <div class="form-group">
+                                            <label for="exampleInputName2">Establecimiento</label>
+                                            <table class="table table-hover" style="cursor: pointer;" ng-if="seleccion2">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Establecimiento</th>
+                                                        <th>Infomracion</th>                            
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>{{sala.establecimiento.nombre}}</td>
+                                                        <td>{{sala.establecimiento.localidad}}</td>
+                                                    </tr> 
+                                                </tbody>
+                                            </table>
+                                            <table class="table table-hover" style="cursor: pointer;">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Nombre del establecimiento</th>
+                                                        <th>Localidad</th>                            
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-repeat="esta in todosEstablecimientos" ng-click="seleccionEstablecimientoASala(esta)">
+                                                        <td>{{ esta.nombre}}</td>
+                                                        <td>{{ esta.localidad}}</td>
+                                                    </tr> 
+                                                </tbody>
+                                            </table>                                                                                                                
+                                        </div>    
+                                        <button type="submit" class="btn btn-info" ng-click="registrarSala()">Enviar</button>
                                     </form>                                    
                                 </div>
                             </article>

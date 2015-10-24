@@ -153,10 +153,10 @@ public class RestControladorPublicarEstablecimiento {
      * @return 
      */
     @RequestMapping(value="/prueba",method = RequestMethod.GET)
-    public Sala consultaPrueba(){
-        Establecimiento e = new Establecimiento(1, "Establecimiento 1", "101.101.101-1", "Fundado en el año 2000","Calle 100 # 19-102", 700, 1900, 2.4, "Usaquen", "1010101",new HashSet<Instrumento>(), new HashSet<Sala>());
-        Sala a = new Sala(10, e, "30000", "Sala VIP", "Sala 10", new HashSet<Reservacion>());
-        return a;
+    public int consultaPrueba(){
+        //Establecimiento e = new Establecimiento(1, "Establecimiento 1", "101.101.101-1", "Fundado en el año 2000","Calle 100 # 19-102", 700, 1900, 2.4, "Usaquen", "1010101",new HashSet<Instrumento>(), new HashSet<Sala>());
+        //Sala a = new Sala(10, e, "30000", "Sala VIP", "Sala 10", new HashSet<Reservacion>());
+        return logica.consultarCantidadSalas();
     }
     
     /**
@@ -166,6 +166,11 @@ public class RestControladorPublicarEstablecimiento {
     @RequestMapping(value="/cantidad",method = RequestMethod.GET)
     public int consultarCantidadEstablcimientos(){
         return logica.consultarCantidadEstablcimientos();
+    }
+    
+    @RequestMapping(value="/sala/cantidad",method = RequestMethod.GET)
+    public int consultarCantidadSalas(){
+        return logica.consultarCantidadSalas();
     }
     
 }

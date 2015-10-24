@@ -147,6 +147,14 @@ public class Logica {
     
     /**
      * 
+     * @return 
+     */
+    public int consultarCantidadSalas(){
+        return rs.consultarCantidadSalas();
+    }    
+    
+    /**
+     * 
      * @param nombre
      * @return 
      */

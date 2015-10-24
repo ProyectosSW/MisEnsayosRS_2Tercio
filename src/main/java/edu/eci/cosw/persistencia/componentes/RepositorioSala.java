@@ -22,5 +22,8 @@ public interface RepositorioSala  extends CrudRepository<Sala, Integer>{
     
     @Query("select s from Establecimiento e join e.salas s where e.nombre=:nombrex")
     public List<Sala> salaPorEstablecimiento(@Param("nombrex") String nombre);    
+    
+    @Query("select count(s.nombre) from Sala s")
+    public int consultarCantidadSalas();
 
 }
