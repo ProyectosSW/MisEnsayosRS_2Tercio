@@ -214,7 +214,7 @@
         this.reservasCliente = function (clienteid) {            
             return $http({
                 method: 'GET',
-                url: 'rest/reservacion/clienteReserva/cliente/'+clienteid
+                url: 'rest/reservacion/clientereserva/cliente/'+clienteid
             });            
         };
         
@@ -225,12 +225,14 @@
          * @param {type} duracion
          * @returns {unresolved}
          */
-        this.registroReserva = function (idSala, fecha, duracion) {            
+        this.registroReserva = function (idEstablecimiento,idSala, fecha, duracion) {            
+            var est = $http.get('rest/establecimientos/'+idEstablecimiento);
             var sala = $http.get('rest/establecimientos/sala/'+idSala);
+            sala.establecimiento=est;
             var reserv = {"idReserva":0,"sala":sala,"fecha":fecha,"tiempo":duracion};
             return $http({
                 method: 'POST',
-                url: 'rest/reservacion/registroReserv',
+                url: 'rest/reservacion/registroreserv',
                 data:reserv
             });
         };
@@ -242,12 +244,13 @@
          * @returns {unresolved}
          */
         this.alquilerCliente = function (idCliente, idReserva, descripcion) {      
-            //var cliente = $http.get('/rest/reservacion/cliente/'+idCliente);
-            var reserva = $http.get('rest/reservacion/'+idCliente);
-            var alq = {"idAlquiler":0,"ensayo":null,"reservacion":reserva,"tipoDePago":null,"valorMulta":0,"captacion":0};
+            var cliente = $http.get('/rest/reservacion/cliente/'+idCliente);
+            var reserva = $http.get('rest/reservacion/'+idReserva);
+            var ensayo={"idEnsayo":1,"cliente":cliente,"descripcion":descripcion,"fechaCancelacion":"2001-12-12"}
+            var alq = {"idAlquiler":1,"ensayo":ensayo,"reservacion":reserva,"tipoDePago":null,"valorMulta":0,"captacion":0};
             return $http({
                 method: 'POST',
-                url: 'rest/reservacion/alquilerCliente',
+                url: 'rest/reservacion/alquilercliente',
                 data:alq
             });            
         };

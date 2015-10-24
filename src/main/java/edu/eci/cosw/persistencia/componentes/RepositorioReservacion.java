@@ -7,6 +7,7 @@ package edu.eci.cosw.persistencia.componentes;
 
 
 import edu.eci.cosw.persistencia.Reservacion;
+import java.util.Date;
 import java.util.List;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -20,5 +21,9 @@ public interface RepositorioReservacion extends CrudRepository<Reservacion, Inte
     
     @Query("select r from Sala s join s.reservacions r where s.idSala=:id")
     public List<Reservacion> reservacionesPorSala(@Param("id") int salaid); 
+    
+    @Query("select r from Reservacion r where r.idReservacion=:id")
+    public Reservacion reservacionByID(@Param("id") int idReserva);
+    
     
 }

@@ -10,6 +10,7 @@ import edu.eci.cosw.persistencia.Alquiler;
 import edu.eci.cosw.persistencia.Cliente;
 import edu.eci.cosw.persistencia.Reservacion;
 import edu.eci.cosw.stubs.Pago;
+import java.sql.Time;
 import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,12 +32,12 @@ public class RestControladorRegistrarReserva {
     Logica logica;
         
     
-    @RequestMapping(value="/registroReserv",method = RequestMethod.POST)
+    @RequestMapping(value="/registroreserv",method = RequestMethod.POST)
     public ResponseEntity<?> registrarReserva(@RequestBody Reservacion r){
         HttpStatus hs;
         String mens = "";
         try {
-            logica.registrarReserva(r.getSala().getEstablecimiento().getIdEstablecimiento(),r.getSala().getIdSala(),r.getFecha(),r.getTiempo());
+            logica.registrarReserva(r.getSala().getEstablecimiento().getIdEstablecimiento(),r.getSala().getIdSala(),r.getFecha(), r.getHora(),r.getTiempo());
             hs=HttpStatus.CREATED;
         } catch (Exception ex) {
             mens=ex.getMessage();
@@ -52,13 +53,14 @@ public class RestControladorRegistrarReserva {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }*/
     
-    @RequestMapping(value="/alquilerCliente",method = RequestMethod.POST)        
-    public ResponseEntity<?> registrarAlquilerCliente(@RequestBody Alquiler a) {  
-        logica.crearEnsayoAlquiler(a.getEnsayo().getCliente().getIdCliente(), a.getEnsayo().getIdEnsayo(), a.getEnsayo().getDescripcion());
+    @RequestMapping(value="/alquilercliente",method = RequestMethod.POST)        
+    public ResponseEntity<?> registrarAlquilerCliente(@RequestBody Alquiler a) {
+        Reservacion r=(Reservacion)consultarReservacion(a.getReservacion().getIdReservacion()).getBody();
+        logica.crearEnsayoAlquiler(a.getEnsayo().getCliente().getIdCliente(), r, a.getEnsayo().getDescripcion());
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
     
-    @RequestMapping(value="/clienteReserva/{cli}",method = RequestMethod.GET)
+    @RequestMapping(value="/clientereserva/{idCliente}",method = RequestMethod.GET)
     public ResponseEntity<?> consultarReservasCliente(@PathVariable int idCliente) { 
         List l=logica.consultarReservasPorCliente(idCliente);
         return new ResponseEntity<>(l,HttpStatus.ACCEPTED);
@@ -78,12 +80,12 @@ public class RestControladorRegistrarReserva {
         return new ResponseEntity<>(message,status);
     }
     
-    @RequestMapping(value="/cliente/{cli}",method = RequestMethod.GET)
+    @RequestMapping(value="/cliente/{idCliente}",method = RequestMethod.GET)
     public ResponseEntity<?> consultarCliente(@PathVariable int idCliente) { 
         return new ResponseEntity<>(logica.consultarCliente(idCliente),HttpStatus.ACCEPTED);
     }
     
-    @RequestMapping(value="/{reserv}",method = RequestMethod.GET)
+    @RequestMapping(value="/{idReserva}",method = RequestMethod.GET)
     public ResponseEntity<?> consultarReservacion(@PathVariable int idReserva) { 
         return new ResponseEntity<>(logica.consultarReservacion(idReserva),HttpStatus.ACCEPTED);
     }

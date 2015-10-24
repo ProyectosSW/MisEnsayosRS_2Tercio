@@ -5,11 +5,15 @@
  */
 
 import edu.eci.cosw.logica.Logica;
+import edu.eci.cosw.persistencia.Alquiler;
+import edu.eci.cosw.persistencia.Cliente;
 import edu.eci.cosw.persistencia.Establecimiento;
 import edu.eci.cosw.persistencia.Reservacion;
 import edu.eci.cosw.persistencia.Sala;
 import edu.eci.cosw.restcontrollers.OperationFailedException;
+import java.sql.Time;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -51,15 +55,30 @@ public class TestReservasSalas {
         Sala s = new Sala(1,logica.consultarEstablecimiento(1),"1000","Sala de Orcas");
         logica.registrarSala(s);
         Date d=new Date();
+        GregorianCalendar gc = new GregorianCalendar();
+        gc.setTime(d);
+        Time t = new Time(gc.getTime().getTime());
         //JOptionPane.showMessageDialog(null, logica.consultarEstablecimiento(1).getIdEstablecimiento());
         //JOptionPane.showMessageDialog(null, s);
-        assertTrue(logica.verificarDisponibilidadSala(d, s.getIdSala(), 1));
+        assertTrue(logica.verificarDisponibilidadSala(d,t, s.getIdSala(), 1));
         
-        Reservacion r= new Reservacion(1,s, d, 1);
-        s.getReservacions().add(r);
-        logica.registrarReserva(e.getIdEstablecimiento(), s.getIdSala(), d, 2);
+        Reservacion r= new Reservacion(1,s, d,t, 1);
+        //s.getReservacions().add(r);
+        boolean resp=logica.registrarReserva(e.getIdEstablecimiento(), s.getIdSala(), d,t, 2);
         
-        //assertFalse(logica.verificarDisponibilidadSala(d, s.getIdSala(), 1));
+        assertFalse(logica.verificarDisponibilidadSala(d,t, s.getIdSala(), 1));
+        List<Reservacion>l=logica.consultarReservacionesPorSala(s.getIdSala());
+        System.out.println(l.get(0).getFecha().toString());
+        
+        Cliente c = new Cliente(1016040342, "ORCA");
+        logica.registrarCliente(c);
+        
+        for(Reservacion rs:l){
+            if(rs.getFecha().equals(r.getFecha()))r=rs;
+        }
+        
+        if(resp)logica.crearEnsayoAlquiler(c.getIdCliente(),r, "ensayaremos mucho");
+
     }
        
     @Before

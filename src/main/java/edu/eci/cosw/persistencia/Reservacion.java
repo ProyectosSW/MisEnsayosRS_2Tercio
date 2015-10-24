@@ -2,6 +2,7 @@ package edu.eci.cosw.persistencia;
 // Generated 20/09/2015 08:58:00 PM by Hibernate Tools 4.3.1
 
 
+import java.sql.Time;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -28,22 +29,25 @@ public class Reservacion  implements java.io.Serializable {
      private Sala sala;
      private Date fecha;
      private int tiempo;
+     private Time hora;
      private Set<Alquiler> alquilers = new HashSet(0);
 
     public Reservacion() {
     }
 
 	
-    public Reservacion(int idReservacion, Sala sala, Date fecha, int tiempo) {
+    public Reservacion(int idReservacion, Sala sala, Date fecha, Time hora, int tiempo) {
         this.idReservacion = idReservacion;
         this.sala = sala;
         this.fecha = fecha;
+        this.hora=hora;
         this.tiempo = tiempo;
     }
-    public Reservacion(int idReservacion, Sala sala, Date fecha, int tiempo, Set<Alquiler> alquilers) {
+    public Reservacion(int idReservacion, Sala sala, Date fecha, Time hora, int tiempo, Set<Alquiler> alquilers) {
        this.idReservacion = idReservacion;
        this.sala = sala;
        this.fecha = fecha;
+       this.hora=hora;
        this.tiempo = tiempo;
        this.alquilers = alquilers;
     }
@@ -88,6 +92,15 @@ public class Reservacion  implements java.io.Serializable {
     
     public void setTiempo(int tiempo) {
         this.tiempo = tiempo;
+    }
+    
+    @Column(name="Hora", nullable=false)
+    public Time getHora() {
+        return this.hora;
+    }
+    
+    public void setHora(Time hora) {
+        this.hora = hora;
     }
 
 @OneToMany(fetch=FetchType.LAZY, mappedBy="reservacion")

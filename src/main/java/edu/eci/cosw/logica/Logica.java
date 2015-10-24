@@ -27,10 +27,16 @@ import edu.eci.cosw.persistencia.componentes.RepositorioReservacion;
 import edu.eci.cosw.restcontrollers.OperationFailedException;
 import edu.eci.cosw.stubs.CamaraComercioStub;
 import edu.eci.cosw.stubs.PagosStub;
+import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -235,7 +241,7 @@ public class Logica {
      * @param idEstablecimiento identificador del establecimeinto que que tiene la sala
      * @return true si la sala esta disponible en la fecha establecida, false de lo contrario
      */
-    public boolean verificarDisponibilidadSala(Date fecha, int idSala, int idEstablecimiento){
+    public boolean verificarDisponibilidadSala(Date fecha, Time hora, int idSala, int idEstablecimiento){
         boolean res=true;
         Establecimiento e = re.findOne(idEstablecimiento);
         List <Sala> salas=consultarSalaPorEstablecimiento(e.getNombre());
@@ -245,22 +251,28 @@ public class Logica {
             if((salas.get(i)).getIdSala()==idSala){
                 s=salas.get(i);
             }
-        }
-        
+        }        
         try{
             List<Reservacion>reservas=consultarReservacionesPorSala(s.getIdSala());
         
         if(reservas!=null){
-            
+            Calendar c1=new GregorianCalendar();
+            Calendar c2=new GregorianCalendar();
+            c1.setTime(fecha);
+            Time h1, h2;
+            h1=hora;
             boolean n=true;
             for(int i=0;i<reservas.size() && n;i++){
-                if((reservas.get(i).getFecha().after(fecha) && fecha.getHours()-reservas.get(i).getTiempo()>0)){
+                h2=reservas.get(i).getHora();
+                c2.setTime(reservas.get(i).getFecha());
+                
+                if((c1.after(c2) && h2.getHours()-h1.getHours()>0)){
                     n=true;
-                }else if(reservas.get(i).getFecha().before(fecha) && reservas.get(i).getTiempo()-fecha.getHours()>0){
-                //else if((fecha.before(((Reservacion)r[i]).getFecha())) && ((Reservacion)r[i]).getTiempo()-fecha.getHours()>0){
+                }else if(c1.before(c2) && h1.getHours()-h2.getHours()>0){
                     n=true;
                 }else{
                     n=false;
+                    System.out.println(h1+"                                      "+h2);
                 }
             }
             if(n==false)res=false;
@@ -270,9 +282,7 @@ public class Logica {
         }catch(NullPointerException npe){
             res=true;
         }
-        //(Reservacion)r[i]).getFecha().before(fecha)
-             
-               
+        
         return res;
     }
     
@@ -282,21 +292,30 @@ public class Logica {
      * @param idSala identificacion de la sala en la que se hara la reserva
      * @param fecha fecha, con hora incluida, de la reserva
      * @param duracion duracion, en numero de horas, de la reserva, y, por consiguiente, del ensayo
+     * @return true si se registro la reserva, false de lo contrario.
      */
-    public void registrarReserva(int idEstablecimiento, int idSala, Date fecha, int duracion){
-        //Object[] salas = re.findOne(idEstablecimiento).getSalas().toArray();
-        Establecimiento e = consultarEstablecimiento(idEstablecimiento);
-        List <Sala> salas=consultarSalaPorEstablecimiento(e.getNombre());
-        Sala s=null;
-        for(int i=0;i<salas.size();i++){
-            if((salas.get(i)).getIdSala()==idSala){
-                s=salas.get(i);                
-            }            
-        }       
+    public boolean registrarReserva(int idEstablecimiento, int idSala, Date fecha, Time hora, int duracion){
+        boolean resp = verificarDisponibilidadSala(fecha, hora, idSala, idEstablecimiento);
+        //if(resp){
+            Establecimiento e = consultarEstablecimiento(idEstablecimiento);
+            List <Sala> salas=consultarSalaPorEstablecimiento(e.getNombre());
+            Sala s=null;
+            for(int i=0;i<salas.size();i++){
+                if((salas.get(i)).getIdSala()==idSala){
+                    s=salas.get(i);                
+                }            
+            }       
         
-        Reservacion re = new Reservacion(consultarReservacionesPorSala(s.getIdSala()).size(),s,fecha,duracion);
-        rr.save(re);
+            Reservacion res = new Reservacion((int)rr.count(),s,fecha,hora,duracion);
+            rr.save(res);
+            List<Reservacion> r = consultarReservacionesPorSala(idSala);
+            r.add(res);
+            Set<Reservacion> rss = new HashSet<>(r);
+            s.setReservacions(rss);
+            rs.save(s);
+        //}
         
+        return resp;
     }  
 
     /**
@@ -322,16 +341,24 @@ public class Logica {
     /**
      * @obj crea el ensayo asociado a un cliente especifico, posteriormente crea el alquiler
      * @param idCliente identificador del cliente al que se asocia el ensayo
-     * @param idReserva identificador de la reserva a la que se asocia el ensayo
+     * @param r Reservacion que sera asociada al alquiler
      * @param descripcion descripcion del ensayo
      */
-    public void crearEnsayoAlquiler(int idCliente, int idReserva, String descripcion){
-       Cliente c = cl.findOne(idCliente);
-       Ensayo e = new Ensayo((int)es.count(),c,descripcion);
-       es.save(e);
-       Reservacion r = rr.findOne(idReserva);
-       Alquiler a = new Alquiler((int)ra.count(), e, r, "no pagado", 0, "5%");
-       ra.save(a);
+    public void crearEnsayoAlquiler(int idCliente, Reservacion r, String descripcion){
+        Cliente c = cl.findOne(idCliente);
+        Ensayo e = new Ensayo((int)es.count(),c,descripcion);
+        //GregorianCalendar gc = new GregorianCalendar(2000, 12, 3);
+        //e.setFechaCancelacion(gc.getGregorianChange());
+        es.save(e);
+        //Reservacion r = consultarReservacion(idReservacion);       
+        List<Reservacion> reservs = rr.reservacionesPorSala(r.getSala().getIdSala());
+        for (Reservacion res : reservs) {
+            if(res.getFecha().equals(r.getFecha()) && res.getHora().getHours()==r.getHora().getHours() && res.getHora().getMinutes()==r.getHora().getMinutes())r=res;
+            
+        }
+        rr.save(r);
+        Alquiler a = new Alquiler((int)ra.count(), e, r, "no pagado", 0, "5%");
+        ra.save(a);
     }
     
     /**
@@ -380,7 +407,7 @@ public class Logica {
      * @return una reservacion
      */
     public Reservacion consultarReservacion(int idReserva){
-        return rr.findOne(idReserva);
+        return rr.reservacionByID(idReserva);
     }
     
     public Calificacion consultarCalificacionDeEnsayo(int reserva){
