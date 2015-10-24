@@ -58,8 +58,7 @@ public class TestReservasSalas {
         GregorianCalendar gc = new GregorianCalendar();
         gc.setTime(d);
         Time t = new Time(gc.getTime().getTime());
-        //JOptionPane.showMessageDialog(null, logica.consultarEstablecimiento(1).getIdEstablecimiento());
-        //JOptionPane.showMessageDialog(null, s);
+        
         assertTrue(logica.verificarDisponibilidadSala(d,t, s.getIdSala(), 1));
         
         Reservacion r= new Reservacion(1,s, d,t, 1);
