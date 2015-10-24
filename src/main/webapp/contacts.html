@@ -35,7 +35,7 @@
 
                     <div ng-if="opcionEsta">
                         <div class="padding-grid-1">
-                                <h3 class="letter">Registros <strong>Establecimiento</strong></h3>
+                                <h3 class="letter">Registro <strong>Establecimiento</strong></h3>
                         </div>
                         <div class="wrapper p3">
                             <article class="grid_4 alpha">
@@ -51,47 +51,84 @@
                                         <figure class="style-img-2 fleft"><a><img src="images/page2-img2.jpg"  alt=""></a></figure>
                                     </div>
                                 </div>
+                                </br>
+                                </br>
+                                <div class="padding-grid-2">
+                                    <div class="wrapper">
+                                        <figure class="style-img-2 fleft"><a><img src="images/page2-img2.jpg"  alt=""></a></figure>
+                                    </div>
+                                </div>
+                                </br>
+                                </br>
+                                <div class="padding-grid-2">
+                                    <div class="wrapper">
+                                        <figure class="style-img-2 fleft"><a><img src="images/page2-img2.jpg"  alt=""></a></figure>
+                                    </div>
+                                </div>                                
+                                </br>
+                                </br>
+                                <div class="padding-grid-2">
+                                    <div class="wrapper">
+                                        <figure class="style-img-2 fleft"><a><img src="images/page2-img2.jpg"  alt=""></a></figure>
+                                    </div>
+                                </div>  
                             </article>                            
                             <article class="grid_8 alpha">
                                 <div class="padding-grid-2">
                                     <form>
                                         <div class="form-group">
                                             <label for="exampleInputName2">Nombre del establecimiento {{establecimiento.nombre}}</label>
-                                            <input type="text" class="form-control" ng-model="establecimiento.nombre" placeholder="Nombre del establecimiento">
+                                            <input type="text" class="form-control" ng-model="establecimiento.nombre" placeholder="Nombre del establecimiento" required>
                                         </div>
                                         <div class="form-group">
                                             <label for="exampleInputName2">Numero de identificación tributaria NIT {{establecimiento.nit}}</label>
-                                            <input type="text" class="form-control" ng-model="establecimiento.nit" placeholder="Numero de identificación tributaria NIT">
+                                            <label for="exampleInputName2" style="color: #31b0d5">Este dato se usa para autenticación </label>
+                                            <label for="exampleInputName2" style="color: #31b0d5">Ejemplo 000.000.000-1 </label>
+                                            <input type="text" class="form-control" ng-model="establecimiento.nit" maxlength="13" placeholder="Numero de identificación tributaria NIT" required>
                                         </div>
                                         <div class="form-group">
                                             <label for="exampleInputName2">Dirección {{establecimiento.direccion}}</label>
-                                            <input type="text" class="form-control" ng-model="establecimiento.direccion" placeholder="Dirección">
+                                            <input type="text" class="form-control" ng-model="establecimiento.direccion" placeholder="Dirección" required>
                                         </div>
                                         <div class="form-group">
-                                            <label for="exampleInputName2">Localidad {{establecimiento.localidad}}</label>
-                                            <input type="text" class="form-control" ng-model="establecimiento.localidad" placeholder="Localidad">
+                                            <label for="exampleInputName2">Localidad</label>
+                                            <label for="exampleInputName2" style="color: #31b0d5">Seleccione con un click en las opciones de la tabla</label>
+                                            <input type="text" disabled class="form-control" ng-model="establecimiento.localidad" placeholder="Localidad" required>
+                                            <table class="table table-hover" style="cursor: pointer;">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Localidades</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-repeat="esta in localidades" ng-click="seleccionLocalidad(esta)">
+                                                        <td>{{esta}}</td>
+                                                    </tr> 
+                                                </tbody>
+                                            </table>                                                                    
                                         </div>
                                         <div class="form-group">
                                             <label for="exampleInputName2">Hora inicio {{establecimiento.horaInicio}}</label>
-                                            <input type="number" min="700" class="form-control" max="2000" ng-model="establecimiento.horaInicio" step="100" placeholder="Hora inicio">
+                                            <input type="number" min="700" class="form-control" max="2200" ng-model="establecimiento.horaInicio" step="100" placeholder="Hora inicio" ng-change="seleccionHoraInicio()" required>
                                         </div>                                        
-                                        <div class="form-group">
+                                        <div class="form-group" ng-if="seleccionHora">
                                             <label for="exampleInputName2">Hora cierre {{establecimiento.horaCierre}}</label>
-                                            <input type="number" min="700" class="form-control" max="2000" ng-model="establecimiento.horaCierre" step="100" placeholder="Hora cierre">
+                                            <input type="number" min="900" class="form-control" max="2200" ng-model="establecimiento.horaCierre" step="100" placeholder="Hora cierre" ng-change="mayor(establecimiento.horaCierre)" required>
                                         </div>                                        
                                         <div class="form-group">
-                                            <label for="exampleInputName2">Multa {{establecimiento.multa}}</label>
-                                            <input type="number" min="0" max="100" class="form-control" ng-model="establecimiento.multa" placeholder="Teléfono" step="0.1">
+                                            <label for="exampleInputName2">Multa {{establecimiento.multa}}%</label>
+                                            <input type="number" min="0" max="100" class="form-control" ng-model="establecimiento.multa" placeholder="Multa" step="0.1" required>
                                         </div>                                                         
                                         <div class="form-group">
                                             <label for="exampleInputName2">Teléfono {{establecimiento.telefono}}</label>
-                                            <input type="number" min="1000000" max="9999999" class="form-control" ng-model="establecimiento.telefono" placeholder="Teléfono">
+                                            <input type="number" min="1000000" max="9999999" class="form-control" ng-model="establecimiento.telefono" placeholder="Teléfono" required>
                                         </div>                                        
                                         <div class="form-group">
-                                            <label for="exampleInputName2">Descripción {{establecimiento.descripcion}}</label>
-                                            <input type="text" class="form-control" ng-model="establecimiento.descripcion" placeholder="Descripción">
+                                            <label for="exampleInputName2">Descripción</label>
+                                            <input type="text" class="form-control" ng-model="establecimiento.descripcion" placeholder="Descripción" required>
                                         </div>
-                                        <button type="submit" class="btn btn-info" ng-click="registrarEstablecimiento()">Enviar</button>
+                                        <a href="#about"><button type="submit" class="btn btn-info" ng-click="registrarEstablecimiento()">Enviar</button></a>
+                                        
                                     </form>                                    
                                 </div>
                             </article>
@@ -108,61 +145,37 @@
                                         <figure class="style-img-2 fleft"><a href="#"><img src="images/page2-img2.jpg"  alt=""></a></figure>
                                     </div>
                                 </div>
-                            </article>                            
+                                </br>
+                                </br>
+                                <div class="padding-grid-2">
+                                    <div class="wrapper">
+                                        <figure class="style-img-2 fleft"><a><img src="images/page2-img2.jpg"  alt=""></a></figure>
+                                    </div>
+                                </div>                              
+                            </article>  
                             <article class="grid_8 alpha">
                                 <div class="padding-grid-2">
                                     <form>
                                         <div class="form-group">
                                             <label for="exampleInputName2">Nombre de la sala {{sala.nombre}}</label>
-                                            <input type="text" class="form-control" ng-model="sala.nombre" placeholder="Nombre del establecimiento">
+                                            <input type="text" class="form-control" ng-model="sala.nombre" placeholder="Nombre de la sala" required>
                                         </div>
                                         <div class="form-group">
-                                            <label for="exampleInputName2">Precio {{sala.precio}}</label>
-                                            <input type="number" class="form-control" ng-model="sala.precio" placeholder="Teléfono">
+                                            <label for="exampleInputName2">Precio (x Hora) {{sala.precio}}</label>
+                                            <input type="number" min="10000" class="form-control" ng-model="sala.precio" placeholder="precio" required>
                                         </div>                                       
                                         <div class="form-group">
                                             <label for="exampleInputName2">Descripción {{sala.descripcion}}</label>
-                                            <input type="text" class="form-control" ng-model="sala.descripcion" placeholder="Descripción">
+                                            <input type="text" class="form-control" ng-model="sala.descripcion" placeholder="Descripción" required>
                                         </div>
                                         
                                         <div class="form-group">
                                             <label for="exampleInputName2" >Numero de identificación tributaria NIT </label>
-                                            <label for="exampleInputName2" style="color: #31b0d5">Este dato se usa para autenticación </label>
-                                            <input type="text" class="form-control" ng-model="establecimiento.nit" placeholder="Numero de identificación tributaria NIT" ng-focus>
+                                            <label for="exampleInputName2" style="color: #31b0d5">Este dato se usa para autenticación. Este campo permite identificar el establecimiento al cual se va a registrar esta sala</label>
+                                            <label for="exampleInputName2" style="color: #31b0d5">Ejemplo 000.000.000-1 </label>
+                                            <input type="text" class="form-control" ng-model="nitValidacion" placeholder="Numero de identificación tributaria NIT" required>
                                         </div>
-                                        
-                                        <div class="form-group">
-                                            <label for="exampleInputName2">Establecimiento</label>
-                                            <table class="table table-hover" style="cursor: pointer;" ng-if="seleccion2">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Establecimiento</th>
-                                                        <th>Infomracion</th>                            
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr>
-                                                        <td>{{sala.establecimiento.nombre}}</td>
-                                                        <td>{{sala.establecimiento.localidad}}</td>
-                                                    </tr> 
-                                                </tbody>
-                                            </table>
-                                            <table class="table table-hover" style="cursor: pointer;">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Nombre del establecimiento</th>
-                                                        <th>Localidad</th>                            
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr ng-repeat="esta in todosEstablecimientos" ng-click="seleccionEstablecimientoASala(esta)">
-                                                        <td>{{ esta.nombre}}</td>
-                                                        <td>{{ esta.localidad}}</td>
-                                                    </tr> 
-                                                </tbody>
-                                            </table>                                                                                                                
-                                        </div>    
-                                        <button type="submit" class="btn btn-info" ng-click="registrarSala()">Enviar</button>
+                                        <a href="#about"><button type="submit" class="btn btn-info" ng-click="registrarSala()">Enviar</button></a>
                                     </form>                                    
                                 </div>
                             </article>

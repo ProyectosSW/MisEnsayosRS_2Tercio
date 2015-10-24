@@ -16,6 +16,14 @@
             });            
         };
         
+        
+        this.consultarEstablecimientosporNit = function (nit) {            
+            return $http({
+                method: 'GET',
+                url: 'rest/establecimientos/nit/'+nit
+            });            
+        };
+        
         /**
          * 
          * @returns {List} lista de todos los establecimientos registrados

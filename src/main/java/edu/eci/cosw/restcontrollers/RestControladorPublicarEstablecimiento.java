@@ -42,6 +42,11 @@ public class RestControladorPublicarEstablecimiento {
         return logica.consultarEstablecimiento(id);
     }    
     
+    @RequestMapping(value="/nit/{nit}",method = RequestMethod.GET)        
+    public boolean consultarEstablecimientosporNit(@PathVariable String nit){
+        return logica.consultarEstablecimientosporNit(nit);
+    }
+    
     /**
      * 
      * @return lista con todos los establecimientos registrados
@@ -110,11 +115,10 @@ public class RestControladorPublicarEstablecimiento {
         try {
             e.setNit(e.getNit()+"Sin revisar");
             logica.registrarEstablecimiento(e);
-            
             hs=HttpStatus.CREATED;
         } catch (Exception ex) {
             mens=ex.getMessage();
-            hs=HttpStatus.ALREADY_REPORTED;
+            hs=HttpStatus.BAD_REQUEST;
         }
         return new ResponseEntity<>(mens,hs);
     }    
@@ -133,7 +137,7 @@ public class RestControladorPublicarEstablecimiento {
             hs=HttpStatus.CREATED;
         } catch (OperationFailedException ex) {
             mens=ex.getMessage();
-            hs=HttpStatus.ALREADY_REPORTED;
+            hs=HttpStatus.BAD_REQUEST;
         }
         return new ResponseEntity<>(mens,hs);
     }

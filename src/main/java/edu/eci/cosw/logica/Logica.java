@@ -55,6 +55,7 @@ public class Logica {
     @Autowired
     private RepositorioEnsayo es;
     @Autowired
+    
     private RepositorioCliente cl;
     @Autowired
     private RepositorioDetalleInstrumento di;
@@ -73,6 +74,15 @@ public class Logica {
     public Establecimiento consultarEstablecimiento(int id){
         return re.findOne(id);
     }    
+    
+    /**
+     * 
+     * @param nit
+     * @return 
+     */
+    public boolean consultarEstablecimientosporNit(String nit){
+        return (re.consultarEstablecimientosporNit(nit)!=null || re.consultarEstablecimientosporNit(nit+"Sin revisar")!=null);
+    }
     
     /**
      * 
@@ -193,9 +203,13 @@ public class Logica {
     /**
      * 
      * @param e establecimiento a registrar
+     * @throws edu.eci.cosw.restcontrollers.OperationFailedException
      */
-    public void registrarEstablecimiento(Establecimiento e){
-        re.save(e);
+    public void registrarEstablecimiento(Establecimiento e) throws OperationFailedException{
+        if (!consultarEstablecimientosporNit(e.getNit())){
+            re.save(e);
+        } else throw new OperationFailedException("No se puede registrar el establecimiento dado");
+        
     }
     
     /**
