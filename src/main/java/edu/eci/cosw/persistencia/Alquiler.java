@@ -59,7 +59,7 @@ public class Alquiler  implements java.io.Serializable {
         this.ensayo = ensayo;
     }
 
-@ManyToOne(fetch=FetchType.LAZY)
+@ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name="Reservacion_idReservacion", nullable=false)
     public Reservacion getReservacion() {
         return this.reservacion;

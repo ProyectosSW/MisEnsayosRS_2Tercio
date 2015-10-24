@@ -55,8 +55,8 @@ public class RestControladorRegistrarReserva {
     
     @RequestMapping(value="/alquilercliente",method = RequestMethod.POST)        
     public ResponseEntity<?> registrarAlquilerCliente(@RequestBody Alquiler a) {
-        Reservacion r=(Reservacion)consultarReservacion(a.getReservacion().getIdReservacion()).getBody();
-        logica.crearEnsayoAlquiler(a.getEnsayo().getCliente().getIdCliente(), r, a.getEnsayo().getDescripcion());
+        //Reservacion r=(Reservacion)consultarReservacion(a.getReservacion().getIdReservacion()).getBody();
+        logica.crearEnsayoAlquiler(a.getEnsayo().getCliente().getIdCliente(), a.getReservacion(), a.getEnsayo().getDescripcion());
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
     
@@ -66,17 +66,18 @@ public class RestControladorRegistrarReserva {
         return new ResponseEntity<>(l,HttpStatus.ACCEPTED);
     }
     
-    @RequestMapping(value="/pagar",method = RequestMethod.POST)        
-    public ResponseEntity<?> realizarPago(@RequestBody Pago p) {  
-        HttpStatus status;
-        String message;
+    @RequestMapping(value="/pagoalquiler",method = RequestMethod.POST)        
+    public ResponseEntity<?> pagarAlquiler(@RequestBody Pago p) {  
+        HttpStatus status=HttpStatus.NOT_MODIFIED;
+        String message="";
+        //logica.realizarPago(p.getIdAlquiler(), p.getMonto(), p.getNumtarjeta(), p.getTipoP());
         if(logica.realizarPago(p.getIdAlquiler(), p.getMonto(), p.getNumtarjeta(), p.getTipoP())){
             status=HttpStatus.ACCEPTED;
             message="Solicitud de pago aceptada";
         }else{
             status=HttpStatus.CONFLICT;
-            message="Solicitud de pago rechazada, error de tarjeta de credito o insuficiencia de pago";
-        }        
+            message="Solicitud de pago rechazada, error de tarjeta o insuficiencia de pago";
+        }       
         return new ResponseEntity<>(message,status);
     }
     
@@ -94,6 +95,11 @@ public class RestControladorRegistrarReserva {
     public ResponseEntity<?> registrarCliente(@RequestBody Cliente c) {  
         logica.registrarCliente(c);
         return new ResponseEntity<>(HttpStatus.CREATED);
-    }    
+    }
+    
+    @RequestMapping(value="/alquiler/{idAlquiler}",method = RequestMethod.GET)        
+    public ResponseEntity<?> registrarCliente(@PathVariable int idAlquiler) {  
+        return new ResponseEntity<>(logica.consultarAlquiler(idAlquiler),HttpStatus.CREATED);
+    }
     
 }

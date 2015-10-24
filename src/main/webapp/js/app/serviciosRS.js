@@ -233,11 +233,11 @@
          * @param {type} duracion
          * @returns {unresolved}
          */
-        this.registroReserva = function (idEstablecimiento,idSala, fecha, duracion) {            
+        this.registroReserva = function (idEstablecimiento,idSala, fecha, hora, duracion) {            
             var est = $http.get('rest/establecimientos/'+idEstablecimiento);
             var sala = $http.get('rest/establecimientos/sala/'+idSala);
             sala.establecimiento=est;
-            var reserv = {"idReserva":0,"sala":sala,"fecha":fecha,"tiempo":duracion};
+            var reserv = {"idReserva":0,"sala":sala,"fecha":fecha, "hora":hora,"tiempo":duracion};
             return $http({
                 method: 'POST',
                 url: 'rest/reservacion/registroreserv',

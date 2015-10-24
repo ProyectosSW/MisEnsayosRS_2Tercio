@@ -9,13 +9,16 @@ package edu.eci.cosw.stubs;
  *
  * @author 2090903
  */
-public class Pago {
+public class Pago implements java.io.Serializable{
     
     private int idAlquiler;
     private int monto;
     private String numtarjeta;
     private String tipoP;
 
+    public Pago(){
+        
+    }
     
     public Pago(int idAlquiler, int monto, String numtarjeta, String tipoP){
         this.idAlquiler=idAlquiler;

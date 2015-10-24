@@ -370,6 +370,7 @@ public class Logica {
             if(res.getFecha().equals(r.getFecha()) && res.getHora().getHours()==r.getHora().getHours() && res.getHora().getMinutes()==r.getHora().getMinutes())r=res;
             
         }
+        rr.delete(r.getIdReservacion());
         rr.save(r);
         Alquiler a = new Alquiler((int)ra.count(), e, r, "no pagado", 0, "5%");
         ra.save(a);
@@ -387,11 +388,14 @@ public class Logica {
         boolean b=true;
         PagosStub ps = new PagosStub();
         Alquiler a = ra.findOne(idAlquiler);
-        int deuda = Integer.parseInt(a.getReservacion().getSala().getPrecio());
+        
+        Sala s = rs.salaPorReservacion(a.getReservacion().getIdReservacion());
+        int deuda = Integer.parseInt(s.getPrecio());
         if(deuda>monto){
             b=false;
         }else if(ps.realizarPago(numTarjeta)){
             a.setTipoDePago(tipoP);
+            ra.delete(a.getIdAlquiler());
             ra.save(a);
         }
         return b;
@@ -430,5 +434,9 @@ public class Logica {
     
     public List<Reservacion> consultarReservacionesPorSala(int idSala){
         return rr.reservacionesPorSala(idSala);        
+    }
+    
+    public Alquiler consultarAlquiler(int idAlquiler){
+        return ra.findOne(idAlquiler);
     }
 }
