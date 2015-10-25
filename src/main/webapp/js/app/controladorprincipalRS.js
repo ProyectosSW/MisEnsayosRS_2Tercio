@@ -39,6 +39,7 @@
         //$scope.establecimiento={"idEstablecimiento": 1,"nombre": "nombre","nit": "nit","descripcion": "descripcion","direccion": "direccion","horaInicio": 700,"horaCierre": 2000,"multa": 0.0,"localidad": "localidad","telefono": "telefono"};
         $scope.establecimiento={};
         $scope.sala={};
+        $scope.reservacion={};
         $scope.sala.establecimiento={};
         $scope.establecimiento.idEstablecimiento=0;
         $scope.sala.idSala=0;
@@ -78,7 +79,7 @@
                
         $scope.seleccionEstablecimientoASala = function (esta) {
             $scope.seleccion2=true;
-            $scope.sala.establecimiento=esta;   
+            $scope.sala.establecimiento=esta;  
         }
         
         $scope.eleccionRegistro = function (opcion) {
@@ -203,6 +204,38 @@
                 }
             );              
         }        
+        
+        $scope.reservarSala=function(){
+            MisEnsayosRSRestAPI.registroReserva($scope.establecimientoSeleccionado.idEstablecimiento,$scope.salaSeleccion.idSala, $scope.reservacion.fecha, $scope.reservacion.hora, $scope.reservacion.duracion) .then(
+                //promise success
+                function(response){
+                   
+                    
+                },
+                //promise error
+                function(response){
+                    console.log('Unable to get data from REST API:'+response);
+                }
+            );
+        }
+        
+        $scope.opcionSala=function (sala){
+            MisEnsayosRSRestAPI.consultarSala(sala.idSala).then(
+                //promise success
+                function(response){
+                    console.log(response.data);                    
+                    $scope.salaSeleccionNombre=response.data.nombre;
+                    $scope.salaSeleccion=response.data;
+                    $scope.salaSeleccionLlaves=Object.keys(response.data);                    
+                },
+                //promise error
+                function(response){
+                    console.log('Unable to get data from REST API:'+response);
+                }
+            );
+               
+        }
+        
         
         function cargar (){
             MisEnsayosRSRestAPI.consultarTodosEstablecimientos().then(

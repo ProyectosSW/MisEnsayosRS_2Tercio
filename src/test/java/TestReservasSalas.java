@@ -75,7 +75,7 @@ public class TestReservasSalas {
         for(Reservacion rs:l){
             if(rs.getFecha().equals(r.getFecha()))r=rs;
         }
-        
+        r.setIdReservacion(0);
         if(resp)logica.crearEnsayoAlquiler(c.getIdCliente(),r, "ensayaremos mucho");
 
     }

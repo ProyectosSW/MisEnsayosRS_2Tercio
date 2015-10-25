@@ -8,78 +8,112 @@
                                                         <h3>Tour <strong>Dates</strong></h3>
                                                 </div>	
                                                 <div class="wrapper">
-                                                        <article class="grid_4 alpha">
-                                                                <div class="padding-grid-1">
-                                                                        <div class="wrapper img-indent-bot2">
-                                                                                <time class="time time-stule-2" datetime="2011-11-09"> <strong class="text-3">09</strong><strong class="text-4">nov</strong></time>
-                                                                                <div class="extra-wrap">
-                                                                                        <h4 class="indent-top"><a href="#">New York</a></h4>
-                                                                                        Lorem ipsum dolor consctetur 
-                                                                                </div>
-                                                                        </div>
-                                                                        <div class="wrapper img-indent-bot2">
-                                                                                <time class="time time-stule-2" datetime="2011-11-05"> <strong class="text-3">05</strong><strong class="text-4">nov</strong></time>
-                                                                                <div class="extra-wrap">
-                                                                                        <h4 class="indent-top"><a href="#">Los Angeles</a></h4>
-                                                                                        Adipisicing elitdo esmod tempor
-                                                                                </div>
-                                                                        </div>
-                                                                        <div class="wrapper img-indent-bot2">
-                                                                                <time class="time time-stule-2" datetime="2011-11-01"> <strong class="text-3">01</strong><strong class="text-4">nov</strong></time>
-                                                                                <div class="extra-wrap">
-                                                                                        <h4 class="indent-top"><a href="#">San Diego</a></h4>
-                                                                                        Lorem ipsum dolor consctetur 
-                                                                                </div>
-                                                                        </div>
-                                                                        <div class="wrapper img-indent-bot2">
-                                                                                <time class="time time-stule-2" datetime="2011-10-31"> <strong class="text-3">31</strong><strong class="text-4">oct</strong></time>
-                                                                                <div class="extra-wrap">
-                                                                                        <h4 class="indent-top"><a href="#">San Francisco</a></h4>
-                                                                                        Lorem ipsum dolor consctetur 
-                                                                                </div>
-                                                                        </div>
-                                                                        <div class="wrapper img-indent-bot2">
-                                                                                <time class="time time-stule-2" datetime="2011-10-29"> <strong class="text-3">29</strong><strong class="text-4">oct</strong></time>
-                                                                                <div class="extra-wrap">
-                                                                                        <h4 class="indent-top"><a href="#">Washington</a></h4>
-                                                                                        Adipisicing elitdo esmod tempor 
-                                                                                </div>
-                                                                        </div>
+                                                    <div ng-if="seleccion">
+                                                        <div class="padding-grid-1">
+                                                                <h3 class="letter">Establecimiento <strong>{{establecimientoNombre}}</strong></h3>
+                                                        </div>
+                                                        <div class="wrapper p3">
+                                                            <article class="grid_4 alpha">
+                                                                <div class="padding-grid-2">
+                                                                    <div class="wrapper">
+                                                                        <figure class="style-img-2 fleft"><a><img src="images/page2-img2.jpg"  alt=""></a></figure>
+                                                                    </div>
+                                                                </div>
+                                                            </article>                            
+                                                            <article class="grid_8 alpha">
+                                                                <div class="padding-grid-2">
+                                                                    <table class="table table-hover" style="cursor: pointer;">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th>Establecimiento</th>
+                                                                                <th>Infomracion</th>                            
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            <tr ng-repeat="esta in establecimientoSeleccionadoLlaves">
+                                                                                <td>{{ esta}}</td>
+                                                                                <td>{{ establecimientoSeleccionado[esta]}}</td>
+                                                                            </tr> 
+                                                                        </tbody>
+                                                                    </table>     
+                                                                </div>
+                                                            </article>
+                                                        </div>                        
+                                                        <div class="padding-grid-1">
+                                                                <h3 class="letter">Informacion de <strong>{{salaSeleccionNombre}}</strong></h3>
+                                                        </div>                                                    
+                                                        <div class="wrapper p3">
+                                                            <article class="grid_4 alpha">
+                                                                <div class="padding-grid-2">
+                                                                    <div class="wrapper">
+                                                                        <figure class="style-img-2 fleft"><a><img src="images/page2-img2.jpg"  alt=""></a></figure>
+                                                                    </div>
+                                                                </div>
+                                                            </article>                            
+                                                            <article class="grid_8 alpha">
+                                                                <div class="padding-grid-2">
+                                                                    <table class="table table-hover" style="cursor: pointer;">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th>Sala</th>
+                                                                                <th>Infomracion</th>                            
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            <tr ng-repeat="esta in salaSeleccionLlaves">
+                                                                                <td>{{ esta}}</td>
+                                                                                <td>{{ salaSeleccion[esta]}}</td>
+                                                                            </tr> 
+                                                                        </tbody>
+                                                                    </table>                                                                   
+                                                                </div>
+                                                            </article>
+                                                        </div>
+                                                        <div >
+                                                            <div class="padding-grid-1">
+                                                                    <h3 class="letter">Datos <strong>Reservacion</strong></h3>
+                                                            </div>
+                                                            <div class="wrapper p3">
+                                                                <article class="grid_4 alpha">
+                                                                    <div class="padding-grid-2">
                                                                         <div class="wrapper">
-                                                                                <time class="time time-stule-2" datetime="2011-10-24"> <strong class="text-3">24</strong><strong class="text-4">oct</strong></time>
-                                                                                <div class="extra-wrap">
-                                                                                        <h4 class="indent-top"><a href="#">Las Vegas</a></h4>
-                                                                                        Lorem ipsum dolor consctetur  
-                                                                                </div>
+                                                                            <figure class="style-img-2 fleft"><a href="#"><img src="images/page2-img2.jpg"  alt=""></a></figure>
                                                                         </div>
-                                                                </div>
-                                                        </article>
-                                                        <article class="grid_4 omega">
-                                                                <div class="padding-grid-4">
-                                                                        <div class="margin-bot1">
-                                                                                <span class="text-width">Tickets:</span> <span class="inline"><a class="link" href="#">http://demolink.org/Okedo</a></span>
-                                                                                <span class="text-width">Telephone:</span>  <span class="color-1 inline">+1 959 603 6035</span>
+                                                                    </div>
+                                                                    </br>
+                                                                    </br>
+                                                                    <div class="padding-grid-2">
+                                                                        <div class="wrapper">
+                                                                            <figure class="style-img-2 fleft"><a><img src="images/page2-img2.jpg"  alt=""></a></figure>
                                                                         </div>
-                                                                        <div class="margin-bot1">
-                                                                                <span class="text-width">Tickets:</span> <span class="inline"><a class="link" href="#">http://demolink.org/Okedo</a></span>
-                                                                                <span class="text-width">Telephone:</span>  <span class="color-1 inline">+1 959 603 6035</span>
-                                                                        </div>
-                                                                        <div class="margin-bot1">
-                                                                                <span class="text-width">Tickets:</span> <span class="inline"><a class="link" href="#">http://demolink.org/Okedo</a></span>
-                                                                                <span class="text-width">Telephone:</span>  <span class="color-1 inline">+1 959 603 6035</span>
-                                                                        </div>
-                                                                        <div class="margin-bot1">
-                                                                                <span class="text-width">Tickets:</span> <span class="inline"><a class="link" href="#">http://demolink.org/Okedo</a></span>
-                                                                                <span class="text-width">Telephone:</span>  <span class="color-1 inline">+1 959 603 6035</span>
-                                                                        </div>
-                                                                        <div class="margin-bot1">
-                                                                                <span class="text-width">Tickets:</span> <span class="inline"><a class="link" href="#">http://demolink.org/Okedo</a></span>
-                                                                                <span class="text-width">Telephone:</span>  <span class="color-1 inline">+1 959 603 6035</span>
-                                                                        </div>
-                                                                        <span class="text-width">Tickets:</span> <span class="inline"><a class="link" href="#">http://demolink.org/Okedo</a></span>
-                                                                        <span class="text-width">Telephone:</span>  <span class="color-1 inline">+1 959 603 6035</span>
-                                                                </div>
-                                                        </article>
+                                                                    </div>                              
+                                                                </article>  
+                                                                <article class="grid_8 alpha">
+                                                                    <div class="padding-grid-2">
+                                                                        <form>
+                                                                            <div class="form-group">
+                                                                                <label for="exampleInputName2">Fecha {{reservacion.fecha}}</label>
+                                                                                <input type="date" class="form-control" ng-model="reservacion.fecha" placeholder="fecha" required>
+                                                                            </div>
+                                                                            <div class="form-group">
+                                                                                <label for="exampleInputName2">Hora {{reservacion.hora}}</label>
+                                                                                <input type="time" class="form-control" ng-model="reservacion.hora" placeholder="hora" required>
+                                                                            </div>                                       
+                                                                            <div class="form-group">
+                                                                                <label for="exampleInputName2">Duracion {{reservacion.duracion}}</label>
+                                                                                <input type="number" min="2" max="6" class="form-control" ng-model="reservacion.duracion" placeholder="duracion" required>
+                                                                            </div>
+
+                                                                            
+                                                                            <button type="submit" class="btn btn-info" ng-click="reservarSala()">Reservar</button>
+                                                                        </form>                                    
+                                                                    </div>
+                                                                </article>
+                                                            </div>
+                                                        </div>
+
+                                                                                
+                                                    </div>                                                        
                                                 </div>
                                         </div>
                                         <article class="grid_4 alpha">
