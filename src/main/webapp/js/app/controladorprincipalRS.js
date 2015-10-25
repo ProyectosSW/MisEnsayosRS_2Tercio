@@ -61,6 +61,7 @@
                     $scope.usuario=response.data;
                     $scope.usuariollaves=Object.keys(response.data);
                     $scope.usuarioAutenticado=true;
+                    
                     if(logeo.length<10){
                         $scope.seleccionAdministrador=true;
                         $scope.seleccionCliente=false;
@@ -79,6 +80,19 @@
                                 console.log('Unable to get data from REST API:'+response);
                             }
                         );
+                        MisEnsayosRSRestAPI.EstablecimientosEnsayados($scope.identificacion).then(
+                        //promise success
+                        function(response){
+                            console.log(response.data);                    
+                            $scope.listaensayos=response.data;
+
+                        },
+                        //promise error
+                        function(response){
+                            console.log('Unable to get data from REST API:'+response);
+                        }
+                    );
+                
                     }
                 },
                 //promise error
@@ -299,6 +313,22 @@
                
         }
         
+         $scope.calificar=function (calificacion, ensayo2){
+           alert("Solicitus de calificacion");
+            MisEnsayosRSRestAPI.registrarCalificacionEstablecimiento(ensayo2.idEnsayo,$scope.usuario.idCliente, $scope.usuario.nombre, $scope.usuario.descripcion1, ensayo2.descripcion, null, 0, calificacion, ensayo2.descripcion2).then(
+                //promise success
+                function(response){
+                    console.log(response.data);                    
+                    alert("La califiacion se ha registrado exitosamente");
+                },
+                //promise error
+                function(response){
+                    console.log('Unable to get data from REST API:'+response);
+                    alert("No se ha podido registrar la califiacion");
+                }
+            );
+            
+        }
         
         function cargar (){
 

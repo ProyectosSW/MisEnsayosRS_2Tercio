@@ -17,9 +17,13 @@ import org.springframework.data.repository.query.Param;
  * @author estudiante
  */
 public interface RepositorioEnsayo extends CrudRepository<Ensayo, Integer>{
-    @Query("select t from Establecimiento e join e.instrumentos r join r.ensayo t where t.cliente.idCliente=:clientex AND (select c from Calificacion c where c.calificacionEstablecimiento>0) IS NULL")
+    //@Query("select t from Establecimiento e join e.instrumentos r join r.ensayo t where t.cliente.idCliente=:clientex AND (select c from Calificacion c where c.calificacionEstablecimiento>0) IS NULL")
+    @Query("select e from Ensayo e where e.cliente.idCliente=:clientex")
     public List<Ensayo> EstablecimientosEnsayados(@Param("clientex") int idCliente);
     
-    @Query("select t from Establecimiento e join e.instrumentos r join r.ensayo t where t.idEnsayo=:ensayox AND t.cliente.idCliente=:clientex AND (select c from Calificacion c where c.calificacionEstablecimiento>0) IS NULL")
+    @Query("select t from Ensayo t where t.idEnsayo=:ensayox AND t.cliente.idCliente=:clientex ")
     public Ensayo ConsultarEnsayosDeCliente(@Param("clientex") int idCliente, @Param("ensayox") int idEnsayo);
+    
+   //@Query("select e from Ensayo e where e.cliente.idCliente=:clientex")
+   //public List<Ensayo> EstablecimientosEnsayadosPrueba(@Param("clientex") int idCliente);
 }

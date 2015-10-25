@@ -28,7 +28,7 @@
                                                     <article class="grid_4 alpha">
                                                         <div class="padding-grid-2">
                                                             <div class="wrapper">
-                                                                <figure class="style-img-2 fleft"><a><img src="images/page2-img2.jpg"  alt=""></a></figure>
+                                                                <figure class="style-img-2 fleft"><a><img src="images/page2-img1.jpg"  alt=""></a></figure>
                                                             </div>
                                                         </div>
                                                     </article>                            
@@ -121,45 +121,60 @@
                                             
                                             <div ng-if="seleccionCliente">
                                                 <div>
+                                                    <article class="grid_4 alpha">
+                                                        <div class="padding-grid-2">
+                                                            <div class="wrapper">
+                                                                <figure class="style-img-2 fleft"><a><img src="images/page2-img2.jpg"  alt=""></a></figure>
+                                                            </div>
+                                                        </div>
+                                                        </br>
+                                                        </br>
+                                                        <div class="padding-grid-2">
+                                                            <div class="wrapper">
+                                                                <figure class="style-img-2 fleft"><a><img src="images/page2-img1.jpg"  alt=""></a></figure>
+                                                            </div>
+                                                        </div>
+                                                        </br>
+                                                        </br>
+                                                        <div class="padding-grid-2">
+                                                            <div class="wrapper">
+                                                                <figure class="style-img-2 fleft"><a><img src="images/page2-img2.jpg"  alt=""></a></figure>
+                                                            </div>
+                                                        </div>
+                                                    </article>
                                                     <article class="grid_8 alpha">
                                                         <div class="padding-grid-2">
                                                             <table class="table table-hover" style="cursor: pointer;">
                                                                 <thead>
                                                                     <tr>
-                                                                        <th>Nombre del establecimiento</th>
-                                                                        <th>Fecha</th>                            
+                                                                        <th>Ensayo</th>
+                                                                        <th>Descripcion</th>                            
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
-                                                                    <tr ng-repeat="esta in reservasClienteLista">
-                                                                        <td>{{ esta.fecha}}</td>
-                                                                        <td>{{ esta.fecha}}</td>
+                                                                    <tr ng-repeat="esta in listaensayos">
+                                                                        <td>{{ esta.idEnsayo}}</td>
+                                                                        <td>{{ esta.descripcion}}</td>
+                                                                        <td>
+                                                                                <input type="text" class="form-control" ng-model="esta.descripcion2" placeholder="Descripcion de calificacion" required>
+                                                                                <div class="ec-stars-wrapper">
+                                                                                    <a ng-click="calificar(1, esta)"  title="Votar con 1 estrella">&#9733;</a>
+                                                                                    <a ng-click="calificar(2, esta)"  title="Votar con 2 estrellas">&#9733;</a>
+                                                                                    <a ng-click="calificar(3, esta)"  title="Votar con 3 estrellas">&#9733;</a>
+                                                                                    <a ng-click="calificar(4, esta)"  title="Votar con 4 estrellas">&#9733;</a>
+                                                                                    <a ng-click="calificar(5, esta)"  title="Votar con 5 estrellas">&#9733;</a>
+
+                                                                                </div>
+                                                                        </td>
                                                                     </tr> 
                                                                 </tbody>
                                                             </table>   
                                                         </div>
                                                     </article>                                                    
                                                 </div>
-                                                
-                                                <div class="padding-grid-2">
-                                                    <br>
-                                                    <h3 class="letter">Califica <strong>El Servicio</strong></h3>
-                                                    <h2 class="letter"><strong>Entre menos estrellas, menor fue la calidad del servicio</strong></h2>
-                                                    <br>
-                                                    <form>
-                                                    <div class="ec-stars-wrapper">
-                                                            <a href="#" data-value="1" title="Votar con 1 estrella">&#9733;</a>
-                                                            <a href="#" data-value="2" title="Votar con 2 estrellas">&#9733;</a>
-                                                            <a href="#" data-value="3" title="Votar con 3 estrellas">&#9733;</a>
-                                                            <a href="#" data-value="4" title="Votar con 4 estrellas">&#9733;</a>
-                                                            <a href="#" data-value="5" title="Votar con 5 estrellas">&#9733;</a>
-                                                    </div>
-                                                    </form>
-                                                    </br>
-                                                </div>                                                
+                               
                                             </div>
-                                            
-
+ 
                                 </div>
                         </div>
                 </div>

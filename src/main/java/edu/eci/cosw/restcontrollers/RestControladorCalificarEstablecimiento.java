@@ -41,9 +41,9 @@ public class RestControladorCalificarEstablecimiento {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
     
-    @RequestMapping(value="/ensayo/{idEnsayo}",method = RequestMethod.GET)        
-    public Ensayo consultarTodosEstablecimientos(@PathVariable int idEnsayo) {  
-        return logica.consultarEnsayo(idEnsayo);
+    @RequestMapping(value="/ensayo/{idensayo}",method = RequestMethod.GET)        
+    public Ensayo consultarTodosEstablecimientos(@PathVariable int idensayo) {  
+        return logica.consultarEnsayo(idensayo);
     }
     
     
@@ -54,4 +54,10 @@ public class RestControladorCalificarEstablecimiento {
         Calificacion cali= new Calificacion(1, ensay, 2, 5, "Suenan mal y cagan el establecimiento");
         return cali;
     }
+    
+     @RequestMapping(value="/ensayo/cliente/{idcliente}",method = RequestMethod.GET)
+     public List<Ensayo> EstablecimientosEnsayados(@PathVariable int idcliente){
+        return logica.EstablecimientosEnsayados(idcliente);
+    }
+     
 }

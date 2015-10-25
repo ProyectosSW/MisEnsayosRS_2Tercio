@@ -295,6 +295,38 @@
             });            
         };        
         
+        this.EstablecimientosEnsayados = function (idCliente) {            
+            return $http({
+                method: 'GET',
+                url: 'rest/calificacion/ensayo/cliente/'+idCliente,
+            });            
+        };
+        this.registrarCalificacionEstablecimiento = function (idEnsayo,idCliente, nombre, descripcion1, descripcion2, fechaCancelacion, calificacionBanda, calificacionEstablecimiento, descripcion3){
+            var cali={
+                        "idCalificacion": idEnsayo,
+                        "ensayo": {
+                          "idEnsayo": idEnsayo,
+                          "cliente": {
+                            "idCliente": idCliente,
+                            "nombre": nombre,
+                            "descripcion": descripcion1,
+                            "ensayos": []
+                          },
+                          "descripcion": descripcion2,
+                          "fechaCancelacion": fechaCancelacion,
+                          
+                        },
+                        "calificacionBanda": calificacionBanda,
+                        "calificacionEstablecimiento": calificacionEstablecimiento,
+                        "descripcion": descripcion3
+                     }
+            return $http({
+                method: 'POST',
+                url: 'rest/calificacion/',
+                data:cali
+            });
+            
+        }
     }
             
     );

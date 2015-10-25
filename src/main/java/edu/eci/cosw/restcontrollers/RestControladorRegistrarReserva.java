@@ -8,10 +8,14 @@ package edu.eci.cosw.restcontrollers;
 import edu.eci.cosw.logica.Logica;
 import edu.eci.cosw.persistencia.Alquiler;
 import edu.eci.cosw.persistencia.Cliente;
+import edu.eci.cosw.persistencia.Establecimiento;
+import edu.eci.cosw.persistencia.Instrumento;
 import edu.eci.cosw.persistencia.Reservacion;
+import edu.eci.cosw.persistencia.Sala;
 import edu.eci.cosw.stubs.Pago;
 import java.sql.Time;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -61,9 +65,16 @@ public class RestControladorRegistrarReserva {
     }
     
     @RequestMapping(value="/clientereserva/{idCliente}",method = RequestMethod.GET)
-    public ResponseEntity<?> consultarReservasCliente(@PathVariable int idCliente) { 
-        List l=logica.consultarReservasPorCliente(idCliente);
-        return new ResponseEntity<>(l,HttpStatus.ACCEPTED);
+    public List<Reservacion> consultarReservasCliente(@PathVariable int idCliente) { 
+        return logica.consultarReservasPorCliente(idCliente);
+    }
+    
+    @RequestMapping(value="/prueba",method = RequestMethod.GET)
+    public Reservacion prueba() { 
+        Establecimiento tds = new Establecimiento(1, "nombnre", "123.123.123-1", "dsfdssdhfsfd", "dfdff-- -- - -", 123, 2345, 32.4, "dsfdssdffsdfsd", "35535345", new HashSet<Instrumento> (), new HashSet<Sala> ());
+        Sala s =new Sala(2, tds, "dsfdsfds", "sadsaasdasdas", "dffsdfdss", new HashSet<Reservacion>());
+        Reservacion d = new Reservacion(1, s, new Date(234), new Time(5), 43, new HashSet<Alquiler>());
+        return d;
     }
     
     @RequestMapping(value="/pagoalquiler",method = RequestMethod.POST)        

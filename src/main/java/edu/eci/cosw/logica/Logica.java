@@ -38,6 +38,7 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 
 /**
  *
@@ -332,13 +333,14 @@ public class Logica {
      */
     public void calificarEstablecimiento(int idCliente,int idEnsayo, int calificacion, String descripcion){
         Ensayo encal= es.ConsultarEnsayosDeCliente(idCliente, idEnsayo);
+        System.out.println("\n\n\n\n\n\n\n\n\n\n\n"+idCliente+""+idEnsayo);
         Calificacion califi=consultarCalificacionDeEnsayo(encal.getIdEnsayo());
         if(califi!=null){
                     califi.setCalificacionEstablecimiento(calificacion);
                     califi.setDescripcion(califi.getDescripcion()+"\n\n"+descripcion);
                     ca.save(califi);
         }else if(califi==null){
-            Calificacion calificaE= new Calificacion(1, encal, 0, calificacion, descripcion);
+            Calificacion calificaE= new Calificacion(idEnsayo, encal, 0, calificacion, descripcion);
             registrarCalificacion(calificaE);
         }
     }
@@ -418,16 +420,36 @@ public class Logica {
     public Reservacion consultarReservacion(int idReserva){
         return rr.reservacionByID(idReserva);
     }
-    
+    /**
+     * 
+     * @param reserva
+     * @return 
+     */
     public Calificacion consultarCalificacionDeEnsayo(int reserva){
         return ca.consultarCalificacionDeEnsayo(reserva);
     }
-    
+    /**
+     * 
+     * @param idSala
+     * @return 
+     */
     public List<Reservacion> consultarReservacionesPorSala(int idSala){
         return rr.reservacionesPorSala(idSala);        
     }
-    
+    /**
+     * 
+     * @param idAlquiler
+     * @return 
+     */
     public Alquiler consultarAlquiler(int idAlquiler){
         return ra.findOne(idAlquiler);
+    }
+    /**
+     * 
+     * @param idCliente
+     * @return 
+     */
+    public List<Ensayo> EstablecimientosEnsayados(int idCliente){
+        return es.EstablecimientosEnsayados(idCliente);
     }
 }
