@@ -28,9 +28,12 @@
         $scope.seleccion=false;
         $scope.seleccion2=false;
         $scope.seleccionHora=false;
+        $scope.seleccionAdministrador=false;
+        $scope.seleccionCliente=false;
+        $scope.usuarioAutenticado=false;
         
         $scope.opcionEsta=false;
-        $scope.opcionSala=false;
+        $scope.opcionDeSala=false;
         $scope.establecimientoNombre="";
         $scope.establecimientoSeleccionado="";
         $scope.opcionesRegistro=["Registrar establecimiento", "Registrar sala"];
@@ -41,9 +44,82 @@
         $scope.sala={};
         $scope.reservacion={};
         $scope.sala.establecimiento={};
+        $scope.usuario={};
+        $scope.informacion={};
+        $scope.usuariollaves={};        
         $scope.establecimiento.idEstablecimiento=0;
         $scope.sala.idSala=0;
         $scope.sala.nitValidacion="";
+        
+        $scope.cargarInformacion=function (logeo){
+            $scope.identificacion =parseInt(logeo);            
+            logeo=logeo+"";
+            MisEnsayosRSRestAPI.consultarCliente($scope.identificacion).then(
+                //promise success
+                function(response){
+                    console.log(response.data);
+                    $scope.usuario=response.data;
+                    $scope.usuariollaves=Object.keys(response.data);
+                    $scope.usuarioAutenticado=true;
+                    if(logeo.length<10){
+                        $scope.seleccionAdministrador=true;
+                        $scope.seleccionCliente=false;
+                        cargarTodosEstablecimientosSinHabilitar();
+                    }else if(logeo.length==10){
+                        $scope.seleccionCliente=true;
+                        $scope.seleccionAdministrador=false;
+                        MisEnsayosRSRestAPI.reservasCliente($scope.identificacion).then(
+                            //promise success
+                            function(response){
+                                console.log(response.data);                    
+                                $scope.reservasClienteLista=response.data;
+                            },
+                            //promise error
+                            function(response){
+                                console.log('Unable to get data from REST API:'+response);
+                            }
+                        );
+                    }
+                },
+                //promise error
+                function(response){
+                    alert("no se enciasnd");
+                    console.log('Unable to get data from REST API:'+response);
+                }
+            );
+            
+        }
+        cargarTodosEstablecimientosSinHabilitar();
+        function cargarTodosEstablecimientosSinHabilitar(){
+            MisEnsayosRSRestAPI.consultarTodosEstablecimientosSinHabilitar().then(
+                //promise success
+                function(response){
+                    console.log(response.data);                    
+                    $scope.consultarTodosEstablecimientosSinHabilitar=response.data;
+                },
+                //promise error
+                function(response){
+                    console.log('Unable to get data from REST API:'+response);
+                }
+            );        
+        }
+        $scope.habilitarEstablecimiento = function (){
+            MisEnsayosRSRestAPI.habilitarEstablecimiento($scope.establecimientoIdentificaion).then(
+                //promise success
+                function(response){
+                    console.log(response.data);                    
+                    cargar ();
+                    cargarTodosEstablecimientosSinHabilitar();
+                    $scope.seleccion=false;
+                    alert("El establecimiento seleccionado se ha habilitado con exito");
+                },
+                //promise error
+                function(response){
+                    alert("El establecimiento seleccionado NO se ha habilitado");
+                    console.log('Unable to get data from REST API:'+response);
+                }
+            );
+        }        
         
         $scope.seleccionHoraInicio = function () {
             $scope.seleccionHora=true;
@@ -62,20 +138,6 @@
         $scope.alarma = function () {
             alert("alarma");
         }
-        
-        $scope.consultarEstablecimientosporNit=function (){
-            alert($scope.sala.nitValidacion);
-            MisEnsayosRSRestAPI.consultarEstablecimientosporNit($scope.sala.nitValidacion).then(
-                //promise success
-                function(response){
-                    alert(response.data.nit);
-                },
-                //promise error
-                function(response){
-                    console.log('Unable to get data from REST API:'+response);
-                }
-            );              
-        }
                
         $scope.seleccionEstablecimientoASala = function (esta) {
             $scope.seleccion2=true;
@@ -85,17 +147,18 @@
         $scope.eleccionRegistro = function (opcion) {
             if(opcion.toString()==="Registrar establecimiento"){
                 $scope.opcionEsta=true;
-                $scope.opcionSala=false;                
+                $scope.opcionDeSala=false;                
             }else if(opcion.toString()==="Registrar sala"){
                 $scope.opcionEsta=false;
-                $scope.opcionSala=true;                                
+                $scope.opcionDeSala=true;                                
             }
         };
         
         $scope.consultarSalaPorEstablecimiento=function (esta){
             $scope.seleccion=true;
             $scope.establecimientoNombre=esta.nombre;
-            MisEnsayosRSRestAPI.consultarSalaPorEstablecimiento(esta.nombre).then(
+            $scope.establecimientoIdentificaion=esta.idEstablecimiento;
+            MisEnsayosRSRestAPI.consultarSalaPorEstablecimiento(esta.idEstablecimiento).then(
                 //promise success
                 function(response){
                     console.log(response.data);                    
@@ -123,8 +186,8 @@
                     console.log('Unable to get data from REST API:'+response);
                 }
             );
-    
         }
+        
         cargar ();
         $scope.registrarEstablecimiento = function (){            
             alert("Solicitud de registro de establecimiento");
@@ -238,17 +301,6 @@
         
         
         function cargar (){
-            MisEnsayosRSRestAPI.consultarTodosEstablecimientos().then(
-                //promise success
-                function(response){
-                    console.log(response.data);                    
-                    $scope.todosEstablecimientos=response.data;
-                },
-                //promise error
-                function(response){
-                    console.log('Unable to get data from REST API:'+response);
-                }
-            );
 
             MisEnsayosRSRestAPI.consultarEstablecimientosHabilitados().then(
                 //promise success
@@ -261,21 +313,7 @@
                     console.log('Unable to get data from REST API:'+response);
                 }
             );
-
-            MisEnsayosRSRestAPI.consultarTodosEstablecimientosSinHabilitar().then(
-                //promise success
-                function(response){
-                    console.log(response.data);                    
-                    $scope.consultarTodosEstablecimientosSinHabilitar=response.data;
-                },
-                //promise error
-                function(response){
-                    console.log('Unable to get data from REST API:'+response);
-                }
-            );
         }        
-        
-        
     }
     );
 

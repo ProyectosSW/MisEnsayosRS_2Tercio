@@ -183,8 +183,8 @@ public class Logica {
      * @param nombre del establecimiento a 
      * @throws OperationFailedException encaso de que el NIT no seha valido para habilitar el establecimiento seleccionado 
      */
-    public void habilitarEstablecimiento(String nombre) throws OperationFailedException{
-        Establecimiento e = re.findByNameX(nombre);
+    public void habilitarEstablecimiento(int id) throws OperationFailedException{
+        Establecimiento e = re.findOne(id);
         if(e.getNit().length()>=13){
             e.setNit(e.getNit().substring(0, 13));
             re.save(e);

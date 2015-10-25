@@ -10,6 +10,7 @@ import edu.eci.cosw.logica.Logica;
 import edu.eci.cosw.persistencia.Instrumento;
 import edu.eci.cosw.persistencia.Reservacion;
 import edu.eci.cosw.persistencia.Sala;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import org.springframework.http.HttpStatus;
@@ -72,12 +73,12 @@ public class RestControladorPublicarEstablecimiento {
      * @param nombre del establecimiento a habilitar
      * @return respuesta a la operacion realizada de habilitacion de establecimiento
      */
-    @RequestMapping(value="/inhabilitados/{nombre}",method = RequestMethod.GET)        
-    public ResponseEntity<?> habilitarEstablecimiento(@PathVariable String nombre) {  
+    @RequestMapping(value="/inhabilitados/{id}",method = RequestMethod.GET)        
+    public ResponseEntity<?> habilitarEstablecimiento(@PathVariable int id) {  
         HttpStatus hs;
         String mens = "";
         try {
-            logica.habilitarEstablecimiento(nombre);
+            logica.habilitarEstablecimiento(id);
             hs=HttpStatus.CREATED;
         } catch (Exception ex) {
             mens=ex.getMessage();
@@ -100,7 +101,7 @@ public class RestControladorPublicarEstablecimiento {
      * @param id
      * @return 
      */
-    @RequestMapping(value="/sala/grupo/{nombre}",method = RequestMethod.GET)        
+    @RequestMapping(value="/sala/grupo/{id}",method = RequestMethod.GET)        
     public List<Sala> consultarSalaPorEstablecimiento(@PathVariable int id) {  
         return logica.consultarSalaPorEstablecimiento(id);
     }      

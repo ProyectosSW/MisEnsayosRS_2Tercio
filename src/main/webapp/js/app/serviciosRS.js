@@ -51,10 +51,10 @@
          * @param {String} nombre del establecimiento a habilitar
          * @returns {HttpStatus} respuesta a la operacion realizada de habilitacion de establecimiento
          */
-        this.habilitarEstablecimiento = function (nombre) {            
+        this.habilitarEstablecimiento = function (id) {            
             return $http({
                 method: 'GET',
-                url: 'rest/establecimientos/inhabilitados/'+nombre
+                url: 'rest/establecimientos/inhabilitados/'+id
             });            
         };        
         
@@ -222,7 +222,7 @@
         this.reservasCliente = function (clienteid) {            
             return $http({
                 method: 'GET',
-                url: 'rest/reservacion/clientereserva/cliente/'+clienteid
+                url: 'rest/reservacion/clientereserva/'+clienteid
             });            
         };
         
@@ -287,6 +287,14 @@
                 data:cliente
             });            
         };
+        
+        this.consultarCliente = function (idCliente) {            
+            return $http({
+                method: 'GET',
+                url: 'rest/reservacion/cliente/'+idCliente,
+            });            
+        };        
+        
     }
             
     );

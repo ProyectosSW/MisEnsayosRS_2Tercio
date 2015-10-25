@@ -27,15 +27,18 @@
                                             </thead>
                                             <tbody>
                                                 <tr ng-repeat="esta in establecimientosHabilitados" ng-click="consultarSalaPorEstablecimiento(esta)">
-                                                    <td>{{ esta.nombre}}</td>
-                                                    <td>{{ esta.localidad}}</td>
+                                                    <a href="#salas">
+                                                        <td>{{ esta.nombre}}</td>
+                                                        <td>{{ esta.localidad}}</td>
+                                                    </a>
                                                 </tr> 
                                             </tbody>
                                         </table>                                                                    
                                     </div>
                                 </article>
                             </div>
-                        </div>    
+                        </div>
+                        
                         <div ng-if="seleccion">
                             <div class="padding-grid-1">
                                     <h3 class="letter">Establecimiento <strong>{{establecimientoNombre}}</strong></h3>
@@ -67,9 +70,6 @@
                                     </div>
                                 </article>
                             </div>                        
-
-
-
                             <div class="padding-grid-1">
                                     <h3 class="letter">Salas de <strong>{{establecimientoNombre}}</strong></h3>
                             </div>                                                    
@@ -104,6 +104,7 @@
                                     </div>
                                 </article>
                             </div>                        
+                        
                         </div>
 
                     </div>
