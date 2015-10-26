@@ -31,6 +31,7 @@ public class Establecimiento  implements java.io.Serializable {
      private double multa;
      private String localidad;
      private String telefono;
+     private String cuenta;
      private Set<Instrumento> instrumentos = new HashSet(0);
      private Set<Sala> salas = new HashSet(0);
 
@@ -38,7 +39,7 @@ public class Establecimiento  implements java.io.Serializable {
     }
 
 	
-    public Establecimiento(int idEstablecimiento, String nombre, String nit, String direccion, int horaInicio, int horaCierre, double multa, String localidad, String telefono) {
+    public Establecimiento(int idEstablecimiento, String nombre, String nit, String direccion, int horaInicio, int horaCierre, double multa, String localidad, String telefono, String cuenta) {
         this.idEstablecimiento = idEstablecimiento;
         this.nombre = nombre;
         this.nit = nit;
@@ -48,8 +49,9 @@ public class Establecimiento  implements java.io.Serializable {
         this.multa = multa;
         this.localidad = localidad;
         this.telefono = telefono;
+        this.cuenta = cuenta;
     }
-    public Establecimiento(int idEstablecimiento, String nombre, String nit, String descripcion, String direccion, int horaInicio, int horaCierre, double multa, String localidad, String telefono, Set<Instrumento> instrumentos, Set<Sala> salas) {
+    public Establecimiento(int idEstablecimiento, String nombre, String nit, String descripcion, String direccion, int horaInicio, int horaCierre, double multa, String localidad, String telefono, String cuenta, Set<Instrumento> instrumentos, Set<Sala> salas) {
        this.idEstablecimiento = idEstablecimiento;
        this.nombre = nombre;
        this.nit = nit;
@@ -62,6 +64,7 @@ public class Establecimiento  implements java.io.Serializable {
        this.telefono = telefono;
        this.instrumentos = instrumentos;
        this.salas = salas;
+       this.cuenta = cuenta;
     }
    
      @Id 
@@ -165,6 +168,15 @@ public class Establecimiento  implements java.io.Serializable {
     public void setTelefono(String telefono) {
         this.telefono = telefono;
     }
+    
+    @Column(name="Cuenta", nullable=false, length=100)
+    public String getCuenta() {
+        return this.cuenta;
+    }
+    
+    public void setCuenta(String cuenta) {
+        this.cuenta = cuenta;
+    }    
 
 @OneToMany(fetch=FetchType.LAZY, mappedBy="establecimiento")
     public Set<Instrumento> getInstrumentos() {

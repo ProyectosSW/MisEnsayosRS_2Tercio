@@ -189,6 +189,7 @@
                     $scope.establecimientoSeleccionado=new Object();
                     delete response.data.idEstablecimiento;
                     delete response.data.nit;
+                    delete response.data.cuenta;
                     delete response.data.instrumentos;
                     delete response.data.salas;
                     $scope.establecimientoSeleccionado=response.data;
@@ -210,19 +211,19 @@
                 function(response){
                     console.log(response.data);                    
                     $scope.establecimiento.idEstablecimiento=response.data+1;
-                    MisEnsayosRSRestAPI.registrarEstablecimiento($scope.establecimiento.idEstablecimiento, $scope.establecimiento.nombre, $scope.establecimiento.nit, $scope.establecimiento.descripcion, $scope.establecimiento.direccion, $scope.establecimiento.horaInicio, $scope.establecimiento.horaCierre, $scope.establecimiento.multa, $scope.establecimiento.localidad, $scope.establecimiento.telefono).then(
+                    MisEnsayosRSRestAPI.registrarEstablecimiento($scope.establecimiento.idEstablecimiento, $scope.establecimiento.nombre, $scope.establecimiento.nit, $scope.establecimiento.descripcion, $scope.establecimiento.direccion, $scope.establecimiento.horaInicio, $scope.establecimiento.horaCierre, $scope.establecimiento.multa, $scope.establecimiento.localidad, $scope.establecimiento.telefono, $scope.establecimiento.cuenta).then(
                         //promise success
                         function(response){
                             console.log(response.data);
                             $scope.establecimiento={}
                             cargar ();
-                            alert("El registro del establecmiento "+$scope.establecimiento.nombre+" fue exitoso");
+                            alert("El registro del establecmiento fue exitoso");
                         },
                         //promise error
                         function(response){
                             $scope.establecimiento={}
                             cargar ();
-                            alert("El registro del establecmiento "+$scope.establecimiento.nombre+" no se pudo efectuar debido a errores en los datos enviados");
+                            alert("El registro del establecmiento no se pudo efectuar debido a errores en los datos enviados");
                             console.log('Unable to get data from REST API:'+response);
                         }
                     );                            
@@ -247,21 +248,21 @@
                             function(response){
                                 console.log(response.data);                    
                                 $scope.sala.idSala=response.data+100;
-                                MisEnsayosRSRestAPI.registrarSala($scope.sala.idSala, $scope.sala.establecimiento.idEstablecimiento, $scope.sala.establecimiento.nombreEstablecimiento, $scope.sala.establecimiento.nit, $scope.sala.establecimiento.descripcionEstablecimiento, $scope.sala.establecimiento.direccion, $scope.sala.establecimiento.horaInicio, $scope.sala.establecimiento.horaCierre, $scope.sala.establecimiento.multa, $scope.sala.establecimiento.localidad, $scope.sala.establecimiento.telefono, $scope.sala.precio, $scope.sala.descripcion, $scope.sala.nombre).then(
+                                MisEnsayosRSRestAPI.registrarSala($scope.sala.idSala, $scope.sala.establecimiento.idEstablecimiento, $scope.sala.establecimiento.nombreEstablecimiento, $scope.sala.establecimiento.nit, $scope.sala.establecimiento.descripcionEstablecimiento, $scope.sala.establecimiento.direccion, $scope.sala.establecimiento.horaInicio, $scope.sala.establecimiento.horaCierre, $scope.sala.establecimiento.multa, $scope.sala.establecimiento.localidad, $scope.sala.establecimiento.telefono, $scope.sala.establecimiento.cuenta, $scope.sala.precio, $scope.sala.descripcion, $scope.sala.nombre).then(
                                     //promise success
                                     function(response){
                                         console.log(response.data);                    
                                         $scope.sala={};
                                         $scope.sala.establecimiento={};
                                         cargar ();
-                                        alert("El registro de la sala "+$scope.sala.nombre+"fue exitoso");
+                                        alert("El registro de la sala fue exitoso");
                                     },
                                     //promise error
                                     function(response){
                                         $scope.sala={};
                                         $scope.sala.establecimiento={};                                        
                                         cargar ();
-                                        alert("El registro de la sala "+$scope.sala.nombre+" no se pudo efectuar debido a errores en los datos enviados");
+                                        alert("El registro de la sala no se pudo efectuar debido a errores en los datos enviados");
                                         console.log('Unable to get data from REST API:'+response);
                                     }
                                 );

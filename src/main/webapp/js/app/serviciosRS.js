@@ -117,7 +117,7 @@
          * @param {String} telefono
          * @returns {HttpStatus} respuesta a la operacion realizada de registro de establecimiento
          */
-        this.registrarEstablecimiento = function (idEstablecimiento, nombre, nit, descripcion, direccion, horaInicio, horaCierre, multa, localidad, telefono) {            
+        this.registrarEstablecimiento = function (idEstablecimiento, nombre, nit, descripcion, direccion, horaInicio, horaCierre, multa, localidad, telefono, cuenta) {            
             return $http({
                 method: 'POST',
                 url: 'rest/establecimientos/',
@@ -132,6 +132,7 @@
                             "multa": multa,
                             "localidad": localidad,
                             "telefono": telefono,
+                            "cuenta": telefono,
                             "instrumentos": [],
                             "salas": []
                         }
@@ -157,7 +158,7 @@
          * @param {String} nombre de la sala
          * @returns {Http}
          */
-        this.registrarSala = function (idSala, idEstablecimiento, nombreEstablecimiento, nit, descripcionEstablecimiento, direccion, horaInicio, horaCierre, multa, localidad, telefono, precio, descripcion, nombre) {            
+        this.registrarSala = function (idSala, idEstablecimiento, nombreEstablecimiento, nit, descripcionEstablecimiento, direccion, horaInicio, horaCierre, multa, localidad, telefono, cuenta, precio, descripcion, nombre) {            
             return $http({
                 method: 'POST',
                 url: 'rest/establecimientos/sala/',
@@ -174,6 +175,7 @@
                                 "multa": multa,
                                 "localidad": localidad,
                                 "telefono": telefono,
+                                "cuenta": cuenta,
                                 "instrumentos": [],
                                 "salas": []
                             },

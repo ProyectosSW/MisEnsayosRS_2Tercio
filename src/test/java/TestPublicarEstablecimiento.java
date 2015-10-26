@@ -39,7 +39,7 @@ public class TestPublicarEstablecimiento {
         int limite=500;
         ArrayList<Establecimiento> listaEsta = new ArrayList<>();
         for(int i=400; i<limite; i++){
-            Establecimiento a = new Establecimiento(i, "nombre"+i, i+".123.123-1", "Autonorte"+i, 700, 1800, 2.0,"Puente Aranda", "1234567890");
+            Establecimiento a = new Establecimiento(i, "nombre"+i, i+".123.123-1", "Autonorte"+i, 700, 1800, 2.0,"Puente Aranda", "1234567890", "34523456435454423439");
             listaEsta.add(a);
             logica.registrarEstablecimiento(a);
         }
@@ -65,7 +65,7 @@ public class TestPublicarEstablecimiento {
         int limite=100;
         ArrayList<Establecimiento> listaEsta = new ArrayList<>();
         for(int i=50; i<limite; i++){
-            Establecimiento a = new Establecimiento(i, "nombre"+i, i+"3.123.123-1 sin revisar", "Autonorte"+i, 700, 1800, 2.0,"Puente Aranda", "1234567890");
+            Establecimiento a = new Establecimiento(i, "nombre"+i, i+"3.123.123-1 sin revisar", "Autonorte"+i, 700, 1800, 2.0,"Puente Aranda", "1234567890", "34329084392084320939");
             listaEsta.add(a);
             logica.registrarEstablecimiento(a);
         }
@@ -95,7 +95,7 @@ public class TestPublicarEstablecimiento {
     public void testRegistrarSala() throws OperationFailedException {
         int limite=5;
         
-        Establecimiento a = new Establecimiento(1, "nombre"+1, "123.123.123-1", "Autonorte"+1, 700, 1800, 2.0,"Puente Aranda", "1234567890");
+        Establecimiento a = new Establecimiento(1, "nombre"+1, "123.123.123-1", "Autonorte"+1, 700, 1800, 2.0,"Puente Aranda", "1234567890", "34323892479823745600");
         logica.registrarEstablecimiento(a);
 
         ArrayList<Sala> listaSala = new ArrayList<>();
