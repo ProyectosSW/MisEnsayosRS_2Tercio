@@ -46,11 +46,16 @@
         $scope.reservacion={};
         $scope.sala.establecimiento={};
         $scope.usuario={};
+        $scope.cliente={};
         $scope.informacion={};
+        $scope.ensayo={};
         $scope.usuariollaves={};        
         $scope.establecimiento.idEstablecimiento=0;
         $scope.sala.idSala=0;
         $scope.sala.nitValidacion="";
+        $scope.cliente.idCliente=0;
+        $scope.ensayo.descripcion="";
+        
         
         $scope.cargarInformacion=function (logeo){
             $scope.identificacion =parseInt(logeo);            
@@ -171,7 +176,12 @@
         
         $scope.opcionSala=function (esta){
             $scope.salaRese=esta.idSala;
-        }
+            delete esta.establecimiento;
+            delete esta.reservacions;
+            delete esta.$$hashKey;
+            $scope.salaResecomnte=esta;
+            $scope.salaReseLLaves=Object.keys(esta);
+        };
         
         $scope.consultarSalaPorEstablecimiento=function (esta){
             $scope.seleccion=true;
@@ -289,16 +299,34 @@
         }        
         
         $scope.registroAlquiler=function(){
-            MisEnsayosRSRestAPI.alquilerCliente($scope.cliente.idCliente,$scope.identificaionReserva,$scope.ensayo.descripcion).then(
+            //MisEnsayosRSRestAPI.alquilerCliente($scope.cliente.idCliente,$scope.identificaionReserva,$scope.ensayo.descripcion).then(
+                MisEnsayosRSRestAPI.consultarCliente($scope.usuario.idCliente).then(
                 //promise success
                 function(response){
-                    alert("El alquiler se ha logrado exitosamente");  
+                    $scope.cliente=response.data;
+                    
+                    MisEnsayosRSRestAPI.consultarReserva($scope.identificaionReserva).then(
+                            //promise success
+                            function(response){
+                                $scope.reservacion=response.data;
+                                
+                                MisEnsayosRSRestAPI.alquilerCliente($scope.cliente.idCliente, $scope.identificaionReserva, $scope.reservacion.fecha, $scope.reservacion.duracion, $scope.reservacion.hora, $scope.identificaionReserva,$scope.ensayo.descripcion).then(
+                                        function(response){
+                                            alert("Se ha creado satisfactoriamente el ensayo nuevo para el cliente " + $scope.cliente.nombre);
+                                        },
+                                        function(response){
+                                            alert("no creo nada :(")
+                                        });
+                                    },
+                            function(response){
+                                
+                            }
+                    );
                 },
                 //promise error
                 function(response){
-                    console.log('Unable to get data from REST API:'+response);
-                }
-            );
+                                
+                });
         }
         
         $scope.reservarSala=function(){
@@ -314,8 +342,6 @@
                                 //promise success
                                 function(response){
                                     alert("La reservacion se ha logrado exitosamente");
-                                    alert(response.data);
-                                    alert(JSON.stringify(response.data));
                                     $scope.identificaionReserva=response.data;
                                     $scope.habilitarAlquiler=true;
                                 },

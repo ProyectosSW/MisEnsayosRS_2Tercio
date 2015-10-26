@@ -237,8 +237,8 @@
             return $http({
                 method:'GET',
                 url:'rest/reservacion/'+idReservacion
-            })
-        }        
+            });
+        };        
         
         /**
          * 
@@ -290,15 +290,56 @@
          * @param {type} descripcion
          * @returns {unresolved}
          */
-        this.alquilerCliente = function (idCliente, idReserva, descripcion) {      
-            var cliente = $http.get('/rest/reservacion/cliente/'+idCliente);
-            var reserva = $http.get('rest/reservacion/'+idReserva);
-            var ensayo={"idEnsayo":1,"cliente":cliente,"descripcion":descripcion,"fechaCancelacion":"2001-12-12"}
-            var alq = {"idAlquiler":1,"ensayo":ensayo,"reservacion":reserva,"tipoDePago":null,"valorMulta":0,"captacion":0};
+        this.alquilerCliente = function (idCliente, idReserva, fecha,tiempo,hora, descripcion) {      
             return $http({
                 method: 'POST',
                 url: 'rest/reservacion/alquilercliente',
-                data:alq
+                data:{
+                        "idAlquiler":1,
+                        "ensayo":{
+                            "idEnsayo":1,
+                            "cliente":{
+                                "idCliente":idCliente,
+                                "nombre":"ORCA",
+                                "descripcion":"primo de delfines",
+                                "ensayos":[]
+                            },
+                            "descripcion":descripcion,
+                            "fechaCancelacion":null,
+                            "calificacions":[],
+                            "instrumentos":[],
+                            "alquilers":[]
+                        },
+                        "reservacion":{
+                            "idReservacion":idReserva,
+                            "fecha":fecha,
+                            "tiempo":tiempo,
+                            "hora":hora,
+                            "sala":{
+                                "idSala":10,
+                                "establecimiento":{
+                                    "idEstablecimiento":1,
+                                    "nombre":"ssss",
+                                    "nit":"123456789",
+                                    "direccion":"calle falsa 123",
+                                    "horaInicio":1200,
+                                    "horaCierre":1700,
+                                    "multa":0,
+                                    "localidad":"fontibon",
+                                    "telefono":1234567,
+                                    "instrumentos":[],
+                                    "salas":[]
+                                },
+                                "precio":"30000",
+                                "descripcion":"sala de orcas",
+                                "nombre":"sala de orcas"
+                            },
+                            "alquilers":[]
+                        },
+                        "tipoDePago":"ninguno",
+                        "valorMulta":0,
+                        "captacion":"5%"
+                    }
             });            
         };
         /**
@@ -330,7 +371,7 @@
         this.consultarCliente = function (idCliente) {            
             return $http({
                 method: 'GET',
-                url: 'rest/reservacion/cliente/'+idCliente,
+                url: 'rest/reservacion/cliente/'+idCliente
             });            
         };        
         

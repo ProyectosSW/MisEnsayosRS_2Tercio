@@ -1,159 +1,142 @@
 <section id="content"><div class="ic">More Website Templates @ TemplateMonster.com. November 21, 2011!</div>
-        <div class="main">
-                <div class="content-padding-2">
-                        <div class="container_12">
-                                <div class="wrapper">
-                                        <div class="grid_8">
-                                                <div class="padding-grid-1">
-                                                        <h3>Tour <strong>Dates</strong></h3>
-                                                </div>	
-                                                <div class="wrapper">
-                                                    <div ng-if="seleccion">
-                                                        <div class="padding-grid-1">
-                                                                <h3 class="letter">Establecimiento <strong>{{establecimientoNombre}}</strong></h3>
-                                                        </div>
-                                                        <div class="wrapper p3">
-                                                            <article class="grid_4 alpha">
-                                                                <div class="padding-grid-2">
-                                                                    <div class="wrapper">
-                                                                        <figure class="style-img-2 fleft"><a><img src="images/page2-img2.jpg"  alt=""></a></figure>
-                                                                    </div>
-                                                                </div>
-                                                            </article>                            
-                                                            <article class="grid_8 alpha">
-                                                                <div class="padding-grid-2">
-                                                                    <table class="table table-hover" style="cursor: pointer;">
-                                                                        <thead>
-                                                                            <tr>
-                                                                                <th>Establecimiento</th>
-                                                                                <th>Infomracion</th>                            
-                                                                            </tr>
-                                                                        </thead>
-                                                                        <tbody>
-                                                                            <tr ng-repeat="esta in establecimientoSeleccionadoLlaves">
-                                                                                <td>{{ esta}}</td>
-                                                                                <td>{{ establecimientoSeleccionado[esta]}}</td>
-                                                                            </tr> 
-                                                                        </tbody>
-                                                                    </table>     
-                                                                </div>
-                                                            </article>
-                                                        </div>                        
-                                                        <div class="padding-grid-1">
-                                                                <h3 class="letter">Informacion de <strong>{{salaSeleccionNombre}}</strong></h3>
-                                                        </div>                                                    
-                                                        <div class="wrapper p3">
-                                                            <article class="grid_4 alpha">
-                                                                <div class="padding-grid-2">
-                                                                    <div class="wrapper">
-                                                                        <figure class="style-img-2 fleft"><a><img src="images/page2-img2.jpg"  alt=""></a></figure>
-                                                                    </div>
-                                                                </div>
-                                                            </article>                            
-                                                            <article class="grid_8 alpha">
-                                                                <div class="padding-grid-2">
-                                                                    <table class="table table-hover" style="cursor: pointer;">
-                                                                        <thead>
-                                                                            <tr>
-                                                                                <th>Nombre de la sala</th>
-                                                                                <th>precio</th>                            
-                                                                                <th>descripcion</th>                            
-                                                                            </tr>
-                                                                        </thead>
-                                                                        <tbody>
-                                                                            <tr ng-repeat="esta in salaPorEstablecimiento">
-                                                                                <td>{{ esta.nombre}}</td>
-                                                                                <td>{{ esta.precio}}</td>
-                                                                                <td>{{ esta.descripcion}}</td>
-                                                                            </tr>
-                                                                        </tbody>
-                                                                    </table>                                                                    
-                                                                </div>
-                                                            </article>
-
-                                                        </div>
-                                                        <div >
-                                                            <div class="padding-grid-1">
-                                                                    <h3 class="letter">Datos <strong>Reservacion</strong></h3>
-                                                            </div>
-                                                            <div class="wrapper p3">
-                                                                <article class="grid_4 alpha">
-                                                                    <div class="padding-grid-2">
-                                                                        <div class="wrapper">
-                                                                            <figure class="style-img-2 fleft"><a href="#"><img src="images/page2-img2.jpg"  alt=""></a></figure>
-                                                                        </div>
-                                                                    </div>
-                                                                    </br>
-                                                                    </br>
-                                                                    <div class="padding-grid-2">
-                                                                        <div class="wrapper">
-                                                                            <figure class="style-img-2 fleft"><a><img src="images/page2-img2.jpg"  alt=""></a></figure>
-                                                                        </div>
-                                                                    </div>                              
-                                                                </article>  
-                                                                <article class="grid_8 alpha">
-                                                                    <div class="padding-grid-2">
-                                                                        <form>
-                                                                            <div class="form-group">
-                                                                                <label for="exampleInputName2">Fecha {{reservacion.fecha}}</label>
-                                                                                <input type="date" class="form-control" ng-model="reservacion.fecha" placeholder="fecha" required>
-                                                                            </div>
-                                                                            <div class="form-group">
-                                                                                <label for="exampleInputName2">Hora {{reservacion.hora}}</label>
-                                                                                <input type="time" class="form-control" ng-model="reservacion.hora" placeholder="hora" required>
-                                                                            </div>                                       
-                                                                            <div class="form-group">
-                                                                                <label for="exampleInputName2">Duracion {{reservacion.duracion}}</label>
-                                                                                <input type="number" min="2" max="6" class="form-control" ng-model="reservacion.duracion" placeholder="duracion" required>
-                                                                            </div>
-                                                                            <button type="submit" class="btn btn-info" ng-click="reservarSala()">Reservar</button>
-                                                                        </form>                                    
-                                                                    </div>
-                                                                </article>
-                                                            </div>
-                                                        </div>
-                                                        <div ng-if="habilitarAlquiler">
-                                                            <div class="padding-grid-1">
-                                                                    <h3 class="letter">Datos <strong>Alquiler</strong></h3>
-                                                            </div>
-                                                            <div class="wrapper p3">
-                                                                <article class="grid_4 alpha">
-                                                                    
-                                                                    </br>
-                                                                    </br>
-                                                                    <div class="padding-grid-2">
-                                                                        <div class="wrapper">
-                                                                            <figure class="style-img-2 fleft"><a><img src="images/page2-img2.jpg"  alt=""></a></figure>
-                                                                        </div>
-                                                                    </div>                              
-                                                                </article>  
-                                                                <article class="grid_8 alpha">
-                                                                    <div class="padding-grid-2">
-                                                                        <form>
-                                                                            <div class="form-group">
-                                                                                <label for="exampleInputName2">Cedula del cliente {{cliente.idCliente}}</label>
-                                                                                <input type="number" class="form-control" ng-model="cliente.idCliente" placeholder="idCliente" required>
-                                                                            </div>
-                                                                            <div class="form-group">
-                                                                                <label for="exampleInputName2">Descripcion del Ensayo {{ensayo.descripcion}}</label>
-                                                                                <input type="text" class="form-control" ng-model="ensayo.descripcion" placeholder="descripcion" required>
-                                                                            </div>
-
-                                                                            
-                                                                            <button type="submit" class="btn btn-info" ng-click="registroAlquiler()" onclick="this.disabled=true">Reservar</button>
-                                                                        </form>                                    
-                                                                    </div>
-                                                                </article>
-                                                                
-                                                            </div>
-                                                        </div>
-                                                                                
-                                                    </div>                                                        
-                                                </div>
-                                        </div>
+    <div class="main">
+        <div class="content-padding-2">
+            <div class="container_12">
+                <div class="wrapper">
+                    <div class="grid_12">
+                        <div class="wrapper">
+                            <div ng-if="seleccion">
+                                <div class="padding-grid-1">
+                                        <h3>Reservacion y<strong> Alquiler</strong></h3>
+                                </div>	                                                        
+                                <div class="padding-grid-1">
+                                        <h3 class="letter">Establecimiento <strong>{{establecimientoNombre}}</strong></h3>
                                 </div>
+                                <div class="wrapper p3">
+                                    <article class="grid_4 alpha">
+                                        <div class="padding-grid-2">
+                                            <div class="wrapper">
+                                                <figure class="style-img-2 fleft"><a><img src="images/page2-img2.jpg"  alt=""></a></figure>
+                                            </div>
+                                        </div>
+                                    </article>                            
+                                    <article class="grid_8 alpha">
+                                        <div class="padding-grid-2">
+                                            <table class="table table-hover" style="cursor: pointer;">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Establecimiento</th>
+                                                        <th>Infomracion</th>                            
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-repeat="esta in establecimientoSeleccionadoLlaves">
+                                                        <td>{{ esta}}</td>
+                                                        <td>{{ establecimientoSeleccionado[esta]}}</td>
+                                                    </tr> 
+                                                </tbody>
+                                            </table>     
+                                        </div>
+                                    </article>
+                                </div>                        
+                                <div class="padding-grid-1">
+                                        <h3 class="letter">Informacion de <strong>{{salaResecomnte.nombre}}</strong></h3>
+                                </div>                                                    
+                                <div class="wrapper p3">
+                                    <article class="grid_4 alpha">
+                                        <div class="padding-grid-2">
+                                            <div class="wrapper">
+                                                <figure class="style-img-2 fleft"><a><img src="images/page2-img2.jpg"  alt=""></a></figure>
+                                            </div>
+                                        </div>
+                                    </article>                            
+                                    <article class="grid_8 alpha">
+                                        <div class="padding-grid-2">
+                                            <table class="table table-hover" style="cursor: pointer;">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Sala</th>
+                                                        <th>Informacion</th>                            
+                                                    </tr>
+                                                </thead>
+                                                    <tbody>
+                                                        <tr ng-repeat="esta in salaReseLLaves">
+                                                            <td>{{ esta}}</td>
+                                                            <td>{{ salaResecomnte[esta]}}</td>
+                                                        </tr> 
+                                                    </tbody>
+                                            </table>                                                                    
+                                        </div>
+                                    </article>
+                                </div>
+                                <div >
+                                    <div class="padding-grid-1">
+                                            <h3 class="letter">Datos <strong>Reservacion</strong></h3>
+                                    </div>
+                                    <div class="wrapper p3">
+                                        <article class="grid_4 alpha">
+                                            <div class="padding-grid-2">
+                                                <div class="wrapper">
+                                                    <figure class="style-img-2 fleft"><a href="#"><img src="images/page2-img2.jpg"  alt=""></a></figure>
+                                                </div>
+                                            </div>
+                                        </article>  
+                                        <article class="grid_8 alpha">
+                                            <div class="padding-grid-2">
+                                                <form>
+                                                    <div class="form-group">
+                                                        <label for="exampleInputName2">Fecha {{reservacion.fecha}}</label>
+                                                        <input type="date" class="form-control" ng-model="reservacion.fecha" placeholder="fecha" required>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="exampleInputName2">Hora {{reservacion.hora}}</label>
+                                                        <input type="time" class="form-control" ng-model="reservacion.hora" placeholder="hora" required>
+                                                    </div>                                       
+                                                    <div class="form-group">
+                                                        <label for="exampleInputName2">Duracion {{reservacion.duracion}}</label>
+                                                        <input type="number" min="2" max="6" class="form-control" ng-model="reservacion.duracion" placeholder="duracion" required>
+                                                    </div>
+                                                    <button type="submit" class="btn btn-info" ng-click="reservarSala()">Reservar</button>
+                                                </form>                                    
+                                            </div>
+                                        </article>
+                                    </div>
+                                </div>
+                                <div ng-if="habilitarAlquiler">
+                                    <div class="padding-grid-1">
+                                            <h3 class="letter">Datos <strong>Alquiler</strong></h3>
+                                    </div>
+                                    <div class="wrapper p3">
+                                        <article class="grid_4 alpha">
+                                            <div class="padding-grid-2">
+                                                <div class="wrapper">
+                                                    <figure class="style-img-2 fleft"><a><img src="images/page2-img2.jpg"  alt=""></a></figure>
+                                                </div>
+                                            </div>                              
+                                        </article>  
+                                        <article class="grid_8 alpha">
+                                            <div class="padding-grid-2">
+                                                <form>
+                                                    <div class="form-group">
+                                                        <label for="exampleInputName2">Cedula del cliente {{usuario.idCliente}}</label>
+                                                        <input type="number" class="form-control" ng-model="usuario.idCliente" placeholder="idCliente" required>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="exampleInputName2">Descripcion del Ensayo {{ensayo.descripcion}}</label>
+                                                        <input type="text" class="form-control" ng-model="ensayo.descripcion" placeholder="descripcion" required>
+                                                    </div>
+                                                    <button type="submit" class="btn btn-info" ng-click="registroAlquiler()" onclick="this.disabled=true">Nuevo Ensayo</button>
+                                                </form>                                    
+                                            </div>
+                                        </article>
+                                    </div>
+                                </div>
+                            </div>                                                        
                         </div>
+                    </div>
                 </div>
+            </div>
         </div>
-        <div class="block"></div>
+    </div>
+    <div class="block"></div>
 </section>
