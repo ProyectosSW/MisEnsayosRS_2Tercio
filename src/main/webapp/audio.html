@@ -92,13 +92,13 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <a href="#tour-dates">
+                                                
                                                     <tr ng-repeat="esta in salaPorEstablecimiento" ng-click="opcionSala(esta)">
-                                                        <td>{{ esta.nombre}}</td>
-                                                        <td>{{ esta.precio}}</td>
-                                                        <td>{{ esta.descripcion}}</td>
+                                                        <td><a href="#tour-dates">{{ esta.nombre}}</a></td>
+                                                        <td><a href="#tour-dates">{{ esta.precio}}</a></td>
+                                                        <td><a href="#tour-dates">{{ esta.descripcion}}</a></td>
                                                     </tr>
-                                                </a>
+                                                
                                             </tbody>
                                         </table>                                                                    
                                     </div>

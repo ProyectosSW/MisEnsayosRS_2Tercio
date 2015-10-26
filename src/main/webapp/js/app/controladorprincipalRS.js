@@ -31,6 +31,7 @@
         $scope.seleccionAdministrador=false;
         $scope.seleccionCliente=false;
         $scope.usuarioAutenticado=false;
+        $scope.habilitarAlquiler=false;
         
         $scope.opcionEsta=false;
         $scope.opcionDeSala=false;
@@ -168,6 +169,10 @@
             }
         };
         
+        $scope.opcionSala=function (esta){
+            $scope.salaRese=esta.idSala;
+        }
+        
         $scope.consultarSalaPorEstablecimiento=function (esta){
             $scope.seleccion=true;
             $scope.establecimientoNombre=esta.nombre;
@@ -283,12 +288,11 @@
             );              
         }        
         
-        $scope.reservarSala=function(){
-            MisEnsayosRSRestAPI.registroReserva($scope.establecimientoSeleccionado.idEstablecimiento,$scope.salaSeleccion.idSala, $scope.reservacion.fecha, $scope.reservacion.hora, $scope.reservacion.duracion) .then(
+        $scope.registroAlquiler=function(){
+            MisEnsayosRSRestAPI.alquilerCliente($scope.cliente.idCliente,$scope.identificaionReserva,$scope.ensayo.descripcion).then(
                 //promise success
                 function(response){
-                   
-                    
+                    alert("El alquiler se ha logrado exitosamente");  
                 },
                 //promise error
                 function(response){
@@ -297,21 +301,42 @@
             );
         }
         
-        $scope.opcionSala=function (sala){
-            MisEnsayosRSRestAPI.consultarSala(sala.idSala).then(
+        $scope.reservarSala=function(){
+            MisEnsayosRSRestAPI.consultaEstablecimientoId($scope.establecimientoIdentificaion) .then(
                 //promise success
                 function(response){
-                    console.log(response.data);                    
-                    $scope.salaSeleccionNombre=response.data.nombre;
-                    $scope.salaSeleccion=response.data;
-                    $scope.salaSeleccionLlaves=Object.keys(response.data);                    
-                },
+                    $scope.establecimientoReservacion=response.data;
+                    MisEnsayosRSRestAPI.consultarSala($scope.salaRese) .then(
+                        //promise success
+                        function(response){
+                            $scope.salaReservacion=response.data;
+                            MisEnsayosRSRestAPI.registroReserva($scope.salaReservacion.idSala, $scope.establecimientoReservacion.idEstablecimiento, $scope.establecimientoReservacion.nombre, $scope.establecimientoReservacion.nit, $scope.establecimientoReservacion.descripcion, $scope.establecimientoReservacion.direccion, $scope.establecimientoReservacion.horaInicio, $scope.establecimientoReservacion.horaCierre, $scope.establecimientoReservacion.multa, $scope.establecimientoReservacion.localidad, $scope.establecimientoReservacion.telefono, $scope.establecimientoReservacion.cuenta, $scope.salaReservacion.precio, $scope.salaReservacion.descripcion, $scope.salaReservacion.nombre, $scope.reservacion.fecha.getFullYear()+"-"+$scope.reservacion.fecha.getMonth()+"-"+$scope.reservacion.fecha.getDate(), $scope.reservacion.hora.getHours()+":"+$scope.reservacion.hora.getMinutes()+":"+$scope.reservacion.hora.getSeconds(), $scope.reservacion.duracion) .then(
+                                //promise success
+                                function(response){
+                                    alert("La reservacion se ha logrado exitosamente");
+                                    alert(response.data);
+                                    alert(JSON.stringify(response.data));
+                                    $scope.identificaionReserva=response.data;
+                                    $scope.habilitarAlquiler=true;
+                                },
+                                //promise error
+                                function(response){
+                                    console.log('Unable to get data from REST API:'+response);
+                                }
+                            );                   
+                        },
+                        //promise error
+                        function(response){
+                            console.log('Unable to get data from REST API:'+response);
+                        }
+                    );                            },
                 //promise error
                 function(response){
                     console.log('Unable to get data from REST API:'+response);
                 }
-            );
-               
+            );                   
+
+
         }
         
          $scope.calificar=function (calificacion, ensayo2){

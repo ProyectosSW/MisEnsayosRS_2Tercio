@@ -300,7 +300,7 @@ public class Logica {
      * @param duracion duracion, en numero de horas, de la reserva, y, por consiguiente, del ensayo
      * @return true si se registro la reserva, false de lo contrario.
      */
-    public boolean registrarReserva(int idEstablecimiento, int idSala, Date fecha, Time hora, int duracion){
+    public String registrarReserva(int idEstablecimiento, int idSala, Date fecha, Time hora, int duracion){
         boolean resp = verificarDisponibilidadSala(fecha, hora, idSala, idEstablecimiento);
         //if(resp){
             Establecimiento e = consultarEstablecimiento(idEstablecimiento);
@@ -321,7 +321,7 @@ public class Logica {
             rs.save(s);
         //}
         
-        return resp;
+        return res.getIdReservacion()+"";
     }  
 
     /**

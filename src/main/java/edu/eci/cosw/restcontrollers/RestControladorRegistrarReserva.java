@@ -41,7 +41,7 @@ public class RestControladorRegistrarReserva {
         HttpStatus hs;
         String mens = "";
         try {
-            logica.registrarReserva(r.getSala().getEstablecimiento().getIdEstablecimiento(),r.getSala().getIdSala(),r.getFecha(), r.getHora(),r.getTiempo());
+            mens=logica.registrarReserva(r.getSala().getEstablecimiento().getIdEstablecimiento(),r.getSala().getIdSala(),r.getFecha(), r.getHora(),r.getTiempo());
             hs=HttpStatus.CREATED;
         } catch (Exception ex) {
             mens=ex.getMessage();

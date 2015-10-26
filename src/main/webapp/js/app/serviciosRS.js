@@ -195,7 +195,7 @@
         this.consultarSala = function (idsala) {            
             return $http({
                 method: 'GET',
-                url: 'rest/establecimientos/sala/'+idsala
+                url: 'rest/establecimientos/sala/consulta/'+idsala
             });            
         };        
         
@@ -230,16 +230,53 @@
         
         /**
          * 
+         * @param {type} idReservacion
+         * @returns {unresolved}
+         */
+        this.consultarReserva=function(idReservacion){
+            return $http({
+                method:'GET',
+                url:'rest/reservacion/'+idReservacion
+            })
+        }        
+        
+        /**
+         * 
          * @param {type} idSala
          * @param {type} fecha
          * @param {type} duracion
          * @returns {unresolved}
          */
-        this.registroReserva = function (idEstablecimiento,idSala, fecha, hora, duracion) {            
-            var est = $http.get('rest/establecimientos/'+idEstablecimiento);
-            var sala = $http.get('rest/establecimientos/sala/'+idSala);
-            sala.establecimiento=est;
-            var reserv = {"idReserva":0,"sala":sala,"fecha":fecha, "hora":hora,"tiempo":duracion};
+        this.registroReserva = function (idSala, idEstablecimiento, nombreEstablecimiento, nit, descripcionEstablecimiento, direccion, horaInicio, horaCierre, multa, localidad, telefono, cuenta, precio, descripcion, nombre, fecha, hora, duracion) {            
+            var reserv = {
+                            "idReservacion": 10,
+                            "sala": {
+                              "idSala": idSala,
+                              "establecimiento": {
+                                    "idEstablecimiento": idEstablecimiento,
+                                    "nombre": nombreEstablecimiento,
+                                    "nit": nit,
+                                    "descripcion": descripcionEstablecimiento,
+                                    "direccion": direccion,
+                                    "horaInicio": horaInicio,
+                                    "horaCierre": horaCierre,
+                                    "multa": multa,
+                                    "localidad": localidad,
+                                    "telefono": telefono,
+                                    "cuenta":cuenta,
+                                    "instrumentos": [],
+                                    "salas": []
+                              },
+                              "precio": precio,
+                              "descripcion": descripcion,
+                              "nombre": nombre,
+                              "reservacions": []
+                            },
+                            "fecha": fecha,
+                            "tiempo": duracion,
+                            "hora": hora,
+                            "alquilers": []
+                    }
             return $http({
                 method: 'POST',
                 url: 'rest/reservacion/registroreserv',

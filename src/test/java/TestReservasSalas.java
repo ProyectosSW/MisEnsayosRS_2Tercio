@@ -63,7 +63,7 @@ public class TestReservasSalas {
         
         Reservacion r= new Reservacion(1,s, d,t, 1);
         //s.getReservacions().add(r);
-        boolean resp=logica.registrarReserva(e.getIdEstablecimiento(), s.getIdSala(), d,t, 2);
+        String resp=logica.registrarReserva(e.getIdEstablecimiento(), s.getIdSala(), d,t, 2);
         
         assertFalse(logica.verificarDisponibilidadSala(d,t, s.getIdSala(), 1));
         List<Reservacion>l=logica.consultarReservacionesPorSala(s.getIdSala());
@@ -76,7 +76,7 @@ public class TestReservasSalas {
             if(rs.getFecha().equals(r.getFecha()))r=rs;
         }
         r.setIdReservacion(0);
-        if(resp)logica.crearEnsayoAlquiler(c.getIdCliente(),r, "ensayaremos mucho");
+        if(resp.equals("0"))logica.crearEnsayoAlquiler(c.getIdCliente(),r, "ensayaremos mucho");
 
     }
        

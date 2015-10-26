@@ -150,8 +150,8 @@ public class RestControladorPublicarEstablecimiento {
      * @param idsala
      * @return 
      */
-    @RequestMapping(value="/sala/{idsala}",method = RequestMethod.GET)
-    public Sala consultarSala(@RequestBody int idsala){
+    @RequestMapping(value="/sala/consulta/{idsala}",method = RequestMethod.GET)
+    public Sala consultarSala(@PathVariable int idsala){
         return logica.consultarSala(idsala);
     }
     
