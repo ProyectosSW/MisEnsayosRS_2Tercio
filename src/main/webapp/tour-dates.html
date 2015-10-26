@@ -96,7 +96,7 @@
                                                         <label for="exampleInputName2">Duracion {{reservacion.duracion}}</label>
                                                         <input type="number" min="2" max="6" class="form-control" ng-model="reservacion.duracion" placeholder="duracion" required>
                                                     </div>
-                                                    <button type="submit" class="btn btn-info" ng-click="reservarSala()">Reservar</button>
+                                                    <button type="submit" class="btn btn-info" ng-click="reservarSala()" onclick="this.disabled=true">Reservar</button>
                                                 </form>                                    
                                             </div>
                                         </article>
