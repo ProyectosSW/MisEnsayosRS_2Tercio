@@ -6,6 +6,7 @@ import edu.eci.cosw.persistencia.Ensayo;
 import edu.eci.cosw.persistencia.Establecimiento;
 import edu.eci.cosw.persistencia.Instrumento;
 import edu.eci.cosw.restcontrollers.OperationFailedException;
+import java.sql.Time;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -50,7 +51,7 @@ public class TestCalificarEstablecimiento {
         logica.registrarEnsayo(es1);
         DetalleInstrumento det=new DetalleInstrumento(1, "Guitarra");
         logica.registrarDetalleInstrumento(det);
-        Establecimiento est=new Establecimiento(777,"La casa de judas","123.456.789-1","calle falsa #nunca existio", 700,1900, 90.2,"Usaquen", "00000000", "21000813610123456789");
+        Establecimiento est=new Establecimiento(777,"La casa de judas","123.456.789-1","calle falsa #nunca existio", new Time(700),new Time(1900), 90.2,"Usaquen", "00000000", "21000813610123456789");
         logica.registrarEstablecimiento(est);
         Instrumento ins=new Instrumento(333,  det, es1, est, "1000");
         logica.registrarInstrumento(ins);
@@ -80,7 +81,7 @@ public class TestCalificarEstablecimiento {
         logica.registrarEnsayo(es1);
         DetalleInstrumento det=new DetalleInstrumento(1, "Guitarra");
         logica.registrarDetalleInstrumento(det);
-        Establecimiento est=new Establecimiento(888,"Abril Records","123.456.333-1","calle falsa bla bla", 800,1800, 5.5,"Suba", "44440000", "34556478987987078329");
+        Establecimiento est=new Establecimiento(888,"Abril Records","123.456.333-1","calle falsa bla bla", new Time(800),new Time(1800), 5.5,"Suba", "44440000", "34556478987987078329");
         logica.registrarEstablecimiento(est);
         Instrumento ins=new Instrumento(111,  det, es1, est, "1000");
         logica.registrarInstrumento(ins);

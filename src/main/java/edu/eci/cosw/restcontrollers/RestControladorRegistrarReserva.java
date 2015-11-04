@@ -71,7 +71,7 @@ public class RestControladorRegistrarReserva {
     
     @RequestMapping(value="/prueba",method = RequestMethod.GET)
     public Reservacion prueba() { 
-        Establecimiento tds = new Establecimiento(1, "nombnre", "123.123.123-1", "dsfdssdhfsfd", "dfdff-- -- - -", 123, 2345, 32.4, "dsfdssdffsdfsd", "35535345", "28947323473283984724",new HashSet<Instrumento> (), new HashSet<Sala> ());
+        Establecimiento tds = new Establecimiento(1, "nombnre", "123.123.123-1", "dsfdssdhfsfd", "dfdff-- -- - -", new Time(123), new Time(2345), 32.4, "dsfdssdffsdfsd", "35535345", "28947323473283984724",new HashSet<Instrumento> (), new HashSet<Sala> ());
         Sala s =new Sala(2, tds, "dsfdsfds", "sadsaasdasdas", "dffsdfdss", new HashSet<Reservacion>());
         Reservacion d = new Reservacion(1, s, new Date(234), new Time(5), 43, new HashSet<Alquiler>());
         return d;

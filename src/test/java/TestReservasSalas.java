@@ -50,7 +50,7 @@ public class TestReservasSalas {
     
     @Test
     public void testDisponibilidadSala() throws OperationFailedException{
-        Establecimiento e = new Establecimiento(1,"El toque", "123.456.789-1", "calle falsa 123",700,1900,0,"Usaquen", "1234567", "34301293809213820921");
+        Establecimiento e = new Establecimiento(1,"El toque", "123.456.789-1", "calle falsa 123",new Time(700),new Time(1900),0,"Usaquen", "1234567", "34301293809213820921");
         logica.registrarEstablecimiento(e);
         Sala s = new Sala(1,logica.consultarEstablecimiento(1),"1000","Sala de Orcas");
         logica.registrarSala(s);

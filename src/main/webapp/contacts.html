@@ -109,11 +109,11 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="exampleInputName2">Hora inicio {{establecimiento.horaInicio}}</label>
-                                            <input type="number" min="700" class="form-control" max="2200" ng-model="establecimiento.horaInicio" step="100" placeholder="Hora inicio" ng-change="seleccionHoraInicio()" required>
+                                            <input type="time" class="form-control" ng-model="establecimiento.horaInicio" step="100" placeholder="Hora inicio" ng-change="seleccionHoraInicio()" required>
                                         </div>                                        
                                         <div class="form-group" ng-if="seleccionHora">
                                             <label for="exampleInputName2">Hora cierre {{establecimiento.horaCierre}}</label>
-                                            <input type="number" min="900" class="form-control" max="2200" ng-model="establecimiento.horaCierre" step="100" placeholder="Hora cierre" ng-change="mayor(establecimiento.horaCierre)" required>
+                                            <input type="time" class="form-control" ng-model="establecimiento.horaCierre" step="100" placeholder="Hora cierre" ng-change="mayor(establecimiento.horaCierre)" required>
                                         </div>                                        
                                         <div class="form-group">
                                             <label for="exampleInputName2">Multa {{establecimiento.multa}}%</label>

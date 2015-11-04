@@ -226,7 +226,7 @@
                 function(response){
                     console.log(response.data);                    
                     $scope.establecimiento.idEstablecimiento=response.data+1;
-                    MisEnsayosRSRestAPI.registrarEstablecimiento($scope.establecimiento.idEstablecimiento, $scope.establecimiento.nombre, $scope.establecimiento.nit, $scope.establecimiento.descripcion, $scope.establecimiento.direccion, $scope.establecimiento.horaInicio, $scope.establecimiento.horaCierre, $scope.establecimiento.multa, $scope.establecimiento.localidad, $scope.establecimiento.telefono, $scope.establecimiento.cuenta).then(
+                    MisEnsayosRSRestAPI.registrarEstablecimiento($scope.establecimiento.idEstablecimiento, $scope.establecimiento.nombre, $scope.establecimiento.nit, $scope.establecimiento.descripcion, $scope.establecimiento.direccion, $scope.establecimiento.horaInicio.getHours()+":"+$scope.establecimiento.horaInicio.getMinutes()+":"+$scope.establecimiento.horaInicio.getSeconds(), $scope.establecimiento.horaCierre.getHours()+":"+$scope.establecimiento.horaCierre.getMinutes()+":"+$scope.establecimiento.horaCierre.getSeconds(), $scope.establecimiento.multa, $scope.establecimiento.localidad, $scope.establecimiento.telefono, $scope.establecimiento.cuenta).then(
                         //promise success
                         function(response){
                             console.log(response.data);

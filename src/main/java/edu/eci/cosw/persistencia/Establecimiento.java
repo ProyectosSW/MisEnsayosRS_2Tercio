@@ -1,7 +1,7 @@
 package edu.eci.cosw.persistencia;
 // Generated 20/09/2015 08:58:00 PM by Hibernate Tools 4.3.1
 
-
+import java.sql.Time;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.Column;
@@ -26,8 +26,8 @@ public class Establecimiento  implements java.io.Serializable {
      private String nit;
      private String descripcion;
      private String direccion;
-     private int horaInicio;
-     private int horaCierre;
+     private Time horaInicio;
+     private Time horaCierre;
      private double multa;
      private String localidad;
      private String telefono;
@@ -39,7 +39,7 @@ public class Establecimiento  implements java.io.Serializable {
     }
 
 	
-    public Establecimiento(int idEstablecimiento, String nombre, String nit, String direccion, int horaInicio, int horaCierre, double multa, String localidad, String telefono, String cuenta) {
+    public Establecimiento(int idEstablecimiento, String nombre, String nit, String direccion, Time horaInicio, Time horaCierre, double multa, String localidad, String telefono, String cuenta) {
         this.idEstablecimiento = idEstablecimiento;
         this.nombre = nombre;
         this.nit = nit;
@@ -51,7 +51,7 @@ public class Establecimiento  implements java.io.Serializable {
         this.telefono = telefono;
         this.cuenta = cuenta;
     }
-    public Establecimiento(int idEstablecimiento, String nombre, String nit, String descripcion, String direccion, int horaInicio, int horaCierre, double multa, String localidad, String telefono, String cuenta, Set<Instrumento> instrumentos, Set<Sala> salas) {
+    public Establecimiento(int idEstablecimiento, String nombre, String nit, String descripcion, String direccion, Time horaInicio, Time horaCierre, double multa, String localidad, String telefono, String cuenta, Set<Instrumento> instrumentos, Set<Sala> salas) {
        this.idEstablecimiento = idEstablecimiento;
        this.nombre = nombre;
        this.nit = nit;
@@ -121,21 +121,21 @@ public class Establecimiento  implements java.io.Serializable {
 
     
     @Column(name="HoraInicio", nullable=false)
-    public int getHoraInicio() {
+    public Time getHoraInicio() {
         return this.horaInicio;
     }
     
-    public void setHoraInicio(int horaInicio) {
+    public void setHoraInicio(Time horaInicio) {
         this.horaInicio = horaInicio;
     }
 
     
     @Column(name="HoraCierre", nullable=false)
-    public int getHoraCierre() {
+    public Time getHoraCierre() {
         return this.horaCierre;
     }
     
-    public void setHoraCierre(int horaCierre) {
+    public void setHoraCierre(Time horaCierre) {
         this.horaCierre = horaCierre;
     }
 
