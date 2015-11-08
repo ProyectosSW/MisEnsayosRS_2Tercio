@@ -43,6 +43,16 @@ public class RestControladorPublicarEstablecimiento {
         return logica.consultarEstablecimiento(id);
     }    
     
+    @RequestMapping(value="/nombre/{nombrex}",method = RequestMethod.GET)        
+    public List<Establecimiento> consultarEstablecimientosNombre(@PathVariable String nombrex) {  
+        return logica.consultarEstablecimientosNombre(nombrex);
+    }    
+    
+    @RequestMapping(value="/localidad/{localidadx}",method = RequestMethod.GET)        
+    public List<Establecimiento> consultarEstablecimientosLocalidad(@PathVariable String localidadx) {  
+        return logica.consultarEstablecimientosLocalidad(localidadx);
+    }    
+    
     @RequestMapping(value="/nit/{nitx}",method = RequestMethod.GET)        
     public Establecimiento consultarEstablecimientosporNit(@PathVariable String nitx){
         Establecimiento es=null;

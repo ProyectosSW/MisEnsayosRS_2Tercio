@@ -6,7 +6,7 @@
                     <div class="grid_12">
                         <div class="bg-2">
                             <div class="padding-grid-1">
-                                    <h3 class="letter">Nuestros <strong>Establecimientos</strong></h3>
+                                <h3 class="letter">Busqueda de <strong>establecimientos afiliados</strong></h3>
                             </div>
                             <div class="wrapper p3">
                                 <article class="grid_4 alpha">
@@ -18,6 +18,82 @@
                                 </article>
                                 <article class="grid_8 alpha">
                                     <div class="padding-grid-2">
+                                        <div ng-if="opcionBusqueda=='vacio'">                
+                                            <div class="padding-grid-1">
+                                                <h3 class="letter">Filtrar <strong>Establecimientos</strong></h3>
+                                                <label style="color: #31b0d5">Click sobre la opción de busqueda que desee utilizar</label>
+                                            </div>
+                                            <table class="table table-hover" style="cursor: pointer;">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Opciones</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-repeat="esta in opcionesB" ng-click="seleccionaropcionBusqueda(esta)">
+                                                        <td>{{ esta}}</td>
+                                                    </tr> 
+                                                </tbody>
+                                            </table>                        
+                                        </div>
+                                        <div ng-if="opcionBusqueda=='Buscar por nombre'">                
+                                            <form>
+                                                <div class="padding-grid-1">
+                                                    <h3 class="letter">Filtrar <strong>por nombre</strong></h3>
+                                                </div>
+
+                                                <div>
+                                                    <label for="exampleInputName2">Ingrese el nombre del establecimiento o parte de éste</label>
+                                                    <label for="exampleInputName2" style="color: #31b0d5">Ejemplo de nombres; a, esta, establecmiento </label>
+                                                    <input type="text" class="form-control" ng-model="nombreEstablecimientoBusqueda.nombre" placeholder="Nombre del establecimiento">
+                                                </div>
+                                                <button type="submit" class="btn btn-info" ng-click="consultarEstablecimientosNombre()">Consultar</button>
+                                                <button type="submit" class="btn btn-info" ng-click="seleccionaropcionBusqueda('vacio')">Regresar</button>
+                                            </form>
+                                        </div>
+                                        <div ng-if="opcionBusqueda=='Buscar por localidad'">                
+                                            <div class="padding-grid-1">
+                                                <h3 class="letter">Filtrar <strong>por localidad</strong></h3>
+                                            </div>
+                                            <label for="exampleInputName2">Localidad</label>
+                                            <label for="exampleInputName2" style="color: #31b0d5">Seleccione con un click en las opciones de la tabla</label>
+                                            <input type="text" class="form-control" ng-model="localidadEstablecimientoBusqueda" placeholder="Localidad" required ng-focus="cargarlocalidadesR()" ng-disabled="seleccion3">
+                                            <div ng-if="seleccion3"> 
+                                                <table class="table table-hover" style="cursor: pointer;">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Localidades</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr ng-repeat="esta in localidades" ng-click="seleccionLocalidad(esta)">
+                                                            <td>{{esta}}</td>
+                                                        </tr> 
+                                                    </tbody>
+                                                </table>    
+                                            </div>
+                                            <button type="submit" class="btn btn-info" ng-click="consultarEstablecimientosLocalidad()">Consultar</button>
+                                            <button type="submit" class="btn btn-info" ng-click="seleccionaropcionBusqueda('vacio')">Regresar</button>
+                                        </div>
+                                    </div>
+                                </article>
+                            </div>
+                        </div>
+
+                        <div ng-if="busqueda">
+                            <div class="padding-grid-1">
+                                <h3 class="letter">Nuestros <strong>Establecimientos</strong></h3>
+                            </div>
+                            <div class="wrapper p3">
+                                <article class="grid_4 alpha">
+                                    <div class="padding-grid-2">
+                                        <div class="wrapper">
+                                            <figure class="style-img-2 fleft"><a><img src="images/page2-img2.jpg"  alt=""></a></figure>
+                                        </div>
+                                    </div>
+                                </article>                            
+                                <article class="grid_8 alpha">
+                                    <div class="padding-grid-2">
                                         <table class="table table-hover" style="cursor: pointer;">
                                             <thead>
                                                 <tr>
@@ -27,17 +103,16 @@
                                             </thead>
                                             <tbody>
                                                 <tr ng-repeat="esta in establecimientosHabilitados" ng-click="consultarSalaPorEstablecimiento(esta)">
-                                                    <a href="#salas">
-                                                        <td>{{ esta.nombre}}</td>
-                                                        <td>{{ esta.localidad}}</td>
-                                                    </a>
+                                                    <td>{{ esta.nombre}}</td>
+                                                    <td>{{ esta.localidad}}</td>
                                                 </tr> 
                                             </tbody>
-                                        </table>                                                                    
+                                        </table>    
                                     </div>
                                 </article>
                             </div>
-                        </div>
+                        </div>                    
+                        
                         
                         <div ng-if="seleccion">
                             <div class="padding-grid-1">

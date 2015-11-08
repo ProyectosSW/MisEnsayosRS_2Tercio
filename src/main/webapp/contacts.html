@@ -93,26 +93,28 @@
                                         <div class="form-group">
                                             <label for="exampleInputName2">Localidad</label>
                                             <label for="exampleInputName2" style="color: #31b0d5">Seleccione con un click en las opciones de la tabla</label>
-                                            <input type="text" disabled class="form-control" ng-model="establecimiento.localidad" placeholder="Localidad" required>
-                                            <table class="table table-hover" style="cursor: pointer;">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Localidades</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr ng-repeat="esta in localidades" ng-click="seleccionLocalidad(esta)">
-                                                        <td>{{esta}}</td>
-                                                    </tr> 
-                                                </tbody>
-                                            </table>                                                                    
+                                            <input type="text" class="form-control" ng-model="establecimiento.localidad" placeholder="Localidad" required ng-focus="cargarlocalidadesR()" ng-disabled="seleccion3">
+                                            <div ng-if="seleccion3"> 
+                                                    <table class="table table-hover" style="cursor: pointer;">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Localidades</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr ng-repeat="esta in localidades" ng-click="seleccionLocalidad(esta)">
+                                                                <td>{{esta}}</td>
+                                                            </tr> 
+                                                        </tbody>
+                                                    </table>    
+                                            </div>
                                         </div>
                                         <div class="form-group">
-                                            <label for="exampleInputName2">Hora inicio {{establecimiento.horaInicio}}</label>
+                                            <label for="exampleInputName2">Hora inicio</label>
                                             <input type="time" class="form-control" ng-model="establecimiento.horaInicio" step="100" placeholder="Hora inicio" ng-change="seleccionHoraInicio()" required>
                                         </div>                                        
                                         <div class="form-group" ng-if="seleccionHora">
-                                            <label for="exampleInputName2">Hora cierre {{establecimiento.horaCierre}}</label>
+                                            <label for="exampleInputName2">Hora cierre </label>
                                             <input type="time" class="form-control" ng-model="establecimiento.horaCierre" step="100" placeholder="Hora cierre" ng-change="mayor(establecimiento.horaCierre)" required>
                                         </div>                                        
                                         <div class="form-group">
@@ -130,10 +132,9 @@
                                         <div class="form-group">
                                             <label for="exampleInputName2">Cuenta Bancaria</label>
                                             <label for="exampleInputName2" style="color: #31b0d5">Ejemplo: 21000813610123456789</label>
-                                            <input type="text" class="form-control" ng-model="establecimiento.tarjetaCredito" placeholder="Descripción" required>
+                                            <input type="number" min="00000000000000000001" max="99999999999999999999" class="form-control" ng-model="establecimiento.tarjetaCredito" placeholder="Cuenta Bancaria" required>
                                         </div>
                                         <a href="#about"><button type="submit" class="btn btn-info" ng-click="registrarEstablecimiento()">Enviar</button></a>
-                                        
                                     </form>                                    
                                 </div>
                             </article>

@@ -5,6 +5,7 @@
  */
 package edu.eci.cosw.stubs;
 
+
 /**
  *
  * @author usuario
@@ -13,7 +14,7 @@ public class CamaraComercioStub implements CamaraComercio{
     public static final int size=13;
     @Override
     public boolean verificarEmpresa(String nit) {
-        return (nit.length()==13 && Integer.parseInt(nit.substring(0, 3))%2==0);
+        return (nit.length()>=13 && Integer.parseInt(nit.substring(0, 3))%2==0);
     }
 
 }

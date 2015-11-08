@@ -17,11 +17,11 @@ import org.springframework.data.repository.CrudRepository;
  */
 public interface RepositorioEstablecimiento extends CrudRepository<Establecimiento, Integer> {
     
-    @Query("select e from Establecimiento e where e.nombre=:nombrex and LENGTH(e.nit)=:longitudx")
-    public Establecimiento findByName(@Param("nombrex") String name, @Param("longitudx") int longitud);    
+    @Query("select e from Establecimiento e where e.nombre like %:nombrex% and LENGTH(e.nit)=:longitudx")
+    public List<Establecimiento> findByName(@Param("nombrex") String name, @Param("longitudx") int longitud);    
     
-    @Query("select e from Establecimiento e where e.nombre=:nombrex")
-    public Establecimiento findByNameX(@Param("nombrex") String name);
+    @Query("select e from Establecimiento e where e.localidad =:localidadx and LENGTH(e.nit)=:longitudx")
+    public List<Establecimiento> findByLocation(@Param("localidadx") String localidad, @Param("longitudx") int longitud);    
     
     @Query("select e from Establecimiento e where e.idEstablecimiento=:idx and LENGTH(e.nit)=:longitudx")
     public Establecimiento findId(@Param("idx") int id, @Param("longitudx") int longitud);    

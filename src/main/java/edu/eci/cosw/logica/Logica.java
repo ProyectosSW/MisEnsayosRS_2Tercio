@@ -56,7 +56,6 @@ public class Logica {
     @Autowired
     private RepositorioEnsayo es;
     @Autowired
-    
     private RepositorioCliente cl;
     @Autowired
     private RepositorioDetalleInstrumento di;
@@ -66,6 +65,7 @@ public class Logica {
     private RepositorioCalificacion ca;
     @Autowired
     private RepositorioAlquiler ra;
+    private CamaraComercioStub ccs=new CamaraComercioStub();
     
     /**
      * 
@@ -75,6 +75,15 @@ public class Logica {
     public Establecimiento consultarEstablecimiento(int id){
         return re.findOne(id);
     }    
+    
+    /**
+     * 
+     * @param nit
+     * @return 
+     */
+    public boolean verificarEmpresa(String nit) {
+        return ccs.verificarEmpresa(nit);
+    }
     
     /**
      * 
@@ -111,20 +120,28 @@ public class Logica {
     
     /**
      * 
-     * @param id del establecimiento seleccionado
-     * @return el establecimiento seleccionado
+     * @param idx
+     * @return 
      */
-    public Establecimiento consultarEstablecimientoHabilitado(int id){
-        return re.findId(id, CamaraComercioStub.size);
+    public Establecimiento consultarEstablecimientoHabilitado(int idx){
+        return re.findId(idx, CamaraComercioStub.size);
+    }
+    /**
+     * 
+     * @param name nombre del establecimiento seleccionado
+     * @return el o los establecimientos seleccionados
+     */
+    public List<Establecimiento> consultarEstablecimientosNombre(String name){
+        return re.findByName(name, CamaraComercioStub.size);
     }
     
     /**
      * 
-     * @param name nombre del establecimiento seleccionado
-     * @return el establecimiento seleccionado
+     * @param localidad
+     * @return el o los establecimientos seleccionados
      */
-    public Establecimiento consultarEstablecimientoHabilitado(String name){
-        return re.findByName(name, CamaraComercioStub.size);
+    public List<Establecimiento> consultarEstablecimientosLocalidad(String localidad){
+        return re.findByLocation(localidad, CamaraComercioStub.size);
     }
     
     /**

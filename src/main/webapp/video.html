@@ -73,9 +73,13 @@
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
-                                                                    <tr ng-repeat="esta in consultarTodosEstablecimientosSinHabilitar" ng-click="consultarSalaPorEstablecimiento(esta)">
+                                                                    <tr ng-repeat="esta in consultarTodosEstablecimientosSinHabilitar">
                                                                         <td>{{ esta.nombre}}</td>
                                                                         <td>{{ esta.localidad}}</td>
+                                                                        <td><button class="btn btn-info" ng-click="consultarSalaPorEstablecimiento(esta)">Información</button></td>
+                                                                        <td><button class="btn btn-info" ng-click="verificarlegalidad(esta)">Verificar Legalidad</button></td>
+                                                                        <td><button class="btn btn-info" ng-click="habilitarEstablecimiento(esta)">Habilitar</button></td>
+                                                                        
                                                                     </tr> 
                                                                 </tbody>
                                                             </table>   
@@ -107,7 +111,6 @@
                                                                         <tr ng-repeat="esta in establecimientoSeleccionadoLlaves">
                                                                             <td>{{ esta}}</td>
                                                                             <td>{{ establecimientoSeleccionado[esta]}}</td>
-                                                                            <button class="btn btn-info" ng-click="habilitarEstablecimiento()">Habilitar</button>
                                                                         </tr> 
                                                                     </tbody>
                                                                 </table>     

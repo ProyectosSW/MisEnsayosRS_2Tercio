@@ -27,20 +27,25 @@
         
         $scope.seleccion=false;
         $scope.seleccion2=false;
+        $scope.seleccion3=false;
+        $scope.busqueda=false;
         $scope.seleccionHora=false;
         $scope.seleccionAdministrador=false;
         $scope.seleccionCliente=false;
         $scope.usuarioAutenticado=false;
         $scope.habilitarAlquiler=false;
-        
         $scope.opcionEsta=false;
         $scope.opcionDeSala=false;
+        $scope.opcionBusqueda="vacio";
         $scope.establecimientoNombre="";
+        $scope.nombreEstablecimientoBusqueda={};
+        $scope.localidadEstablecimientoBusqueda="";
         $scope.establecimientoSeleccionado="";
         $scope.opcionesRegistro=["Registrar establecimiento", "Registrar sala"];
         $scope.localidades=["Usaquen", "Chapinero", "Santa Fe", "San Cristobal", "Usme", "Tunjuelito", "Bosa", "Kennedy", "Fontibon", "Engativa", "Suba", "Barrios Unidos", "Teusaquillo", "Los Martires", "Antonio NariÃ±o", "Puente Aranda", "La Candelaria", "Rafael Uribe Uribe", "Ciudad Bolivar", "Sumapaz"];
         $scope.horarios=[700, 800, 900, 1000, 1100, 1200, 1300, 1400, 1500, 1600, 1700, 1800, 1900, 2000];
-        //$scope.establecimiento={"idEstablecimiento": 1,"nombre": "nombre","nit": "nit","descripcion": "descripcion","direccion": "direccion","horaInicio": 700,"horaCierre": 2000,"multa": 0.0,"localidad": "localidad","telefono": "telefono"};
+        $scope.opcionesB=["Buscar por nombre", "Buscar por localidad"];
+        
         $scope.establecimiento={};
         $scope.sala={};
         $scope.reservacion={};
@@ -63,47 +68,52 @@
             MisEnsayosRSRestAPI.consultarCliente($scope.identificacion).then(
                 //promise success
                 function(response){
-                    console.log(response.data);
-                    $scope.usuario=response.data;
-                    $scope.usuariollaves=Object.keys(response.data);
-                    $scope.usuarioAutenticado=true;
-                    
-                    if(logeo.length<10){
-                        $scope.seleccionAdministrador=true;
-                        $scope.seleccionCliente=false;
-                        cargarTodosEstablecimientosSinHabilitar();
-                    }else if(logeo.length==10){
-                        $scope.seleccionCliente=true;
-                        $scope.seleccionAdministrador=false;
-                        MisEnsayosRSRestAPI.reservasCliente($scope.identificacion).then(
-                            //promise success
-                            function(response){
-                                console.log(response.data);                    
-                                $scope.reservasClienteLista=response.data;
-                            },
-                            //promise error
-                            function(response){
-                                console.log('Unable to get data from REST API:'+response);
-                            }
-                        );
-                        MisEnsayosRSRestAPI.EstablecimientosEnsayados($scope.identificacion).then(
-                        //promise success
-                        function(response){
-                            console.log(response.data);                    
-                            $scope.listaensayos=response.data;
+                    if(!isNaN(response.data ))
+                        alert("El número de identificación ingresado no se encuentra en la base de datos, por favor ingrese nuevamente el número");
+                    else{
+                        console.log(response.data);
+                        $scope.usuario=response.data;
+                        $scope.usuariollaves=Object.keys(response.data);
+                        $scope.usuarioAutenticado=true;
 
-                        },
-                        //promise error
-                        function(response){
-                            console.log('Unable to get data from REST API:'+response);
+                        if(logeo.length<10){
+                            $scope.seleccionAdministrador=true;
+                            $scope.seleccionCliente=false;
+                            cargarTodosEstablecimientosSinHabilitar();
+                        }else if(logeo.length==10){
+                            $scope.seleccionCliente=true;
+                            $scope.seleccionAdministrador=false;
+                            MisEnsayosRSRestAPI.reservasCliente($scope.identificacion).then(
+                                //promise success
+                                function(response){
+                                    console.log(response.data);                    
+                                    $scope.reservasClienteLista=response.data;
+                                },
+                                //promise error
+                                function(response){
+                                    console.log('Unable to get data from REST API:'+response);
+                                }
+                            );
+                            MisEnsayosRSRestAPI.EstablecimientosEnsayados($scope.identificacion).then(
+                            //promise success
+                                function(response){
+                                    console.log(response.data);                    
+                                    $scope.listaensayos=response.data;
+
+                                },
+                                //promise error
+                                function(response){
+                                    console.log('Unable to get data from REST API:'+response);
+                                }
+                                   
+                             );
+
                         }
-                    );
-                
                     }
                 },
                 //promise error
                 function(response){
-                    alert("no se enciasnd");
+                    alert("no se encuentra el cliente");
                     console.log('Unable to get data from REST API:'+response);
                 }
             );
@@ -123,12 +133,11 @@
                 }
             );        
         }
-        $scope.habilitarEstablecimiento = function (){
-            MisEnsayosRSRestAPI.habilitarEstablecimiento($scope.establecimientoIdentificaion).then(
+        $scope.habilitarEstablecimiento = function (esta){
+            MisEnsayosRSRestAPI.habilitarEstablecimiento(esta.idEstablecimiento).then(
                 //promise success
                 function(response){
                     console.log(response.data);                    
-                    cargar ();
                     cargarTodosEstablecimientosSinHabilitar();
                     $scope.seleccion=false;
                     alert("El establecimiento seleccionado se ha habilitado con exito");
@@ -147,16 +156,80 @@
         
         $scope.mayor = function () {
             if($scope.establecimiento.horaInicio>$scope.establecimiento.horaCierre){
-                $scope.establecimiento.horaCierre=$scope.establecimiento.horaInicio+200;
+                $scope.establecimiento.horaCierre=$scope.establecimiento.horaInicio;
             }
         }
         
         $scope.seleccionLocalidad = function (valor) {
             $scope.establecimiento.localidad=valor;
+            $scope.seleccion3=!$scope.seleccion3;
         }
         
-        $scope.alarma = function () {
-            alert("alarma");
+        $scope.cargarlocalidadesR  = function () {
+            $scope.seleccion3=!$scope.seleccion3;
+        }
+        
+        $scope.verificarlegalidad  = function (esta) {
+            MisEnsayosRSRestAPI.verificarlegalidad(esta.nit).then(
+                //promise success
+                function(response){
+                    console.log(response.data);                    
+                    cargarTodosEstablecimientosSinHabilitar();
+                    if(response.data)
+                        alert("El establecimiento seleccionado esta registrado ante Camara de comercio");
+                    else alert("El establecimiento seleccionado NO esta registrado ante Camara de comercio");
+                },
+                //promise error
+                function(response){
+                    console.log('Unable to get data from REST API:'+response);
+                }
+            );
+            
+        }
+        
+        $scope.consultarEstablecimientosNombre = function () {
+            MisEnsayosRSRestAPI.consultarEstablecimientosNombre($scope.nombreEstablecimientoBusqueda.nombre).then(
+                //promise success
+                function(response){
+                    console.log(response.data);  
+                    if(!isNaN(response.data ))alert("El nombre dado con coincide con ninguno de los establecimientos registrados");
+                    else {
+                        $scope.establecimientosHabilitados=response.data;
+                        $scope.busqueda=true;
+                    }
+                },
+                //promise error
+                function(response){
+                    console.log('Unable to get data from REST API:'+response);
+                }
+            );        
+        }
+        
+        $scope.consultarEstablecimientosLocalidad = function () {
+            MisEnsayosRSRestAPI.consultarEstablecimientosLocalidad($scope.localidadEstablecimientoBusqueda).then(
+                //promise success
+                function(response){
+                    console.log(response.data);                    
+                    if(!isNaN(response.data ))alert("En la localidad seleccionada no se encontraron establecimientos registrados");
+                    else {
+                        $scope.establecimientosHabilitados=response.data;
+                        $scope.busqueda=true;
+                    }
+                },
+                //promise error
+                function(response){
+                    console.log('Unable to get data from REST API:'+response);
+                }
+            );            
+        }
+        
+        $scope.seleccionaropcionBusqueda = function (esta) {
+            $scope.opcionBusqueda=esta;
+            $scope.busqueda=false;
+        }
+
+        $scope.alarma = function (esta) {
+            alert("alarma"+esta);
         }
                
         $scope.seleccionEstablecimientoASala = function (esta) {
@@ -165,6 +238,9 @@
         }
         
         $scope.eleccionRegistro = function (opcion) {
+            $scope.seleccion3=false;
+            $scope.establecimiento={};
+            $scope.sala={};
             if(opcion.toString()==="Registrar establecimiento"){
                 $scope.opcionEsta=true;
                 $scope.opcionDeSala=false;                
@@ -218,9 +294,7 @@
             );
         }
         
-        cargar ();
         $scope.registrarEstablecimiento = function (){            
-            alert("Solicitud de registro de establecimiento");
             MisEnsayosRSRestAPI.consultarCantidadEstablcimientos().then(
                 //promise success
                 function(response){
@@ -231,14 +305,13 @@
                         function(response){
                             console.log(response.data);
                             $scope.establecimiento={}
-                            cargar ();
+                            cargarTodosEstablecimientosSinHabilitar();
                             alert("El registro del establecmiento fue exitoso");
                         },
                         //promise error
                         function(response){
                             $scope.establecimiento={}
-                            cargar ();
-                            alert("El registro del establecmiento no se pudo efectuar debido a errores en los datos enviados");
+                            alert("El registro del establecmiento no se pudo efectuar debido a que el NIT enviado no es valido");
                             console.log('Unable to get data from REST API:'+response);
                         }
                     );                            
@@ -269,14 +342,12 @@
                                         console.log(response.data);                    
                                         $scope.sala={};
                                         $scope.sala.establecimiento={};
-                                        cargar ();
                                         alert("El registro de la sala fue exitoso");
                                     },
                                     //promise error
                                     function(response){
                                         $scope.sala={};
                                         $scope.sala.establecimiento={};                                        
-                                        cargar ();
                                         alert("El registro de la sala no se pudo efectuar debido a errores en los datos enviados");
                                         console.log('Unable to get data from REST API:'+response);
                                     }
@@ -382,20 +453,6 @@
             
         }
         
-        function cargar (){
-
-            MisEnsayosRSRestAPI.consultarEstablecimientosHabilitados().then(
-                //promise success
-                function(response){
-                    console.log(response.data);                    
-                    $scope.establecimientosHabilitados=response.data;
-                },
-                //promise error
-                function(response){
-                    console.log('Unable to get data from REST API:'+response);
-                }
-            );
-        }        
     }
     );
 

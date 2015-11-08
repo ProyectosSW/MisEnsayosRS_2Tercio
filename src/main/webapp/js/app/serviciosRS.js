@@ -16,11 +16,51 @@
             });            
         };
         
+        /**
+         * 
+         * @param {type} nit
+         * @returns {unresolved}
+         */
+        this.verificarlegalidad = function (nit) {            
+            return $http({
+                method: 'GET',
+                url: 'rest/stubs/camaracomercio/'+nit+nit
+            });            
+        };
         
+        /**
+         * 
+         * @param {type} nit
+         * @returns {unresolved}
+         */
         this.consultarEstablecimientosporNit = function (nit) {            
             return $http({
                 method: 'GET',
                 url: 'rest/establecimientos/nit/'+nit+nit
+            });            
+        };
+        
+        /**
+         * 
+         * @param {type} mombre
+         * @returns {unresolved}
+         */
+        this.consultarEstablecimientosNombre = function (nombre) {            
+            return $http({
+                method: 'GET',
+                url: 'rest/establecimientos/nombre/'+nombre
+            });            
+        };
+        
+        /**
+         * 
+         * @param {type} mombre
+         * @returns {unresolved}
+         */
+        this.consultarEstablecimientosLocalidad = function (localidad) {            
+            return $http({
+                method: 'GET',
+                url: 'rest/establecimientos/localidad/'+localidad
             });            
         };
         
@@ -359,6 +399,13 @@
             });            
         };
         
+        /**
+         * 
+         * @param {type} idCliente
+         * @param {type} nombre
+         * @param {type} descripcion
+         * @returns {unresolved}
+         */
         this.registrarCliente = function (idCliente, nombre, descripcion) {            
             var cliente={"idCliente":idCliente,"nombre":nombre,"descripcion":descripcion,"ensayos":[]};
             return $http({
@@ -368,6 +415,11 @@
             });            
         };
         
+        /**
+         * 
+         * @param {type} idCliente
+         * @returns {unresolved}
+         */
         this.consultarCliente = function (idCliente) {            
             return $http({
                 method: 'GET',
@@ -375,12 +427,31 @@
             });            
         };        
         
+        /**
+         * 
+         * @param {type} idCliente
+         * @returns {unresolved}
+         */        
         this.EstablecimientosEnsayados = function (idCliente) {            
             return $http({
                 method: 'GET',
                 url: 'rest/calificacion/ensayo/cliente/'+idCliente,
             });            
         };
+        
+        /**
+         * 
+         * @param {type} idEnsayo
+         * @param {type} idCliente
+         * @param {type} nombre
+         * @param {type} descripcion1
+         * @param {type} descripcion2
+         * @param {type} fechaCancelacion
+         * @param {type} calificacionBanda
+         * @param {type} calificacionEstablecimiento
+         * @param {type} descripcion3
+         * @returns {unresolved}
+         */
         this.registrarCalificacionEstablecimiento = function (idEnsayo,idCliente, nombre, descripcion1, descripcion2, fechaCancelacion, calificacionBanda, calificacionEstablecimiento, descripcion3){
             var cali={
                         "idCalificacion": idEnsayo,
