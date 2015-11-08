@@ -26,4 +26,7 @@ public interface RepositorioEnsayo extends CrudRepository<Ensayo, Integer>{
     
    //@Query("select e from Ensayo e where e.cliente.idCliente=:clientex")
    //public List<Ensayo> EstablecimientosEnsayadosPrueba(@Param("clientex") int idCliente);
+    
+    @Query("select e from Ensayo e join e.instrumentos i where i.establecimiento.idEstablecimiento=:idest AND i.detalleInstrumento.nombre=:nombrex")
+    public List<Ensayo> EnsayoConInstrumento(@Param("idest") int idEstablecimiento, @Param("nombrex") String nombre );
 }

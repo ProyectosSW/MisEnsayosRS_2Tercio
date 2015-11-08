@@ -26,6 +26,7 @@ import edu.eci.cosw.persistencia.componentes.RepositorioSala;
 import edu.eci.cosw.persistencia.componentes.RepositorioReservacion;
 import edu.eci.cosw.restcontrollers.OperationFailedException;
 import edu.eci.cosw.stubs.CamaraComercioStub;
+import edu.eci.cosw.stubs.DetalleCalificacion;
 import edu.eci.cosw.stubs.PagosStub;
 import java.sql.Time;
 import java.util.ArrayList;
@@ -468,5 +469,8 @@ public class Logica {
      */
     public List<Ensayo> EstablecimientosEnsayados(int idCliente){
         return es.EstablecimientosEnsayados(idCliente);
+    }
+    public List<Ensayo> ClientesEstablecimiento(DetalleCalificacion dc){
+        return es.EnsayoConInstrumento(dc.getIdInstrumento(), dc.getNombreInstrumento());
     }
 }

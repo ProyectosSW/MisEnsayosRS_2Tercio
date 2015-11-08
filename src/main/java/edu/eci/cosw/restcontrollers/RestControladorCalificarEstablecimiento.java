@@ -12,6 +12,7 @@ import edu.eci.cosw.persistencia.Cliente;
 import edu.eci.cosw.persistencia.Ensayo;
 import edu.eci.cosw.persistencia.Establecimiento;
 import edu.eci.cosw.persistencia.Instrumento;
+import edu.eci.cosw.stubs.DetalleCalificacion;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -58,6 +59,10 @@ public class RestControladorCalificarEstablecimiento {
      @RequestMapping(value="/ensayo/cliente/{idcliente}",method = RequestMethod.GET)
      public List<Ensayo> EstablecimientosEnsayados(@PathVariable int idcliente){
         return logica.EstablecimientosEnsayados(idcliente);
+    }
+      @RequestMapping(value="/ensayo/establecimiento/{dc}",method = RequestMethod.GET)
+     public List<Ensayo> EnsayosEstablecimientos(@RequestBody DetalleCalificacion dc ){
+        return logica.ClientesEstablecimiento(dc);
     }
      
 }
