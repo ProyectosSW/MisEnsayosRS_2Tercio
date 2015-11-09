@@ -439,6 +439,13 @@
             });            
         };
         
+        this.EnsayosEstablecimientos=function(idEstablecimiento){
+            return $http({
+                method: 'GET',
+                url: 'rest/calificacion/ensayo/establecimiento/'+idEstablecimiento,
+            });
+        };
+        
         /**
          * 
          * @param {type} idEnsayo

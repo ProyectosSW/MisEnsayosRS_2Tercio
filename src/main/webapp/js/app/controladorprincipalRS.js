@@ -40,6 +40,8 @@
         $scope.opcionBusqueda="vacio";
         $scope.establecimientoNombre="";
         $scope.nombreEstablecimientoBusqueda={};
+        $scope.nombreInstrumento="";
+        
         $scope.localidadEstablecimientoBusqueda="";
         $scope.establecimientoSeleccionado="";
         $scope.respuesta1="";
@@ -121,7 +123,33 @@
                 }
             );
             
-        }
+        };
+        $scope.cargarInfoEstablecimiento=function(logeo2){
+            $scope.idEstablecimiento=parseInt(logeo2);
+            logeo2=logeo2+"";
+            MisEnsayosRSRestAPI.consultarEstablecimientosporNit($scope.idEstablecimiento).then(
+                //promise success
+                function(response){
+                    if(!isNan(response.data))alert("Establecimiento no encontrado en el sistema, por favor verifique el NIT");
+                    else{
+                        MisEnsayosRSRestAPI.EnsayosEstablecimientos($scope.idEstablecimiento).then(
+                                //promise success
+                                function(response){
+                                    $scope.seleccionCliente=true;
+                                    $scope.listaensayos=response.data;
+                                },
+                                //promise error
+                                function(response){
+                                    alert("Error en el sistema");
+                                }
+                        );
+                    }
+                }
+            );
+                
+            
+        };
+        
         cargarTodosEstablecimientosSinHabilitar();
         function cargarTodosEstablecimientosSinHabilitar(){
             MisEnsayosRSRestAPI.consultarTodosEstablecimientosSinHabilitar().then(

@@ -481,14 +481,8 @@ public class Logica {
         return es.EstablecimientosEnsayados(idCliente);
     }
     
-    /**
-     * 
-     * @param dc
-     * @return 
-     */
-    public List<Ensayo> ClientesEstablecimiento(DetalleCalificacion dc){
-        return es.EnsayoConInstrumento(dc.getIdInstrumento(), dc.getNombreInstrumento());
-    }
+    
+    
     
     /**
      * 
@@ -497,5 +491,15 @@ public class Logica {
      */
     public boolean realizarPago(String tarjeta) {
         return ps.realizarPago(tarjeta);
+    }
+    
+    /**
+     * 
+     * @param idEstablecimiento
+     * @return lista de ensayos de un establecimiento especifico
+     */
+    public List<Ensayo> ClientesEstablecimiento(int idEstablecimiento){
+        return es.EnsayosEstablecimiento(idEstablecimiento);
+
     }
 }
