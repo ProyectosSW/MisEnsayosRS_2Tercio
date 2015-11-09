@@ -67,6 +67,7 @@ public class Logica {
     @Autowired
     private RepositorioAlquiler ra;
     private CamaraComercioStub ccs=new CamaraComercioStub();
+    private PagosStub ps=new PagosStub();
     
     /**
      * 
@@ -127,6 +128,7 @@ public class Logica {
     public Establecimiento consultarEstablecimientoHabilitado(int idx){
         return re.findId(idx, CamaraComercioStub.size);
     }
+    
     /**
      * 
      * @param name nombre del establecimiento seleccionado
@@ -229,6 +231,7 @@ public class Logica {
     public void registrarCliente(Cliente c){
         cl.save(c);
     }
+    
     /**
      * 
      * @param e 
@@ -236,6 +239,7 @@ public class Logica {
     public void registrarEnsayo(Ensayo e){
         es.save(e);
     }
+    
     /**
      * 
     * @param d
@@ -243,6 +247,7 @@ public class Logica {
     public void registrarDetalleInstrumento(DetalleInstrumento d){
         di.save(d);
     }
+    
     /**
      * 
      * @param i
@@ -250,6 +255,7 @@ public class Logica {
     public void registrarInstrumento(Instrumento i){
         ri.save(i);
     }
+    
     /**
      * 
      * @param cal
@@ -438,6 +444,7 @@ public class Logica {
     public Reservacion consultarReservacion(int idReserva){
         return rr.reservacionByID(idReserva);
     }
+    
     /**
      * 
      * @param reserva
@@ -446,6 +453,7 @@ public class Logica {
     public Calificacion consultarCalificacionDeEnsayo(int reserva){
         return ca.consultarCalificacionDeEnsayo(reserva);
     }
+    
     /**
      * 
      * @param idSala
@@ -454,6 +462,7 @@ public class Logica {
     public List<Reservacion> consultarReservacionesPorSala(int idSala){
         return rr.reservacionesPorSala(idSala);        
     }
+    
     /**
      * 
      * @param idAlquiler
@@ -462,6 +471,7 @@ public class Logica {
     public Alquiler consultarAlquiler(int idAlquiler){
         return ra.findOne(idAlquiler);
     }
+    
     /**
      * 
      * @param idCliente
@@ -470,7 +480,22 @@ public class Logica {
     public List<Ensayo> EstablecimientosEnsayados(int idCliente){
         return es.EstablecimientosEnsayados(idCliente);
     }
+    
+    /**
+     * 
+     * @param dc
+     * @return 
+     */
     public List<Ensayo> ClientesEstablecimiento(DetalleCalificacion dc){
         return es.EnsayoConInstrumento(dc.getIdInstrumento(), dc.getNombreInstrumento());
+    }
+    
+    /**
+     * 
+     * @param tarjeta
+     * @return 
+     */
+    public boolean realizarPago(String tarjeta) {
+        return ps.realizarPago(tarjeta);
     }
 }

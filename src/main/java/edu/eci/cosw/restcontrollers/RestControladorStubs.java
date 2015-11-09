@@ -19,12 +19,28 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/stubs")
 public class RestControladorStubs {
-
+    
     @Autowired
     Logica logica;     
-
+    
+    /**
+     * 
+     * @param nit
+     * @return true en caso de que el establecimiento se encuentre registrado ante la Cámara de comercio y false en caso contrario.
+     */
     @RequestMapping(value="/camaracomercio/{nit}",method = RequestMethod.GET)        
     public boolean verificarlegalidad(@PathVariable String nit) {  
         return (nit.length()>13)?logica.verificarEmpresa(nit.substring(0, 13)):logica.verificarEmpresa(nit);
     }    
+    
+    /**
+     * 
+     * @param tarjeta
+     * @return true en caso de que el pago se haya logrado realizar y false en caso contrario.
+     */
+    @RequestMapping(value="/pasarelapagos/{tarjeta}",method = RequestMethod.GET)        
+    public boolean realizarPago(@PathVariable String tarjeta) {
+        return logica.realizarPago(tarjeta);
+    }
+    
 }

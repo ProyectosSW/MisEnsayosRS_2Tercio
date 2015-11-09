@@ -478,6 +478,18 @@
             });
             
         }
+        
+        /**
+         * 
+         * @param {type} tarjeta
+         * @returns {unresolved}
+         */
+        this.realizarPago = function (tarjeta) {            
+            return $http({
+                method: 'GET',
+                url: 'rest/stubs/pasarelapagos/'+tarjeta
+            });            
+        }; 
     }
             
     );

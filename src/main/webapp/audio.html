@@ -57,7 +57,7 @@
                                             </div>
                                             <label for="exampleInputName2">Localidad</label>
                                             <label for="exampleInputName2" style="color: #31b0d5">Seleccione con un click en las opciones de la tabla</label>
-                                            <input type="text" class="form-control" ng-model="localidadEstablecimientoBusqueda" placeholder="Localidad" required ng-focus="cargarlocalidadesR()" ng-disabled="seleccion3">
+                                            <input type="text" class="form-control" ng-model="establecimiento.localidad" placeholder="Localidad" required ng-focus="cargarlocalidadesR()" ng-disabled="seleccion3">
                                             <div ng-if="seleccion3"> 
                                                 <table class="table table-hover" style="cursor: pointer;">
                                                     <thead>
@@ -79,7 +79,7 @@
                                 </article>
                             </div>
                         </div>
-
+                        
                         <div ng-if="busqueda">
                             <div class="padding-grid-1">
                                 <h3 class="letter">Nuestros <strong>Establecimientos</strong></h3>
@@ -179,8 +179,26 @@
                                     </div>
                                 </article>
                             </div>                        
-                        
                         </div>
+                        
+                        <div ng-if="respuestaprincipal">
+                            <div class="wrapper p3">
+                                <article class="grid_4 alpha">
+                                    <div class="padding-grid-2">
+                                        <div class="wrapper">
+                                            <figure class="style-img-2 fleft"><a href="#"><img src="images/page2-img2.jpg"  alt=""></a></figure>
+                                        </div>
+                                    </div>
+                                </article>  
+                                <article class="grid_8 alpha">
+                                    <div class="padding-grid-2">
+                                        </br>
+                                        <label for="exampleInputName2" >{{respuesta1}}</label></br></br>
+                                        <label for="exampleInputName2" style="color: #31b0d5">{{respuesta2}}</label>
+                                    </div>
+                                </article>
+                            </div>
+                        </div>                                        
 
                     </div>
                 </div>
