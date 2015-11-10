@@ -65,6 +65,7 @@
         $scope.sala.nitValidacion="";
         $scope.cliente.idCliente=0;
         $scope.ensayo.descripcion="";
+        $scope.nit="";
         
         
         $scope.cargarInformacion=function (logeo){
@@ -126,24 +127,27 @@
         };
         $scope.cargarInfoEstablecimiento=function(logeo2){
             $scope.idEstablecimiento=parseInt(logeo2);
+            $scope.nit=$scope.idEstablecimiento+"";
             logeo2=logeo2+"";
-            MisEnsayosRSRestAPI.consultarEstablecimientosporNit($scope.idEstablecimiento).then(
+            MisEnsayosRSRestAPI.consultarEstablecimientosporNit($scope.nit).then(
                 //promise success
                 function(response){
-                    if(!isNan(response.data))alert("Establecimiento no encontrado en el sistema, por favor verifique el NIT");
-                    else{
-                        MisEnsayosRSRestAPI.EnsayosEstablecimientos($scope.idEstablecimiento).then(
-                                //promise success
-                                function(response){
-                                    $scope.seleccionCliente=true;
-                                    $scope.listaensayos=response.data;
-                                },
-                                //promise error
-                                function(response){
-                                    alert("Error en el sistema");
-                                }
-                        );
-                    }
+                    $scope.establecimiento=response.data;
+                    MisEnsayosRSRestAPI.EnsayosEstablecimientos($scope.nit).then(
+                            //promise success
+                            function(response){
+                                alert("encontrando ensayos para "+$scope.nit);
+                                $scope.seleccionCliente=true;
+                                console.log(response.data);
+                                $scope.listaensayos=response.data;
+                                alert(JSON.stringify(response.data));
+                            },
+                            //promise error
+                            function(response){
+                                alert("Error en el sistema");
+                            }
+                    );
+                    
                 }
             );
                 

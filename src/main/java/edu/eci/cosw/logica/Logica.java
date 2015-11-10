@@ -498,8 +498,8 @@ public class Logica {
      * @param idEstablecimiento
      * @return lista de ensayos de un establecimiento especifico
      */
-    public List<Ensayo> ClientesEstablecimiento(int idEstablecimiento){
-        return es.EnsayosEstablecimiento(idEstablecimiento);
+    public List<Ensayo> ClientesEstablecimiento(String idEstablecimiento){
+        return es.EnsayosPorNIT(idEstablecimiento);
 
     }
 }
