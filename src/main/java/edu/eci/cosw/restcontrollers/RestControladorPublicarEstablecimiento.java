@@ -7,11 +7,9 @@ package edu.eci.cosw.restcontrollers;
 
 import edu.eci.cosw.persistencia.Establecimiento;
 import edu.eci.cosw.logica.Logica;
-import edu.eci.cosw.persistencia.Instrumento;
-import edu.eci.cosw.persistencia.Reservacion;
 import edu.eci.cosw.persistencia.Sala;
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.Arrays;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,16 +41,40 @@ public class RestControladorPublicarEstablecimiento {
         return logica.consultarEstablecimiento(id);
     }    
     
+    /**
+     * 
+     * @param nombrex
+     * @return 
+     */
     @RequestMapping(value="/nombre/{nombrex}",method = RequestMethod.GET)        
     public List<Establecimiento> consultarEstablecimientosNombre(@PathVariable String nombrex) {  
         return logica.consultarEstablecimientosNombre(nombrex);
     }    
     
+    /**
+     * 
+     * @param localidadx
+     * @return 
+     */
     @RequestMapping(value="/localidad/{localidadx}",method = RequestMethod.GET)        
     public List<Establecimiento> consultarEstablecimientosLocalidad(@PathVariable String localidadx) {  
         return logica.consultarEstablecimientosLocalidad(localidadx);
+    }
+    
+    /**
+     * 
+     * @return Lista de localidades reconocidas en la Base de datos
+     */
+    @RequestMapping(value="/localidad/nombres",method = RequestMethod.GET)
+    public List<String> consultarLocalidades(){
+        return Arrays.asList("Usaquen", "Chapinero", "Santa Fe", "San Cristobal", "Usme", "Tunjuelito", "Bosa", "Kennedy", "Fontibon", "Engativa", "Suba", "Barrios Unidos", "Teusaquillo", "Los Martires", "Antonio NariÃ±o", "Puente Aranda", "La Candelaria", "Rafael Uribe Uribe", "Ciudad Bolivar", "Sumapaz");
     }    
     
+    /**
+     * 
+     * @param nitx
+     * @return 
+     */
     @RequestMapping(value="/nit/{nitx}",method = RequestMethod.GET)        
     public Establecimiento consultarEstablecimientosporNit(@PathVariable String nitx){
         Establecimiento es=null;
@@ -185,6 +207,10 @@ public class RestControladorPublicarEstablecimiento {
         return logica.consultarCantidadEstablcimientos();
     }
     
+    /**
+     * 
+     * @return 
+     */
     @RequestMapping(value="/sala/cantidad",method = RequestMethod.GET)
     public int consultarCantidadSalas(){
         return logica.consultarCantidadSalas();
