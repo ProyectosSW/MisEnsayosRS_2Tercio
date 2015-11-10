@@ -172,7 +172,7 @@
                             "multa": multa,
                             "localidad": localidad,
                             "telefono": telefono,
-                            "cuenta": telefono,
+                            "cuenta": cuenta,
                             "instrumentos": [],
                             "salas": []
                         }
@@ -439,10 +439,10 @@
             });            
         };
         
-        this.EnsayosEstablecimientos=function(idEstablecimiento){
+        this.EnsayosEstablecimientos=function(nit){
             return $http({
                 method: 'GET',
-                url: 'rest/calificacion/ensayo/establecimiento/'+idEstablecimiento,
+                url: 'rest/calificacion/ensayo/establecimiento/'+nit+nit+''
             });
         };
         

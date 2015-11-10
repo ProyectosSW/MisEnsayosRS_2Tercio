@@ -1,6 +1,11 @@
 (function () {
+    
+    /**
+     * 
+     * @type @exp;angular@call;module
+     */
     var app = angular.module('MisEnsayosRSApp', ['ngRoute','MisEnsayosRS']);
-
+    
     app.config(function ($routeProvider) {
         $routeProvider
                 .when('/audio', {
@@ -67,7 +72,11 @@
         $scope.ensayo.descripcion="";
         $scope.nit="";
         
-        
+        /**
+         * 
+         * @param {type} logeo
+         * @returns {undefined}
+         */
         $scope.cargarInformacion=function (logeo){
             $scope.identificacion =parseInt(logeo);            
             logeo=logeo+"";
@@ -125,35 +134,31 @@
             );
             
         };
+        
+        /**
+         * 
+         * @param {type} logeo2
+         * @returns {undefined}
+         */
         $scope.cargarInfoEstablecimiento=function(logeo2){
-            $scope.idEstablecimiento=parseInt(logeo2);
-            $scope.nit=$scope.idEstablecimiento+"";
-            logeo2=logeo2+"";
-            MisEnsayosRSRestAPI.consultarEstablecimientosporNit($scope.nit).then(
-                //promise success
-                function(response){
-                    $scope.establecimiento=response.data;
-                    MisEnsayosRSRestAPI.EnsayosEstablecimientos($scope.nit).then(
-                            //promise success
-                            function(response){
-                                alert("encontrando ensayos para "+$scope.nit);
-                                $scope.seleccionCliente=true;
-                                console.log(response.data);
-                                $scope.listaensayos=response.data;
-                                alert(JSON.stringify(response.data));
-                            },
-                            //promise error
-                            function(response){
-                                alert("Error en el sistema");
-                            }
-                    );
-                    
-                }
-            );
-                
-            
+            MisEnsayosRSRestAPI.EnsayosEstablecimientos(logeo2).then(
+                    //promise success
+                    function(response){
+                        $scope.seleccionCliente=true;
+                        console.log(response.data);
+                        $scope.listaensayos=response.data;
+                        alert(JSON.stringify(response.data));
+                    },
+                    //promise error
+                    function(response){
+                    }
+            );            
         };
         
+        /**
+         * 
+         * @returns {undefined}
+         */
         cargarTodosEstablecimientosSinHabilitar();
         function cargarTodosEstablecimientosSinHabilitar(){
             MisEnsayosRSRestAPI.consultarTodosEstablecimientosSinHabilitar().then(
@@ -168,6 +173,12 @@
                 }
             );        
         }
+        
+        /**
+         * 
+         * @param {type} esta
+         * @returns {undefined}
+         */
         $scope.habilitarEstablecimiento = function (esta){
             MisEnsayosRSRestAPI.habilitarEstablecimiento(esta.idEstablecimiento).then(
                 //promise success
@@ -185,25 +196,47 @@
             );
         }        
         
+        /**
+         * 
+         * @returns {undefined}
+         */
         $scope.seleccionHoraInicio = function () {
             $scope.seleccionHora=true;
         }
         
+        /**
+         * 
+         * @returns {undefined}
+         */
         $scope.mayor = function () {
             if($scope.establecimiento.horaInicio>$scope.establecimiento.horaCierre){
                 $scope.establecimiento.horaCierre=$scope.establecimiento.horaInicio;
             }
         }
         
+        /**
+         * 
+         * @param {type} valor
+         * @returns {undefined}
+         */
         $scope.seleccionLocalidad = function (valor) {
             $scope.establecimiento.localidad=valor;
             $scope.seleccion3=!$scope.seleccion3;
         }
         
+        /**
+         * 
+         * @returns {undefined}
+         */
         $scope.cargarlocalidadesR  = function () {
             $scope.seleccion3=!$scope.seleccion3;
         }
         
+        /**
+         * 
+         * @param {type} esta
+         * @returns {undefined}
+         */
         $scope.verificarlegalidad  = function (esta) {
             MisEnsayosRSRestAPI.verificarlegalidad(esta.nit).then(
                 //promise success
@@ -222,6 +255,10 @@
             
         }
         
+        /**
+         * 
+         * @returns {undefined}
+         */
         $scope.consultarEstablecimientosNombre = function () {
             MisEnsayosRSRestAPI.consultarEstablecimientosNombre($scope.nombreEstablecimientoBusqueda.nombre).then(
                 //promise success
@@ -247,6 +284,10 @@
             );        
         }
         
+        /**
+         * 
+         * @returns {undefined}
+         */
         $scope.consultarEstablecimientosLocalidad = function () {
             MisEnsayosRSRestAPI.consultarEstablecimientosLocalidad($scope.establecimiento.localidad).then(
                 //promise success
@@ -272,6 +313,11 @@
             );            
         }
         
+        /**
+         * 
+         * @param {type} esta
+         * @returns {undefined}
+         */
         $scope.seleccionaropcionBusqueda = function (esta) {
             $scope.opcionBusqueda=esta;
             $scope.busqueda=false;
@@ -282,15 +328,30 @@
             $scope.nombreEstablecimientoBusqueda.nombre="";
         }
 
+        /**
+         * 
+         * @param {type} esta
+         * @returns {undefined}
+         */
         $scope.alarma = function (esta) {
             alert("alarma"+esta);
         }
-               
+        
+        /**
+         * 
+         * @param {type} esta
+         * @returns {undefined}
+         */
         $scope.seleccionEstablecimientoASala = function (esta) {
             $scope.seleccion2=true;
             $scope.sala.establecimiento=esta;  
         }
         
+        /**
+         * 
+         * @param {type} opcion
+         * @returns {undefined}
+         */
         $scope.eleccionRegistro = function (opcion) {
             $scope.respuestaprincipal=false;
             $scope.respuesta1="";
@@ -307,6 +368,11 @@
             }
         };
         
+        /**
+         * 
+         * @param {type} esta
+         * @returns {undefined}
+         */
         $scope.opcionSala=function (esta){
             $scope.salaRese=esta.idSala;
             delete esta.establecimiento;
@@ -316,6 +382,11 @@
             $scope.salaReseLLaves=Object.keys(esta);
         };
         
+        /**
+         * 
+         * @param {type} esta
+         * @returns {undefined}
+         */
         $scope.consultarSalaPorEstablecimiento=function (esta){
             $scope.seleccion=true;
             $scope.establecimientoNombre=esta.nombre;
@@ -351,6 +422,10 @@
             );
         }
         
+        /**
+         * 
+         * @returns {undefined}
+         */
         $scope.registrarEstablecimiento = function (){            
             $scope.respuestaprincipal=true;
             $scope.opcionEsta=false;
@@ -407,6 +482,10 @@
             );
         }
         
+        /**
+         * 
+         * @returns {undefined}
+         */
         $scope.registrarSala = function () {
             $scope.respuestaprincipal=true;
             $scope.opcionEsta=false;
@@ -465,6 +544,10 @@
             );              
         }        
         
+        /**
+         * 
+         * @returns {undefined}
+         */
         $scope.registroAlquiler=function(){
             //MisEnsayosRSRestAPI.alquilerCliente($scope.cliente.idCliente,$scope.identificaionReserva,$scope.ensayo.descripcion).then(
                 MisEnsayosRSRestAPI.consultarCliente($scope.usuario.idCliente).then(
@@ -496,6 +579,10 @@
                 });
         }
         
+        /**
+         * 
+         * @returns {undefined}
+         */
         $scope.reservarSala=function(){
             MisEnsayosRSRestAPI.consultaEstablecimientoId($scope.establecimientoIdentificaion) .then(
                 //promise success
@@ -528,10 +615,14 @@
                     console.log('Unable to get data from REST API:'+response);
                 }
             );                   
-
-
         }
         
+        /**
+         * 
+         * @param {type} calificacion
+         * @param {type} ensayo2
+         * @returns {undefined}
+         */
         $scope.calificar=function (calificacion, ensayo2){
            alert("Solicitus de calificacion");
             MisEnsayosRSRestAPI.registrarCalificacionEstablecimiento(ensayo2.idEnsayo,$scope.usuario.idCliente, $scope.usuario.nombre, $scope.usuario.descripcion1, ensayo2.descripcion, null, 0, calificacion, ensayo2.descripcion2).then(

@@ -60,9 +60,9 @@ public class RestControladorCalificarEstablecimiento {
      public List<Ensayo> EstablecimientosEnsayados(@PathVariable int idcliente){
         return logica.EstablecimientosEnsayados(idcliente);
     }
-      @RequestMapping(value="/ensayo/establecimiento/{idEstablecimiento}",method = RequestMethod.GET)
-     public List<Ensayo> EnsayosEstablecimientos(@PathVariable String idEstablecimiento ){
-        return logica.ClientesEstablecimiento(idEstablecimiento);
+      @RequestMapping(value="/ensayo/establecimiento/{nit}",method = RequestMethod.GET)
+     public List<Ensayo> EnsayosEstablecimientos(@PathVariable String nit ){
+        return logica.ClientesEstablecimiento((nit.length()>13)?nit.substring(0, 13):nit);
     }
      
 }
