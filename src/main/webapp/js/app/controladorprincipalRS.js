@@ -42,6 +42,7 @@
         $scope.opcionEsta=false;
         $scope.opcionDeSala=false;
         $scope.respuestaprincipal=false;
+        $scope.respuestaprincipal22=false;
         $scope.opcionBusqueda="vacio";
         $scope.establecimientoNombre="";
         $scope.nombreEstablecimientoBusqueda={};
@@ -51,6 +52,8 @@
         $scope.establecimientoSeleccionado="";
         $scope.respuesta1="";
         $scope.respuesta2="";
+        $scope.respuesta12="";
+        $scope.respuesta22="";
         $scope.opcionesRegistro=["Registrar establecimiento", "Registrar sala"];
         $scope.localidades=["Usaquen", "Chapinero", "Santa Fe", "San Cristobal", "Usme", "Tunjuelito", "Bosa", "Kennedy", "Fontibon", "Engativa", "Suba", "Barrios Unidos", "Teusaquillo", "Los Martires", "Antonio NariÃ±o", "Puente Aranda", "La Candelaria", "Rafael Uribe Uribe", "Ciudad Bolivar", "Sumapaz"];
         $scope.horarios=[700, 800, 900, 1000, 1100, 1200, 1300, 1400, 1500, 1600, 1700, 1800, 1900, 2000];
@@ -79,6 +82,12 @@
          */
         $scope.cargarInformacion=function (logeo){
             $scope.identificacion =parseInt(logeo);            
+            $scope.usuario={};
+            $scope.usuariollaves={};        
+            $scope.usuarioAutenticado=false;
+            $scope.seleccionAdministrador=false;
+            $scope.seleccionCliente=false;
+            
             logeo=logeo+"";
             MisEnsayosRSRestAPI.consultarCliente($scope.identificacion).then(
                 //promise success
@@ -261,28 +270,61 @@
          * @returns {undefined}
          */
         $scope.consultarEstablecimientosNombre = function () {
-            MisEnsayosRSRestAPI.consultarEstablecimientosNombre($scope.nombreEstablecimientoBusqueda.nombre).then(
-                //promise success
-                function(response){
-                    console.log(response.data);  
-                    if(!isNaN(response.data )){
-                        $scope.respuestaprincipal=true;
-                        $scope.respuesta1="El nombre dado no coincide con ninguno de los establecimientos registrados";
-                        $scope.respuesta2="No se encuentra ningún establecimiento con un nombre parecido al dado";
+            $scope.respuestaprincipal=false;
+            $scope.respuesta1="";
+            $scope.respuesta2="";
+            $scope.respuestaprincipal22=false;
+            $scope.respuesta12="";
+            $scope.respuesta22="";            
+            if($scope.nombreEstablecimientoBusqueda.nombre.length>0){
+                MisEnsayosRSRestAPI.consultarEstablecimientosNombre($scope.nombreEstablecimientoBusqueda.nombre).then(
+                    //promise success
+                    function(response){
+                        console.log(response.data);  
+                        if(!isNaN(response.data )){
+                            $scope.respuestaprincipal22=true;
+                            $scope.respuesta12="El nombre dado no coincide con ninguno de los establecimientos registrados";
+                            $scope.respuesta22="No se encuentra ningún establecimiento con un nombre parecido al dado";
+                        }
+                        else {
+                            $scope.establecimientosHabilitados=response.data;
+                            $scope.busqueda=true;
+                        }
+                    },
+                    //promise error
+                    function(response){
+                        $scope.respuestaprincipal22=true;
+                        $scope.respuesta12="La información enviada no es valida";
+                        $scope.respuesta22="No se puede aceptar información enviada";
+                        console.log('Unable to get data from REST API:'+response);
                     }
-                    else {
-                        $scope.establecimientosHabilitados=response.data;
-                        $scope.busqueda=true;
+                );        
+            }else {
+                MisEnsayosRSRestAPI.consultarEstablecimientosHabilitados().then(
+                    //promise success
+                    function(response){
+                        console.log(response.data);  
+                        if(!isNaN(response.data )){
+                            $scope.respuestaprincipal22=true;
+                            $scope.respuesta12="La información enviada no es valida";
+                            $scope.respuesta22="No se puede aceptar información enviada";
+                        }
+                        else {
+                            $scope.establecimientosHabilitados=response.data;
+                            $scope.busqueda=true;
+                        }
+                    },
+                    //promise error
+                    function(response){
+                        $scope.respuestaprincipal22=true;
+                        $scope.respuesta12="La información enviada no es valida";
+                        $scope.respuesta22="No se puede aceptar información enviada";
+                        console.log('Unable to get data from REST API:'+response);
                     }
-                },
-                //promise error
-                function(response){
-                    $scope.respuestaprincipal=true;
-                    $scope.respuesta1="La información enviada no es valida";
-                    $scope.respuesta2="No se puede aceptar información enviada";
-                    console.log('Unable to get data from REST API:'+response);
-                }
-            );        
+                );        
+                
+            }
+            
         }
         
         /**
@@ -290,14 +332,20 @@
          * @returns {undefined}
          */
         $scope.consultarEstablecimientosLocalidad = function () {
+            $scope.respuestaprincipal=false;
+            $scope.respuesta1="";
+            $scope.respuesta2="";
+            $scope.respuestaprincipal22=false;
+            $scope.respuesta12="";
+            $scope.respuesta22="";
             MisEnsayosRSRestAPI.consultarEstablecimientosLocalidad($scope.establecimiento.localidad).then(
                 //promise success
                 function(response){
                     console.log(response.data);                    
                     if(!isNaN(response.data )){
-                        $scope.respuestaprincipal=true;
-                        $scope.respuesta1="En la localidad seleccionada no se encontraron establecimientos registrados";
-                        $scope.respuesta2="No se encuentra ningún establecimiento con una localidad igual a la dada";
+                        $scope.respuestaprincipal22=true;
+                        $scope.respuesta12="En la localidad seleccionada no se encontraron establecimientos registrados";
+                        $scope.respuesta22="No se encuentra ningún establecimiento con una localidad igual a la dada";
                     }
                     else {
                         $scope.establecimientosHabilitados=response.data;
@@ -306,13 +354,27 @@
                 },
                 //promise error
                 function(response){
-                    $scope.respuestaprincipal=true;
-                    $scope.respuesta1="La información enviada no es valida";
-                    $scope.respuesta2="No se puede aceptar información enviada";
+                    $scope.respuestaprincipal22=true;
+                    $scope.respuesta12="La información enviada no es valida";
+                    $scope.respuesta22="No se puede aceptar información enviada";
                     console.log('Unable to get data from REST API:'+response);
                 }
             );            
         }
+        
+        /**
+         * 
+         * @returns {undefined}
+         */
+        $scope.limpiarMensajes = function (){
+            $scope.respuestaprincipal=false;
+            $scope.respuesta1="";
+            $scope.respuesta2="";
+            $scope.respuestaprincipal22=false;
+            $scope.respuesta12="";
+            $scope.respuesta22="";
+        }
+
         
         /**
          * 
@@ -325,6 +387,9 @@
             $scope.respuestaprincipal=false;
             $scope.respuesta1="";
             $scope.respuesta2="";
+            $scope.respuestaprincipal22=false;
+            $scope.respuesta12="";
+            $scope.respuesta22="";
             $scope.establecimiento.localidad="";
             $scope.nombreEstablecimientoBusqueda.nombre="";
         }
@@ -334,8 +399,8 @@
          * @param {type} esta
          * @returns {undefined}
          */
-        $scope.alarma = function (esta) {
-            alert("alarma"+esta);
+        $scope.alarma = function () {
+            alert("Hola mundo!");
         }
         
         /**
@@ -357,6 +422,9 @@
             $scope.respuestaprincipal=false;
             $scope.respuesta1="";
             $scope.respuesta2="";            
+            $scope.respuestaprincipal22=false;
+            $scope.respuesta12="";
+            $scope.respuesta22="";                        
             $scope.seleccion3=false;
             $scope.establecimiento={};
             $scope.sala={};
@@ -428,59 +496,87 @@
          * @returns {undefined}
          */
         $scope.registrarEstablecimiento = function (){            
-            $scope.respuestaprincipal=true;
+            
             $scope.opcionEsta=false;
             $scope.opcionDeSala=false;                                              
-            MisEnsayosRSRestAPI.realizarPago($scope.establecimiento.tarjetaCredito).then(
-                //promise success
-                function(response){
-                    if(response.data){
-                        MisEnsayosRSRestAPI.consultarCantidadEstablcimientos().then(
-                            //promise success
-                            function(response){
-                                console.log(response.data);                    
-                                $scope.establecimiento.idEstablecimiento=response.data+1;
-                                MisEnsayosRSRestAPI.registrarEstablecimiento($scope.establecimiento.idEstablecimiento, $scope.establecimiento.nombre, $scope.establecimiento.nit, $scope.establecimiento.descripcion, $scope.establecimiento.direccion, $scope.establecimiento.horaInicio.getHours()+":"+$scope.establecimiento.horaInicio.getMinutes()+":"+$scope.establecimiento.horaInicio.getSeconds(), $scope.establecimiento.horaCierre.getHours()+":"+$scope.establecimiento.horaCierre.getMinutes()+":"+$scope.establecimiento.horaCierre.getSeconds(), $scope.establecimiento.multa, $scope.establecimiento.localidad, $scope.establecimiento.telefono, $scope.establecimiento.cuenta).then(
+            if(!isNaN($scope.establecimiento.nit) && $scope.establecimiento.nit.length==13){
+                $scope.v1=!isNaN(parseFloat($scope.establecimiento.nit.substring(0,3))) && isFinite($scope.establecimiento.nit.substring(0,3));
+                $scope.v2=!isNaN(parseFloat($scope.establecimiento.nit.substring(4,7))) && isFinite($scope.establecimiento.nit.substring(4,7));
+                $scope.v3=!isNaN(parseFloat($scope.establecimiento.nit.substring(8,11))) && isFinite($scope.establecimiento.nit.substring(8,11));
+                $scope.v4=!isNaN(parseFloat($scope.establecimiento.nit.substring(12,13))) && isFinite($scope.establecimiento.nit.substring(12,13));
+                $scope.v5=$scope.establecimiento.nit.substring(3,4)=="." && $scope.establecimiento.nit.substring(7,8)==".";
+                $scope.v6=$scope.establecimiento.nit.substring(11,12)=="-";
+                if(v1 && v2 && v3 && v4 && v5 && v6){
+                    MisEnsayosRSRestAPI.realizarPago($scope.establecimiento.tarjetaCredito).then(
+                        //promise success
+                        function(response){
+                            if(response.data){
+                                MisEnsayosRSRestAPI.consultarCantidadEstablcimientos().then(
                                     //promise success
                                     function(response){
-                                        console.log(response.data);
-                                        cargarTodosEstablecimientosSinHabilitar();
-                                        alert("El registro del establecimiento fue exitoso");
-                                        $scope.establecimiento={}
-                                        $scope.respuesta1="El registro del establecimiento fue exitoso";
-                                        $scope.respuesta2="No se presentó ningún problema en el registro y liquidación de pago de registro";
-                                        
+                                        console.log(response.data);                    
+                                        $scope.establecimiento.idEstablecimiento=response.data+1;
+                                        MisEnsayosRSRestAPI.registrarEstablecimiento($scope.establecimiento.idEstablecimiento, $scope.establecimiento.nombre, $scope.establecimiento.nit, $scope.establecimiento.descripcion, $scope.establecimiento.direccion, $scope.establecimiento.horaInicio.getHours()+":"+$scope.establecimiento.horaInicio.getMinutes()+":"+$scope.establecimiento.horaInicio.getSeconds(), $scope.establecimiento.horaCierre.getHours()+":"+$scope.establecimiento.horaCierre.getMinutes()+":"+$scope.establecimiento.horaCierre.getSeconds(), $scope.establecimiento.multa, $scope.establecimiento.localidad, $scope.establecimiento.telefono, $scope.establecimiento.cuenta).then(
+                                            //promise success
+                                            function(response){
+                                                console.log(response.data);
+                                                cargarTodosEstablecimientosSinHabilitar();
+                                                $scope.establecimiento={}
+                                                $scope.respuestaprincipal=true;
+                                                $scope.respuesta1="El registro del establecimiento fue exitoso";
+                                                $scope.respuesta2="No se presentó ningún problema en el registro y liquidación de pago de registro";
+
+                                            },
+                                            //promise error
+                                            function(response){
+                                                $scope.establecimiento={}
+                                                $scope.respuestaprincipal=true;
+                                                $scope.respuesta1="Fallo el registro del establecimiento";
+                                                $scope.respuesta2="El registro del establecmiento no se pudo efectuar debido a que el NIT enviado no es valido";
+                                                console.log('Unable to get data from REST API:'+response);
+                                            }
+                                        );                            
                                     },
                                     //promise error
                                     function(response){
                                         $scope.establecimiento={}
+                                        $scope.respuestaprincipal=true;
                                         $scope.respuesta1="Fallo el registro del establecimiento";
-                                        $scope.respuesta2="El registro del establecmiento no se pudo efectuar debido a que el NIT enviado no es valido";
+                                        $scope.respuesta2="Los datos enviados no son validos";
                                         console.log('Unable to get data from REST API:'+response);
                                     }
-                                );                            
-                            },
-                            //promise error
-                            function(response){
+                                );
+                            }else{
                                 $scope.establecimiento={}
+                                $scope.respuestaprincipal=true;
                                 $scope.respuesta1="Fallo el registro del establecimiento";
                                 $scope.respuesta2="Los datos enviados no son validos";
-                                console.log('Unable to get data from REST API:'+response);
-                            }
-                        );
-                    }else{
-                        $scope.establecimiento={}
-                        $scope.respuesta1="Fallo el registro del establecimiento";
-                        $scope.respuesta2="Los datos enviados no son validos";
-                    } 
-                },
-                //promise error
-                function(response){
+                            } 
+                        },
+                        //promise error
+                        function(response){
+                            $scope.establecimiento={}
+                            $scope.respuestaprincipal=true;
+                            $scope.respuesta1="Fallo el registro del establecimiento";
+                            $scope.respuesta2="El pago no se pudo efectuar debido a problemas de conexión con la pasarela de pagos";
+                            console.log('Unable to get data from REST API:'+response);
+                        }            
+                    );
+                    
+                }else{
                     $scope.establecimiento={}
-                    alert("El pago no se pudo efectuar debido a problemas de conexión con la pasarela de pagos");
-                    console.log('Unable to get data from REST API:'+response);
-                }            
-            );
+                    $scope.respuestaprincipal=true;
+                    $scope.respuesta1="Fallo el registro del establecimiento";
+                    $scope.respuesta2="El NIT enviado no es valido";
+                }
+            
+            }else{
+                $scope.establecimiento={}
+                $scope.respuestaprincipal=true;
+                $scope.respuesta1="Fallo el registro del establecimiento";
+                $scope.respuesta2="Los datos enviados no son validos";
+            }
+            
         }
         
         /**
@@ -488,7 +584,6 @@
          * @returns {undefined}
          */
         $scope.registrarSala = function () {
-            $scope.respuestaprincipal=true;
             $scope.opcionEsta=false;
             $scope.opcionDeSala=false;                                  
             MisEnsayosRSRestAPI.consultarEstablecimientosporNit($scope.sala.nitValidacion).then(
@@ -507,6 +602,7 @@
                                     function(response){
                                         console.log(response.data);                    
                                         $scope.sala.establecimiento={};
+                                        $scope.respuestaprincipal=true;
                                         $scope.respuesta1="El registro de la sala fue exitoso";
                                         $scope.respuesta2="No se presentó ningún problema en el registro de la sala";                                        
                                         $scope.sala={};
@@ -515,6 +611,7 @@
                                     function(response){
                                         $scope.sala={};
                                         $scope.sala.establecimiento={};                                        
+                                        $scope.respuestaprincipal=true;
                                         $scope.respuesta1="Fallo el registro de la sala";
                                         $scope.respuesta2="El registro de la sala no se pudo efectuar debido a errores en los datos enviados";
                                         console.log('Unable to get data from REST API:'+response);
@@ -524,6 +621,7 @@
                             //promise error
                             function(response){
                                 $scope.sala={};
+                                $scope.respuestaprincipal=true;
                                 $scope.respuesta1="Fallo el registro de la sala";
                                 $scope.respuesta2="El registro de la sala no se pudo efectuar debido a errores en los datos enviados";
                                 console.log('Unable to get data from REST API:'+response);
@@ -531,6 +629,7 @@
                         );        
                     }else {
                         $scope.sala={};
+                        $scope.respuestaprincipal=true;
                         $scope.respuesta1="Fallo el registro de la sala";
                         $scope.respuesta2="El registro de la sala fallo debido a que el NIT dado no existe";
                     }
@@ -538,6 +637,7 @@
                 //promise error
                 function(response){
                     $scope.sala={};
+                    $scope.respuestaprincipal=true;
                     $scope.respuesta1="Fallo el registro de la sala";
                     $scope.respuesta2="Los datos enviados no son validos";
                     console.log('Unable to get data from REST API:'+response);
