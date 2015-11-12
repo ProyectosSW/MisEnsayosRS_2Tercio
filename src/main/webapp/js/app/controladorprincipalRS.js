@@ -145,9 +145,10 @@
                     //promise success
                     function(response){
                         $scope.seleccionCliente=true;
+                        $scope.seleccionEst=true;
                         console.log(response.data);
                         $scope.listaensayos=response.data;
-                        alert(JSON.stringify(response.data));
+                        
                     },
                     //promise error
                     function(response){
@@ -624,21 +625,34 @@
          * @returns {undefined}
          */
         $scope.calificar=function (calificacion, ensayo2){
-           alert("Solicitus de calificacion");
-            MisEnsayosRSRestAPI.registrarCalificacionEstablecimiento(ensayo2.idEnsayo,$scope.usuario.idCliente, $scope.usuario.nombre, $scope.usuario.descripcion1, ensayo2.descripcion, null, 0, calificacion, ensayo2.descripcion2).then(
-                //promise success
-                function(response){
+            alert("Solicitus de calificacion");
+            if($scope.seleccionEst===true){
+                MisEnsayosRSRestAPI.registrarCalificacionCliente(ensayo2.idEnsayo,$scope.usuario.idCliente, $scope.usuario.nombre, $scope.usuario.descripcion1, ensayo2.descripcion, null, calificacion, 0, ensayo2.descripcion2).then(
+                    function(response){
                     console.log(response.data);                    
                     alert("La califiacion se ha registrado exitosamente");
-                },
-                //promise error
-                function(response){
+                    },
+                    //promise error
+                    function(response){
                     console.log('Unable to get data from REST API:'+response);
                     alert("No se ha podido registrar la califiacion");
-                }
-            );
-            
-        }
+                    }
+                )
+            }else{
+                MisEnsayosRSRestAPI.registrarCalificacionEstablecimiento(ensayo2.idEnsayo,$scope.usuario.idCliente, $scope.usuario.nombre, $scope.usuario.descripcion1, ensayo2.descripcion, null, 0, calificacion, ensayo2.descripcion2).then(
+                    //promise success
+                    function(response){
+                        console.log(response.data);                    
+                        alert("La califiacion se ha registrado exitosamente");
+                    },
+                    //promise error
+                    function(response){
+                        console.log('Unable to get data from REST API:'+response);
+                        alert("No se ha podido registrar la califiacion");
+                    }
+                );
+            }
+    }
         
     }
     );

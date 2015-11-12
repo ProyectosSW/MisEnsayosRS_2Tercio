@@ -42,6 +42,12 @@ public class RestControladorCalificarEstablecimiento {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
     
+    @RequestMapping(value="/estCalif",method = RequestMethod.POST)
+    public ResponseEntity<?> registrarCalificacionCliente(@RequestBody Calificacion calificacion ){
+        logica.calificarCliente(calificacion.getEnsayo().getIdEnsayo(), calificacion.getCalificacionBanda(), calificacion.getDescripcion());
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+    
     @RequestMapping(value="/ensayo/{idensayo}",method = RequestMethod.GET)        
     public Ensayo consultarTodosEstablecimientos(@PathVariable int idensayo) {  
         return logica.consultarEnsayo(idensayo);

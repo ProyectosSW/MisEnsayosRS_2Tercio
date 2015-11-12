@@ -370,6 +370,26 @@ public class Logica {
     }
     
     /**
+     * 
+     * @param idEnsayo identificador del ensayo asociado a la calificacion de una banda
+     * @param calificacion calificacion a registrar por parte del establecimiento
+     * @param descripcion decripcion por parte del establecimiento asociada al ensayo
+     */
+    public void calificarCliente(int idEnsayo, int calificacion, String descripcion){
+        Ensayo encal = es.findOne(idEnsayo);
+        Calificacion califi=consultarCalificacionDeEnsayo(idEnsayo);
+        if(califi!=null){
+                    califi.setCalificacionBanda(calificacion);
+                    califi.setDescripcion(califi.getDescripcion()+"\n\n"+descripcion);
+                    ca.save(califi);
+        }else if(califi==null){
+            
+            Calificacion calificaE= new Calificacion(idEnsayo, encal, 0, calificacion, descripcion);
+            registrarCalificacion(calificaE);
+        }
+    }
+    
+    /**
      * @obj crea el ensayo asociado a un cliente especifico, posteriormente crea el alquiler
      * @param idCliente identificador del cliente al que se asocia el ensayo
      * @param r Reservacion que sera asociada al alquiler
