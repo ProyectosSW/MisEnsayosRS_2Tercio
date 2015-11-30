@@ -518,10 +518,17 @@
          * @param {type} tarjeta
          * @returns {unresolved}
          */
-        this.realizarPago = function (tarjeta) {            
+        this.realizarPago = function (numeroTarjeta, codigoSeguridad, tipo, nombreCliente, cuentaDestino, descripcion, montoTransaccion) {            
             return $http({
-                method: 'GET',
-                url: 'rest/stubs/pasarelapagos/'+tarjeta
+                method: 'POST',
+                url: 'rest/stubs/pasarelapagos/',
+                data: {"numeroTarjeta":numeroTarjeta,
+                    "codigoSeguridad":codigoSeguridad,
+                    "tipo":tipo,
+                    "nombreCliente":nombreCliente,
+                    "cuentaDestino":cuentaDestino,
+                    "descripcion":descripcion,
+                    "montoTransaccion":montoTransaccion}
             });            
         }; 
     }

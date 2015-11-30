@@ -517,7 +517,7 @@
                 $scope.v5=$scope.establecimiento.nit.substring(3,4)=="." && $scope.establecimiento.nit.substring(7,8)==".";
                 $scope.v6=$scope.establecimiento.nit.substring(11,12)=="-";
                 if(v1 && v2 && v3 && v4 && v5 && v6){
-                    MisEnsayosRSRestAPI.realizarPago($scope.establecimiento.tarjetaCredito).then(
+                    MisEnsayosRSRestAPI.realizarPago($scope.establecimiento.tarjetaCredito, Math.floor((Math.random() * 1000) + 1)).then(
                         //promise success
                         function(response){
                             if(response.data){
