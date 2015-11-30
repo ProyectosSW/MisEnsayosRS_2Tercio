@@ -37,6 +37,7 @@
         $scope.seleccionHora=false;
         $scope.seleccionAdministrador=false;
         $scope.seleccionCliente=false;
+        $scope.seleccionEst=false;
         $scope.usuarioAutenticado=false;
         $scope.habilitarAlquiler=false;
         $scope.opcionEsta=false;
@@ -81,7 +82,7 @@
          * @returns {undefined}
          */
         $scope.cargarInformacion=function (logeo){
-            $scope.identificacion =parseInt(logeo);            
+            $scope.identificacion =parseInt(logeo);   
             $scope.usuario={};
             $scope.usuariollaves={};        
             $scope.usuarioAutenticado=false;
@@ -102,10 +103,12 @@
 
                         if(logeo.length<10){
                             $scope.seleccionAdministrador=true;
+                            $scope.seleccionEst=false;
                             $scope.seleccionCliente=false;
                             cargarTodosEstablecimientosSinHabilitar();
                         }else if(logeo.length==10){
                             $scope.seleccionCliente=true;
+                            $scope.seleccionEst=true;
                             $scope.seleccionAdministrador=false;
                             MisEnsayosRSRestAPI.reservasCliente($scope.identificacion).then(
                                 //promise success
@@ -141,7 +144,6 @@
                     console.log('Unable to get data from REST API:'+response);
                 }
             );
-            
         };
         
         /**
@@ -155,6 +157,8 @@
                     function(response){
                         $scope.seleccionCliente=true;
                         $scope.seleccionEst=true;
+                        $scope.seleccionAdministrador=false;
+                        $scope.usuarioAutenticado=false;
                         console.log(response.data);
                         $scope.listaensayos=response.data;
                         
@@ -373,6 +377,12 @@
             $scope.respuestaprincipal22=false;
             $scope.respuesta12="";
             $scope.respuesta22="";
+            $scope.seleccion=false;
+            $scope.usuarioAutenticado=false;
+            $scope.seleccionAdministrador=false;
+            $scope.seleccionCliente=false;
+            
+            
         }
 
         
