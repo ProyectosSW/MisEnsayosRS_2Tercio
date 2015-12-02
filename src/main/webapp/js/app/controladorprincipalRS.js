@@ -34,6 +34,7 @@
         $scope.seleccion2=false;
         $scope.seleccion3=false;
         $scope.busqueda=false;
+        $scope.cargando=false;
         $scope.seleccionHora=false;
         $scope.seleccionAdministrador=false;
         $scope.seleccionCliente=false;
@@ -506,18 +507,21 @@
          * @returns {undefined}
          */
         $scope.registrarEstablecimiento = function (){            
-            
+            $scope.cargando=true;
             $scope.opcionEsta=false;
             $scope.opcionDeSala=false;                                              
-            if(!isNaN($scope.establecimiento.nit) && $scope.establecimiento.nit.length==13){
+            if(!($scope.establecimiento.nit===undefined) && $scope.establecimiento.nit.length==13 && !($scope.establecimiento.nombre===undefined) && !($scope.establecimiento.direccion===undefined) && !($scope.establecimiento.cuenta===undefined) && !($scope.establecimiento.tarjetaCredito===undefined)){
                 $scope.v1=!isNaN(parseFloat($scope.establecimiento.nit.substring(0,3))) && isFinite($scope.establecimiento.nit.substring(0,3));
                 $scope.v2=!isNaN(parseFloat($scope.establecimiento.nit.substring(4,7))) && isFinite($scope.establecimiento.nit.substring(4,7));
                 $scope.v3=!isNaN(parseFloat($scope.establecimiento.nit.substring(8,11))) && isFinite($scope.establecimiento.nit.substring(8,11));
                 $scope.v4=!isNaN(parseFloat($scope.establecimiento.nit.substring(12,13))) && isFinite($scope.establecimiento.nit.substring(12,13));
                 $scope.v5=$scope.establecimiento.nit.substring(3,4)=="." && $scope.establecimiento.nit.substring(7,8)==".";
                 $scope.v6=$scope.establecimiento.nit.substring(11,12)=="-";
-                if(v1 && v2 && v3 && v4 && v5 && v6){
-                    MisEnsayosRSRestAPI.realizarPago($scope.establecimiento.tarjetaCredito, Math.floor((Math.random() * 1000) + 1)).then(
+                if($scope.v1 && $scope.v2 && $scope.v3 && $scope.v4 && $scope.v5 && $scope.v6){
+                    var text = "";
+                    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+                    for( var eg=0; eg < 4; eg++ ) text += possible.charAt(Math.floor(Math.random() * possible.length));
+                    MisEnsayosRSRestAPI.realizarPago($scope.establecimiento.tarjetaCredito, Math.floor(((Math.random()+1) * 100)), text, $scope.establecimiento.nombre, $scope.establecimiento.cuenta, "tipo "+text, 1000).then(
                         //promise success
                         function(response){
                             if(response.data){
@@ -532,6 +536,7 @@
                                                 console.log(response.data);
                                                 cargarTodosEstablecimientosSinHabilitar();
                                                 $scope.establecimiento={}
+                                                $scope.cargando=false;
                                                 $scope.respuestaprincipal=true;
                                                 $scope.respuesta1="El registro del establecimiento fue exitoso";
                                                 $scope.respuesta2="No se presentó ningún problema en el registro y liquidación de pago de registro";
@@ -540,6 +545,7 @@
                                             //promise error
                                             function(response){
                                                 $scope.establecimiento={}
+                                                $scope.cargando=false;
                                                 $scope.respuestaprincipal=true;
                                                 $scope.respuesta1="Fallo el registro del establecimiento";
                                                 $scope.respuesta2="El registro del establecmiento no se pudo efectuar debido a que el NIT enviado no es valido";
@@ -550,22 +556,25 @@
                                     //promise error
                                     function(response){
                                         $scope.establecimiento={}
+                                        $scope.cargando=false;
                                         $scope.respuestaprincipal=true;
                                         $scope.respuesta1="Fallo el registro del establecimiento";
-                                        $scope.respuesta2="Los datos enviados no son validos";
+                                        $scope.respuesta2="Los datos enviados no son validos para el registro";
                                         console.log('Unable to get data from REST API:'+response);
                                     }
                                 );
                             }else{
                                 $scope.establecimiento={}
+                                $scope.cargando=false;
                                 $scope.respuestaprincipal=true;
                                 $scope.respuesta1="Fallo el registro del establecimiento";
-                                $scope.respuesta2="Los datos enviados no son validos";
+                                $scope.respuesta2="Los datos enviados no son validos para el pago";
                             } 
                         },
                         //promise error
                         function(response){
                             $scope.establecimiento={}
+                            $scope.cargando=false;
                             $scope.respuestaprincipal=true;
                             $scope.respuesta1="Fallo el registro del establecimiento";
                             $scope.respuesta2="El pago no se pudo efectuar debido a problemas de conexión con la pasarela de pagos";
@@ -575,6 +584,7 @@
                     
                 }else{
                     $scope.establecimiento={}
+                    $scope.cargando=false;
                     $scope.respuestaprincipal=true;
                     $scope.respuesta1="Fallo el registro del establecimiento";
                     $scope.respuesta2="El NIT enviado no es valido";
@@ -582,6 +592,7 @@
             
             }else{
                 $scope.establecimiento={}
+                $scope.cargando=false;
                 $scope.respuestaprincipal=true;
                 $scope.respuesta1="Fallo el registro del establecimiento";
                 $scope.respuesta2="Los datos enviados no son validos";

@@ -5,15 +5,12 @@
  */
 package edu.eci.cosw.stubs;
 
-import edu.eci.cosw.persistencia.Alquiler;
-
 /**
  *
  * @author camiloandres
  */
 public class PagosStub implements Pagos{
 
-    
     @Override
     public boolean realizarPago(String numTarjeta) {
         boolean r=true;
@@ -21,6 +18,11 @@ public class PagosStub implements Pagos{
             r=false;
         }
         return r;
+    }
+
+    @Override
+    public boolean realizarPagoExterno(Transaccion tarjeta) {
+        return (tarjeta.getMontoTransaccion()>0 && tarjeta.getCodigoSeguridad().length()==3 && tarjeta.getCuentaDestino().length()==16 && tarjeta.getNumeroTarjeta().length()==16);
     }
     
 }

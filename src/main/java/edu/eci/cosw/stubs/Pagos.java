@@ -5,7 +5,6 @@
  */
 package edu.eci.cosw.stubs;
 
-import edu.eci.cosw.persistencia.Alquiler;
 
 /**
  *
@@ -17,5 +16,12 @@ public interface Pagos {
      * @obj se realiza el pago de un alquiler especificado
      * @param numTarjeta numero de tarjeta de credito a verificar
      */
-    public boolean realizarPago( String numTarjeta);
+    public boolean realizarPago(String numTarjeta);
+    
+    /**
+     * 
+     * @param tarjeta
+     * @return 
+     */
+    public boolean realizarPagoExterno(Transaccion tarjeta);
 }

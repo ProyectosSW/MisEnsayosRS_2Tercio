@@ -28,6 +28,7 @@ import edu.eci.cosw.restcontrollers.OperationFailedException;
 import edu.eci.cosw.stubs.CamaraComercioStub;
 import edu.eci.cosw.stubs.DetalleCalificacion;
 import edu.eci.cosw.stubs.PagosStub;
+import edu.eci.cosw.stubs.Transaccion;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -502,15 +503,13 @@ public class Logica {
     }
     
     
-    
-    
     /**
      * 
      * @param tarjeta
      * @return 
      */
-    public boolean realizarPago(String tarjeta) {
-        return ps.realizarPago(tarjeta);
+    public boolean realizarPagoExterno(Transaccion tarjeta) {
+        return ps.realizarPagoExterno(tarjeta);
     }
     
     /**

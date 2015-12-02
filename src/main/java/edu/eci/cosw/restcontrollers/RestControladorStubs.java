@@ -38,7 +38,7 @@ public class RestControladorStubs {
         RestTemplate restTemplate = new RestTemplate();
         String nie = (nit.length()>13)?nit.substring(0, 13):nit;
         Map<String, String> vars = new HashMap<>();
-        vars.put("nit", nie);
+        vars.put("nit", nie+nie);
         return restTemplate.getForObject("https://damp-mesa-1375.herokuapp.com/rest/stubs/camaracomercio/externo/{nit}", Boolean.class, vars);
     }
     
@@ -59,12 +59,21 @@ public class RestControladorStubs {
      */
     @RequestMapping(value="/pasarelapagos",method = RequestMethod.POST)        
     public boolean realizarPago(@RequestBody Transaccion tarjeta) {
-        /*RestTemplate restTemplate = new RestTemplate();
-        String sadd = "";
-        Object hsd = restTemplate.postForObject("http://paymentsgateway.herokuapp.com/rest/payments", sadd, Object.class, tarjeta);
-        System.out.println("\n\n\n\n\n\n"+hsd+"\n\n\n\n\n\n\n");*/
+        RestTemplate restTemplate = new RestTemplate();
+        Boolean hsd = restTemplate.postForObject("https://damp-mesa-1375.herokuapp.com/rest/stubs/pasarelapagos/externo", tarjeta, Boolean.class);
+        System.out.println("\n\n\n\n\n\n"+hsd+"\n\n\n\n\n\n\n");
         return true;
-        //return logica.realizarPago(tarjeta);
+    }
+    
+    /**
+     * 
+     * @param tarjeta
+     * @return true en caso de que el pago se haya logrado realizar y false en caso contrario.
+     */
+    @RequestMapping(value="/pasarelapagos/externo",method = RequestMethod.POST)        
+    public boolean realizarPagoExterno(@RequestBody Transaccion trs) {
+        System.out.println("\n\n\n\n\n\n"+trs+"+ : sadhsakjdhaksj \n\n\n\n\n\n\n");
+        return logica.realizarPagoExterno(trs);
     }
     
 }
