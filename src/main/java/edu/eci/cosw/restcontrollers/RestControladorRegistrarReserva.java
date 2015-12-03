@@ -36,7 +36,7 @@ public class RestControladorRegistrarReserva {
     Logica logica;
         
     
-    @RequestMapping(value="/registroreserv",method = RequestMethod.POST)
+    @RequestMapping(value="/registrors",method = RequestMethod.POST)
     public ResponseEntity<?> registrarReserva(@RequestBody Reservacion r){
         HttpStatus hs;
         String mens = "";

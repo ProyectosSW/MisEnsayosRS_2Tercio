@@ -327,6 +327,7 @@ public class Logica {
      */
     public String registrarReserva(int idEstablecimiento, int idSala, Date fecha, Time hora, int duracion){
         boolean resp = verificarDisponibilidadSala(fecha, hora, idSala, idEstablecimiento);
+        Reservacion res=null;
         //if(resp){
             Establecimiento e = consultarEstablecimiento(idEstablecimiento);
             List <Sala> salas=consultarSalaPorEstablecimiento(e.getIdEstablecimiento());
@@ -337,7 +338,7 @@ public class Logica {
                 }            
             }       
         
-            Reservacion res = new Reservacion((int)rr.count(),s,fecha,hora,duracion);
+            res = new Reservacion((int)rr.count()+1,s,fecha,hora,duracion);
             rr.save(res);
             List<Reservacion> r = consultarReservacionesPorSala(idSala);
             r.add(res);
@@ -410,7 +411,7 @@ public class Logica {
         }
         rr.delete(r.getIdReservacion());
         rr.save(r);
-        Alquiler a = new Alquiler((int)ra.count(), e, r, "no pagado", 0, "5%");
+        Alquiler a = new Alquiler((int)ra.count()+1, e, r, "no pagado", 0, "5%");
         ra.save(a);
     }
     

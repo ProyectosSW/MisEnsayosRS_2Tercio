@@ -288,7 +288,11 @@
          * @returns {unresolved}
          */
         this.registroReserva = function (idSala, idEstablecimiento, nombreEstablecimiento, nit, descripcionEstablecimiento, direccion, horaInicio, horaCierre, multa, localidad, telefono, cuenta, precio, descripcion, nombre, fecha, hora, duracion) {            
-            var reserv = {
+            
+            return $http({
+                method: 'POST',
+                url: 'rest/reservacion/registrors',
+                data:{
                             "idReservacion": 10,
                             "sala": {
                               "idSala": idSala,
@@ -317,10 +321,6 @@
                             "hora": hora,
                             "alquilers": []
                     }
-            return $http({
-                method: 'POST',
-                url: 'rest/reservacion/registroreserv',
-                data:reserv
             });
         };
         /**

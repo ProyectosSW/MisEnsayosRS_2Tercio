@@ -460,6 +460,7 @@
             delete esta.$$hashKey;
             $scope.salaResecomnte=esta;
             $scope.salaReseLLaves=Object.keys(esta);
+            //alert($scope.salaRese);
         };
         
         /**
@@ -714,15 +715,18 @@
                         //promise success
                         function(response){
                             $scope.salaReservacion=response.data;
-                            MisEnsayosRSRestAPI.registroReserva($scope.salaReservacion.idSala, $scope.establecimientoReservacion.idEstablecimiento, $scope.establecimientoReservacion.nombre, $scope.establecimientoReservacion.nit, $scope.establecimientoReservacion.descripcion, $scope.establecimientoReservacion.direccion, $scope.establecimientoReservacion.horaInicio, $scope.establecimientoReservacion.horaCierre, $scope.establecimientoReservacion.multa, $scope.establecimientoReservacion.localidad, $scope.establecimientoReservacion.telefono, $scope.establecimientoReservacion.cuenta, $scope.salaReservacion.precio, $scope.salaReservacion.descripcion, $scope.salaReservacion.nombre, $scope.reservacion.fecha.getFullYear()+"-"+$scope.reservacion.fecha.getMonth()+"-"+$scope.reservacion.fecha.getDate(), $scope.reservacion.hora.getHours()+":"+$scope.reservacion.hora.getMinutes()+":"+$scope.reservacion.hora.getSeconds(), $scope.reservacion.duracion) .then(
+                            alert($scope.reservacion.fecha);
+                            MisEnsayosRSRestAPI.registroReserva($scope.salaReservacion.idSala, $scope.establecimientoReservacion.idEstablecimiento, $scope.establecimientoReservacion.nombre, $scope.establecimientoReservacion.nit, $scope.establecimientoReservacion.descripcion, $scope.establecimientoReservacion.direccion, $scope.establecimientoReservacion.horaInicio, $scope.establecimientoReservacion.horaCierre, $scope.establecimientoReservacion.multa, $scope.establecimientoReservacion.localidad, $scope.establecimientoReservacion.telefono, $scope.establecimientoReservacion.cuenta, $scope.salaReservacion.precio, $scope.salaReservacion.descripcion, $scope.salaReservacion.nombre, $scope.reservacion.fecha.getFullYear()+"-"+(parseInt($scope.reservacion.fecha.getMonth())+1)+""+"-"+(parseInt($scope.reservacion.fecha.getDate())+1)+"", $scope.reservacion.hora.getHours()+":"+$scope.reservacion.hora.getMinutes()+":"+$scope.reservacion.hora.getSeconds(), $scope.reservacion.duracion) .then(
                                 //promise success
                                 function(response){
                                     alert("La reservacion se ha logrado exitosamente");
                                     $scope.identificaionReserva=response.data;
                                     $scope.habilitarAlquiler=true;
+                                    
                                 },
                                 //promise error
                                 function(response){
+                                    alert("error creando la reserva "+response.data);
                                     console.log('Unable to get data from REST API:'+response);
                                 }
                             );                   
