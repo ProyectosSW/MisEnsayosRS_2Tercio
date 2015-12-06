@@ -21,10 +21,11 @@
          * @param {type} nit
          * @returns {unresolved}
          */
-        this.verificarlegalidad = function (nit) {            
+        this.verificarlegalidad = function (nit) {     
+            var nnit = nit.substring(0,13)
             return $http({
                 method: 'GET',
-                url: 'rest/stubs/camaracomercio/'+nit+nit
+                url: 'https://ccbogotaonline.herokuapp.com/empresas/'+nnit
             });            
         };
         

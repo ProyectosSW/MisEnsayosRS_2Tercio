@@ -256,15 +256,15 @@
             MisEnsayosRSRestAPI.verificarlegalidad(esta.nit).then(
                 //promise success
                 function(response){
+                    var establ=response.data;
                     console.log(response.data);                    
                     cargarTodosEstablecimientosSinHabilitar();
-                    if(response.data)
-                        alert("El establecimiento seleccionado esta registrado ante Camara de comercio");
-                    else alert("El establecimiento seleccionado NO esta registrado ante Camara de comercio");
+                    alert("Establecimiento registrado ante camara y comercio de la siguiente forma: \n "+JSON.stringify(establ));
                 },
                 //promise error
                 function(response){
                     console.log('Unable to get data from REST API:'+response);
+                    alert("El establecimiento seleccionado NO esta registrado ante Camara de comercio");
                 }
             );
             
