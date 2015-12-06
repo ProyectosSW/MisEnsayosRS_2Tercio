@@ -60,9 +60,7 @@ public class RestControladorStubs {
     @RequestMapping(value="/pasarelapagos",method = RequestMethod.POST)        
     public boolean realizarPago(@RequestBody Transaccion tarjeta) {
         RestTemplate restTemplate = new RestTemplate();
-        Boolean hsd = restTemplate.postForObject("https://damp-mesa-1375.herokuapp.com/rest/stubs/pasarelapagos/externo", tarjeta, Boolean.class);
-        System.out.println("\n\n\n\n\n\n"+hsd+"\n\n\n\n\n\n\n");
-        return true;
+        return restTemplate.postForObject("https://damp-mesa-1375.herokuapp.com/rest/stubs/pasarelapagos/externo", tarjeta, Boolean.class);
     }
     
     /**
@@ -72,7 +70,6 @@ public class RestControladorStubs {
      */
     @RequestMapping(value="/pasarelapagos/externo",method = RequestMethod.POST)        
     public boolean realizarPagoExterno(@RequestBody Transaccion trs) {
-        System.out.println("\n\n\n\n\n\n"+trs+"+ : sadhsakjdhaksj \n\n\n\n\n\n\n");
         return logica.realizarPagoExterno(trs);
     }
     

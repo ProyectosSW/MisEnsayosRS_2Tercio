@@ -54,6 +54,8 @@
         $scope.establecimientoSeleccionado="";
         $scope.respuesta1="";
         $scope.respuesta2="";
+        $scope.respuesta3="";
+        $scope.respuesta4="";        
         $scope.respuesta12="";
         $scope.respuesta22="";
         $scope.opcionesRegistro=["Registrar establecimiento", "Registrar sala"];
@@ -76,6 +78,7 @@
         $scope.cliente.idCliente=0;
         $scope.ensayo.descripcion="";
         $scope.nit="";
+        $scope.limite1=0;
         
         /**
          * 
@@ -608,63 +611,96 @@
         $scope.registrarSala = function () {
             $scope.opcionEsta=false;
             $scope.opcionDeSala=false;                                  
-            MisEnsayosRSRestAPI.consultarEstablecimientosporNit($scope.sala.nitValidacion).then(
-                //promise success
-                function(response){
-                    console.log(response.data);
-                    if(response.data!=null){
-                        $scope.sala.establecimiento=response.data;
-                        MisEnsayosRSRestAPI.consultarCantidadSalas().then(
-                            //promise success
-                            function(response){
-                                console.log(response.data);                    
-                                $scope.sala.idSala=response.data+100;
-                                MisEnsayosRSRestAPI.registrarSala($scope.sala.idSala, $scope.sala.establecimiento.idEstablecimiento, $scope.sala.establecimiento.nombreEstablecimiento, $scope.sala.establecimiento.nit, $scope.sala.establecimiento.descripcionEstablecimiento, $scope.sala.establecimiento.direccion, $scope.sala.establecimiento.horaInicio, $scope.sala.establecimiento.horaCierre, $scope.sala.establecimiento.multa, $scope.sala.establecimiento.localidad, $scope.sala.establecimiento.telefono, $scope.sala.establecimiento.cuenta, $scope.sala.precio, $scope.sala.descripcion, $scope.sala.nombre).then(
-                                    //promise success
-                                    function(response){
-                                        console.log(response.data);                    
-                                        $scope.sala.establecimiento={};
-                                        $scope.respuestaprincipal=true;
-                                        $scope.respuesta1="El registro de la sala fue exitoso";
-                                        $scope.respuesta2="No se presentó ningún problema en el registro de la sala";                                        
-                                        $scope.sala={};
-                                    },
-                                    //promise error
-                                    function(response){
-                                        $scope.sala={};
-                                        $scope.sala.establecimiento={};                                        
-                                        $scope.respuestaprincipal=true;
-                                        $scope.respuesta1="Fallo el registro de la sala";
-                                        $scope.respuesta2="El registro de la sala no se pudo efectuar debido a errores en los datos enviados";
-                                        console.log('Unable to get data from REST API:'+response);
-                                    }
-                                );
-                            },
-                            //promise error
-                            function(response){
-                                $scope.sala={};
-                                $scope.respuestaprincipal=true;
-                                $scope.respuesta1="Fallo el registro de la sala";
-                                $scope.respuesta2="El registro de la sala no se pudo efectuar debido a errores en los datos enviados";
-                                console.log('Unable to get data from REST API:'+response);
+            if($scope.sala.idSala===undefined || $scope.sala.nitValidacion===undefined || $scope.sala.precio===undefined || $scope.sala.descripcion===undefined || $scope.sala.nombre===undefined){
+                $scope.respuestaprincipal=true;
+                $scope.respuesta1="Fallo el registro de la sala";
+                $scope.respuesta2="El registro de la sala no se pudo efectuar debido a errores en los datos enviados";                
+                $scope.sala={};
+                $scope.limite1=$scope.limite1+1;
+                $scope.respuesta3="Recuerde que se tiene un limite de 3 intentos para efectuar esta operación y lleva "+$scope.limite1;
+                if($scope.limite1>=3){
+                    $scope.opcionesRegistro=["Registrar establecimiento"];
+                    $scope.respuesta4="Por lo cual se inhabilitara la opción registro de sala";                            
+                }                                        
+            }else{
+                MisEnsayosRSRestAPI.consultarEstablecimientosporNit($scope.sala.nitValidacion).then(
+                    //promise success
+                    function(response){
+                        console.log(response.data);
+                        if(response.data!=null){
+                            $scope.sala.establecimiento=response.data;
+                            MisEnsayosRSRestAPI.consultarCantidadSalas().then(
+                                //promise success
+                                function(response){
+                                    console.log(response.data);                    
+                                    $scope.sala.idSala=response.data+100;
+                                    MisEnsayosRSRestAPI.registrarSala($scope.sala.idSala, $scope.sala.establecimiento.idEstablecimiento, $scope.sala.establecimiento.nombreEstablecimiento, $scope.sala.establecimiento.nit, $scope.sala.establecimiento.descripcionEstablecimiento, $scope.sala.establecimiento.direccion, $scope.sala.establecimiento.horaInicio, $scope.sala.establecimiento.horaCierre, $scope.sala.establecimiento.multa, $scope.sala.establecimiento.localidad, $scope.sala.establecimiento.telefono, $scope.sala.establecimiento.cuenta, $scope.sala.precio, $scope.sala.descripcion, $scope.sala.nombre).then(
+                                        //promise success
+                                        function(response){
+                                            console.log(response.data);                    
+                                            $scope.sala.establecimiento={};
+                                            $scope.respuestaprincipal=true;
+                                            $scope.respuesta1="El registro de la sala fue exitoso";
+                                            $scope.respuesta2="No se presentó ningún problema en el registro de la sala";                                        
+                                            $scope.limite1=0;
+                                            $scope.sala={};
+                                        },
+                                        //promise error
+                                        function(response){
+                                            $scope.sala={};
+                                            $scope.sala.establecimiento={};                                        
+                                            $scope.respuestaprincipal=true;
+                                            $scope.respuesta1="Fallo el registro de la sala";
+                                            $scope.respuesta2="El registro de la sala no se pudo efectuar debido a errores en los datos enviados";
+                                            $scope.limite1=$scope.limite1+1;
+                                            $scope.respuesta3="Recuerde que se tiene un limite de 3 intentos para efectuar esta operación y lleva "+$scope.limite1;
+                                            if($scope.limite1>=3){
+                                                $scope.opcionesRegistro=["Registrar establecimiento"];
+                                                $scope.respuesta4="Por lo cual se inhabilitara la opción registro de sala";                            
+                                            }                                        
+                                            console.log('Unable to get data from REST API:'+response);
+                                        }
+                                    );
+                                },
+                                //promise error
+                                function(response){
+                                    $scope.sala={};
+                                    $scope.respuestaprincipal=true;
+                                    $scope.respuesta1="Fallo el registro de la sala";
+                                    $scope.respuesta2="El registro de la sala no se pudo efectuar debido a problemas de conexion con el servidor";
+                                    console.log('Unable to get data from REST API:'+response);
+                                }
+                            );        
+                        }else {
+                            $scope.sala={};
+                            $scope.respuestaprincipal=true;
+                            $scope.respuesta1="Fallo el registro de la sala";
+                            $scope.respuesta2="El registro de la sala fallo debido a que el NIT dado no existe";
+                            $scope.limite1=$scope.limite1+1;
+                            $scope.respuesta3="Recuerde que se tiene un limite de 3 intentos para efectuar esta operación y lleva "+$scope.limite1;
+                            if($scope.limite1>=3){
+                                $scope.opcionesRegistro=["Registrar establecimiento"];
+                                $scope.respuesta4="Por lo cual se inhabilitara la opción registro de sala";                            
                             }
-                        );        
-                    }else {
+                        }
+                    },
+                    //promise error
+                    function(response){
                         $scope.sala={};
                         $scope.respuestaprincipal=true;
                         $scope.respuesta1="Fallo el registro de la sala";
-                        $scope.respuesta2="El registro de la sala fallo debido a que el NIT dado no existe";
+                        $scope.respuesta2="Los datos enviados no son validos";
+                        $scope.limite1=$scope.limite1+1;
+                        $scope.respuesta3="Recuerde que se tiene un limite de 3 intentos para efectuar esta operación y lleva "+$scope.limite1;
+                        if($scope.limite1>=3){
+                            $scope.opcionesRegistro=["Registrar establecimiento"];
+                            $scope.respuesta4="Por lo cual se inhabilitara la opción registro de sala";                            
+                        }                                        
+                        console.log('Unable to get data from REST API:'+response);
                     }
-                },
-                //promise error
-                function(response){
-                    $scope.sala={};
-                    $scope.respuestaprincipal=true;
-                    $scope.respuesta1="Fallo el registro de la sala";
-                    $scope.respuesta2="Los datos enviados no son validos";
-                    console.log('Unable to get data from REST API:'+response);
-                }
-            );              
+                );              
+                
+            }
         }        
         
         /**
